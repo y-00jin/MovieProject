@@ -187,17 +187,17 @@ public class MovieAPI {
     }
     
     public void AddDB(int i) {
-    	DBconnect.DB();    	
+    	DBconnect.DB();   	
     	String val = "1";
     	String str = "SELECT COUNT(*) FROM MOVIE m WHERE MOVIE_NAME LIKE '" + name.get(i) + "'";
-    	String sql = "INSERT INTO AMOVIE.MOVIE "
+    	String sql = "INSERT INTO MOVIE "
     			+ "(MOVIE_NAME, MOVIE_GENRE, MOVIE_LIMIT, RUNNINGTIME) "
     			+ "VALUES('" + 
     			name.get(i) +  "', '" + 
     			genre.get(i) + "', '" + 
     			limit.get(i) + "', '" + 
     			time.get(i) +  "')";
-    	String sql2 = "INSERT INTO AMOVIE.URL "
+    	String sql2 = "INSERT INTO URL "
     			+ "(MOVIE_NAME, URL) "
     			+ "VALUES('" + name.get(i) + "', '')";
 //    	INSERT INTO AMOVIE.MOVIE
