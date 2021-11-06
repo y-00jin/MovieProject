@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 
 import movieproject.DBconnect;
 import movieproject.admin.Admin;
+import movieproject.util.Style;
 
 public class MovieJoin extends JFrame implements MouseListener, ActionListener { // 회원가입
 
@@ -37,12 +38,14 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 	public JPasswordField tfPw, tfPw2;
 	public JLabel lblImg;
 	public ImageIcon img;
-
+	private Font tfFont;
+	Style style = new Style();
+	
 	public static Connection conn;
 
-	public MovieJoin(String title, int width, int height) {
+	public MovieJoin(String title) {
 		setTitle(title);
-		setSize(width, height);
+		setSize(600, 400);
 		// setLocation(1800, 300);
 		setLocationRelativeTo(this); // 가운데로
 		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //모든 프레임 닫기
@@ -53,18 +56,11 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 		// 패널1
 		jp1 = new JPanel();
 		jp1.setBackground(Color.WHITE);
-//		jp1.setBackground(Color.pink);
 
-//		img = new ImageIcon("images/movie4.png");
-//		lblImg = new JLabel(img);
-//		lblImg.setSize(10, 10);
-
-		// lbl1 = new JLabel(" 회원가입 ", img, 10);
 		lbl1 = new JLabel("INHA CINEMA");
-		lbl1.setFont(new Font("Segoe UI Black", Font.BOLD, 25));
+		style.lblFont(lbl1, Font.BOLD, 25);
 
 		jp1.add(lbl1); // add
-		// jp1.add(lblImg);
 		add(jp1, BorderLayout.NORTH);
 
 		// 패널2
@@ -73,16 +69,25 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 		jp2.setLayout(new GridLayout(5, 1, 10, 10));
 		jp2.setBorder(new EmptyBorder(20, 20, 20, 20));
 
+		tfFont = new Font("1훈새마을운동 R", Font.PLAIN, 13);
+				
 		tfId = new JTextField();
-		TextHint hint1 = new TextHint(tfId, "아이디");
+		style.tfFont(tfId, Font.PLAIN, 13);
+
+		// TextHint hint1 = new TextHint(tfId, "아이디");
 		tfPw = new JPasswordField();
 		TextHint hint2 = new TextHint(tfPw, "비밀번호");
 		tfPw2 = new JPasswordField();
 		TextHint hint3 = new TextHint(tfPw2, "비밀번호"); // 비밀번호 재확인
 		tfName = new JTextField();
+		style.tfFont(tfName, Font.PLAIN, 13);
+		
 		TextHint hint4 = new TextHint(tfName, "이름");
+		
 		tfPhone = new JTextField();
 		TextHint hint5 = new TextHint(tfPhone, "휴대전화");
+		style.tfFont(tfId, Font.PLAIN, 13);
+		tfPhone.setFont(tfFont);
 
 		jp2.add(tfId); // add
 		jp2.add(tfPw);
@@ -94,10 +99,10 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 		// 패널3
 		jp3 = new JPanel();
 		jp3.setBackground(Color.WHITE);
-
+		jp3.setBorder(new EmptyBorder(0, 0, 20, 0));
 		btnOK = new JButton("가입완료");
 		btnOK.addActionListener(this);
-		btnOK.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+		style.btnFont(btnOK, Font.BOLD, 12);
 		Color a = new Color(255, 228, 225);
 		btnOK.setBackground(a);
 		// btnOK.setPreferredSize(new Dimension(100, 40));
@@ -112,10 +117,12 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 		jp4.setBorder(new EmptyBorder(20, 20, 20, 20));
 
 		btn1 = new JButton("중복확인");
+		style.btnFont(btn1, Font.PLAIN, 13);
 		btn1.addActionListener(this);
 		btn1.setBackground(a);
 		lblBk1 = new JLabel(""); // 빈칸
 		btn2 = new JButton("일치");
+		style.btnFont(btn2, Font.PLAIN, 13);
 		btn2.addActionListener(this); // 일치확인
 		btn2.setBackground(a);
 		lblBk2 = new JLabel(""); // 빈칸
@@ -133,11 +140,16 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 		jp5.setBorder(new EmptyBorder(20, 20, 20, 20));
 
 		lblId = new JLabel("아이디");
+		style.lblFont(lblId, Font.CENTER_BASELINE, 13);
 		lblPw = new JLabel("비밀번호");
+		style.lblFont(lblPw, Font.CENTER_BASELINE, 13);
 		lblPw2 = new JLabel("비밀번호 재확인");
+		style.lblFont(lblPw2, Font.CENTER_BASELINE, 13);
 		lblName = new JLabel("이름");
+		style.lblFont(lblName, Font.CENTER_BASELINE, 13);
 		lblPhone = new JLabel("휴대전화");
-
+		style.lblFont(lblPhone, Font.CENTER_BASELINE, 13);
+		
 		jp5.add(lblId);
 		jp5.add(lblPw);
 		jp5.add(lblPw2);
@@ -149,7 +161,7 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new MovieJoin("회원가입", 600, 400);
+		// new MovieJoin("회원가입", 600, 400);
 		DBconnect.DB();
 //		try {
 //			// 오라클 드라이버 설치
@@ -224,50 +236,71 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 		Object obj = e.getSource();
 
 		if (obj == btnOK) {
-			if(btn1.getText().equals("중복확인 √") && btn2.getText().equals("일치 √")) {
+			if (btn1.getText().equals("중복확인 !") && btn2.getText().equals("일치 !")) {
 				// 회원 데이터 삽입
-				String insertSQL = "INSERT INTO MEMBER (ID, PW, NAME, PHONE) " + "VALUES('" + id + "', '" + pw + "', '"
-						+ name + "', '" + phone + "')";
+				String insertSQL = "INSERT INTO MOVIE_MEMBER (ID, PW, NAME, PHONE) " + "VALUES('" + id + "', '" + pw
+						+ "', '" + name + "', '" + phone + "')";
 //				System.out.println(insertSQL);
 				// INSERT INTO AMOVIE."MEMBER" (ID, PW, NAME, PHONE) VALUES('1', '1', '1', '1');
-	//			INSERT INTO AMOVIE."MEMBER"
-	//			(ID, PW, NAME, PHONE, GRADE)
-	//			VALUES('', '', '', '', '');
+				// INSERT INTO AMOVIE."MEMBER"
+				// (ID, PW, NAME, PHONE, GRADE)
+				// VALUES('', '', '', '', '');
 				JOptionPane.showMessageDialog(null, "완료");
 				this.dispose();
 				DBconnect.getupdate(insertSQL);
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "아이디 중복과 비밀번호 일치를 확인해주세요.", "오류", 
-						JOptionPane.ERROR_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "아이디 중복과 비밀번호 일치를 확인해주세요.", "오류", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
 		if (obj == btn2) {
-			if (tfPw.getText().equals(tfPw2.getText())) {
-				btn2.setText("일치 √");
-			} else {
+
+			if (tfPw.getText().equals("비밀번호") && tfPw2.getText().equals("비밀번호")) {
+				JOptionPane.showMessageDialog(null, "비밀번호를 입력하세요.", "비밀번호 입력", JOptionPane.ERROR_MESSAGE);
+			}
+
+			else if (tfPw.getText().equals(tfPw2.getText())) {
+				btn2.setText("일치 !");
+			}
+
+			else {
+				JOptionPane.showMessageDialog(null, "비밀번호를 다시 입력하세요.", "비밀번호 입력", JOptionPane.ERROR_MESSAGE);
 				btn2.setText("일치");
 			}
 
 		}
-		if(obj == btn1) {
-			String sql = "select * from MEMBER WHERE ID = '" + id + "'";
+		if (obj == btn1) {
+			String sql = "select * from MOVIE_MEMBER WHERE ID = '" + id + "'";
 			Boolean b = true;
 			ResultSet re = DBconnect.getResultSet(sql);
-			try {
-				while(re.next()) {
-					if(re.getString(1) != null) {
-						JOptionPane.showMessageDialog(null, "사용할 수 없는 아이디입니다.", "중복 오류", 
-								JOptionPane.ERROR_MESSAGE);
+			if (tfId.getText().equals("")) {
+				System.out.println(tfId.getText());
+				JOptionPane.showMessageDialog(null, "아이디를 입력하세요.", "아이디 입력", JOptionPane.ERROR_MESSAGE);
+				btn1.setText("중복확인");
+			} else {
+				System.out.println(tfId.getText());
+				try {
+					while (re.next()) {
+
+						// if(re.getString(1) != null) {
+						JOptionPane.showMessageDialog(null, "사용할 수 없는 아이디입니다.", "중복 오류", JOptionPane.ERROR_MESSAGE);
 						tfId.setText("");
 						b = false;
+						btn1.setText("중복확인");
+						// }
 					}
+				} catch (SQLException e1) {
+
+					e1.printStackTrace();
 				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+				if (b == true) {
+
+					JOptionPane.showMessageDialog(null, "< " + tfId.getText() + " > 사용가능한 아이디입니다.", "사용 가능",
+							JOptionPane.INFORMATION_MESSAGE);
+					btn1.setText("중복확인 !");
+				}
 			}
-			if(b) btn1.setText("중복확인 √");
+
 		}
 
 	}

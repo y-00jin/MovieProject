@@ -12,7 +12,7 @@ public class DBconnect {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			 conn = DriverManager.getConnection(
-					"jdbc:oracle:thin:@114.71.137.174:53994:XE", "AMOVIE", "popcorn");
+					"jdbc:oracle:thin:@114.71.137.174:53994:XE", "JAVAJO", "5555");
 			 //System.out.println("연동");
 			 stat = conn.createStatement();
 			
@@ -28,8 +28,7 @@ public class DBconnect {
 	
 	public static ResultSet getResultSet(String sql) {
 	      try {
-	         Statement stmt = conn.createStatement();
-	         return stmt.executeQuery(sql);
+	         return stat.executeQuery(sql);
 	   
 	      }catch(Exception e){
 	         System.out.println(e);   //오류 메시지

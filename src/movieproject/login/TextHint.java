@@ -1,7 +1,7 @@
 package movieproject.login;
 
 import java.awt.Color;
-
+import java.awt.Font;
 import java.awt.event.FocusEvent;
 
 import java.awt.event.FocusListener;
@@ -39,7 +39,7 @@ public class TextHint implements FocusListener, DocumentListener, PropertyChange
       this.textfield = textfield;
 
       this.hintText = hintText;
-
+      
       this.hintColor = Color.LIGHT_GRAY;
 
       textfield.addFocusListener(this);

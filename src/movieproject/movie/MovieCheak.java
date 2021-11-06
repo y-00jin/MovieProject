@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import movieproject.DBconnect;
+import movieproject.controller.Controller;
 import movieproject.payment.Reservation;
 
 public class MovieCheak extends JFrame implements ActionListener {
@@ -45,11 +46,15 @@ public class MovieCheak extends JFrame implements ActionListener {
 	String d;
 	String t;
 	Main id;
-	public MovieCheak(String Title, int width, int height, Main id) {
-		this.id = id;
+	Controller controller;
+	
+	public MovieCheak() {
+
+		controller = Controller.getInstance();
+		
 		//dispose();
-		this.setTitle(Title);
-		setSize(width, height);
+		this.setTitle("INHA CINEMA");
+		setSize(530, 300);
 		//setLocation(475, 300);
 		setLocationRelativeTo(this);
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,7 +74,7 @@ public class MovieCheak extends JFrame implements ActionListener {
 		la.setHorizontalAlignment(JLabel.CENTER);
 		up.add(la);
 		
-		JLabel ID = new JLabel(id.getId().toString());
+		JLabel ID = new JLabel(controller.getUserId());
 		ID.setHorizontalAlignment(JLabel.CENTER);
 		up.add(ID);
 		
@@ -79,7 +84,7 @@ public class MovieCheak extends JFrame implements ActionListener {
 		
 		name = new JComboBox<String>();
 		name.addActionListener(this);
-		String sql = "SELECT DISTINCT MOVIE_NAME FROM SEAT s WHERE ID = '" + id.getId().toString() + "'";
+		String sql = "SELECT DISTINCT MOVIE_NAME FROM SEAT s WHERE ID = '" + controller.getUserId() + "'";
 		ResultSet re = DBconnect.getResultSet(sql);
 		
 		try {
@@ -151,14 +156,14 @@ public class MovieCheak extends JFrame implements ActionListener {
 	
 	public static void main(String[] args) {
 		DBconnect.DB();
-		//new MovieCheak("URL추가",530, 135);
+		new MovieCheak();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
 		if(ob == ok) {
-			mem = id.getId().toString();
+			mem = controller.getUserId();
 			n = name.getSelectedItem().toString();
 			d = date.getSelectedItem().toString();
 			t = time.getSelectedItem().toString();

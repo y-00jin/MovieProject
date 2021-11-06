@@ -64,11 +64,11 @@ public class Main extends JFrame implements ActionListener, MouseListener, ListS
    private String ti = "광해";
    private login log;
    private String id;
-   public Main(String Title, int width, int height, login log) {
+   public Main(login log) {
       this.log = log;
       id = log.getTfid().getText();
-      this.setTitle(Title);
-      setSize(width, height);
+      this.setTitle("INHA CINEMA");
+      setSize(900, 600);
       setLocation(550, 100);
       // setLocationRelativeTo(this);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -99,7 +99,7 @@ public class Main extends JFrame implements ActionListener, MouseListener, ListS
 
          ImageIcon con = new ImageIcon(im);
          Image ximg = con.getImage();
-         Image yimg = ximg.getScaledInstance(width, 590, java.awt.Image.SCALE_SMOOTH);
+         Image yimg = ximg.getScaledInstance(900, 590, java.awt.Image.SCALE_SMOOTH);
          img = new ImageIcon(yimg);
 
       } catch (IOException e) {
@@ -158,11 +158,17 @@ public class Main extends JFrame implements ActionListener, MouseListener, ListS
       table.getTableHeader().setReorderingAllowed(false);
 
       scroll = new JScrollPane(table);
+//      String sql = "SELECT DISTINCT m.MOVIE_NAME, "
+//                           + "m.MOVIE_GENRE, "
+//                           + "m.MOVIE_LIMIT, "
+//                           + "m.RUNNINGTIME FROM MOVIE m , TIME t "
+//                           + "WHERE m.MOVIE_NAME = t.MOVIE_NAME";
       String sql = "SELECT DISTINCT m.MOVIE_NAME, "
-                           + "m.MOVIE_GENRE, "
-                           + "m.MOVIE_LIMIT, "
-                           + "m.RUNNINGTIME FROM MOVIE m , TIME t "
-                           + "WHERE m.MOVIE_NAME = t.MOVIE_NAME";
+              + "m.MOVIE_GENRE, "
+              + "m.MOVIE_LIMIT, "
+              + "m.RUNNINGTIME FROM MOVIE m ";
+      
+      
       //ResultSet re = DBconnect.getResultSet("select * from movie");
       ResultSet re = DBconnect.getResultSet(sql);
       try {
@@ -236,10 +242,10 @@ public class Main extends JFrame implements ActionListener, MouseListener, ListS
          main_panel.repaint();
       }
       else if(ob == member_mod) {
-         new MemberModify("회원정보 수정", 600, 400, this);
+         new MemberModify();
       }
       else if(ob == information) {
-         new MovieCheak("예매 정보",530, 300, this);
+         new MovieCheak();
       }
       else if (ob == table) {
          int row = table.getSelectedRow();
