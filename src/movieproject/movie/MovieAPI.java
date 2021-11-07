@@ -231,5 +231,26 @@ public class MovieAPI {
         //	api.request(code[i]);
        // }
     }
+	public Vector<String> getCo() {
+		return co;
+	}
+
+
+	public Vector<String> getName() {
+		return name;
+	}
+
+	public Vector<String> getGenre() {
+		return genre;
+	}
+
+	public Vector<String> getLimit() {
+		return limit;
+	}
+
+	public Vector<String> getTime() {
+		return time;
+	}
+    
 }
  

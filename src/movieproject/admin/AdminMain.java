@@ -1,4 +1,4 @@
-package movieproject.movie;
+package movieproject.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 
 import movieproject.login.login;
 
-public class UserMain extends JFrame implements ActionListener{
+public class AdminMain extends JFrame implements ActionListener{
 
 	
 	private JPanel pMain;
@@ -32,7 +32,7 @@ public class UserMain extends JFrame implements ActionListener{
 
 
 
-	public UserMain() {
+	public AdminMain() {
 		setTitle("INHA CINEMA");
 		setSize(900, 600);
 		setLocationRelativeTo(this); //모니터 가운데 위치
@@ -46,11 +46,11 @@ public class UserMain extends JFrame implements ActionListener{
 		// 로고, 로그아웃 넣을 패널
 		pTitle = new JPanel();
 		pTitle.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
-		pTitle.setBackground(Color.pink);
+		pTitle.setBackground(new Color(0xCC3D3D));
 		pTitle.setLayout(new BorderLayout());
 		
 		// 로고
-		lblTitle = new JLabel("INHA CINEMA");
+		lblTitle = new JLabel("INHA CINEMA _ ADMIN");
 		lblTitle.setFont(new Font("배달의민족 도현", Font.ITALIC, 25));
 		lblTitle.setForeground(Color.white);
 		
@@ -65,14 +65,14 @@ public class UserMain extends JFrame implements ActionListener{
 		
 		// 센터 패널
 		pCenter = new JPanel();
-		pCenter.setBackground(Color.white);
+		pCenter.setBackground(Color.black);
 		//pCenter.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 0));
 		
 		pCenter.setLayout(new GridLayout(1,4));
 		
 		for(int i=0;i<4;i++) {
 			//ImageIcon ImgProfile = new ImageIcon("resource/image/profile"+ (i+1) +".jpg");
-			ImageIcon ImgProfile = new ImageIcon("resource/image/userprofile"+ (i+1) +".png");
+			ImageIcon ImgProfile = new ImageIcon("resource/image/adminProfile"+ (i+1) +".png");
 			
 			Image changeImgProfile = ImgProfile.getImage().getScaledInstance(130, 180, Image.SCALE_SMOOTH);
 			ImageIcon iconProfile = new ImageIcon(changeImgProfile);
@@ -102,7 +102,7 @@ public class UserMain extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		new UserMain();
+		new AdminMain();
 	}
 
 
@@ -116,17 +116,17 @@ public class UserMain extends JFrame implements ActionListener{
 			dispose();
 		}
 		else {
-			if(obj == arrBtnProfile.get(0)) {	// 영화 예매 버튼
+			if(obj == arrBtnProfile.get(0)) {	// 영화 목록
 				
 			}
-			if(obj == arrBtnProfile.get(1)) {	// 먹거리 주문
+			if(obj == arrBtnProfile.get(1)) {	// 영화 관리
 				
 			}
-			if(obj == arrBtnProfile.get(2)) {	// 예매 정보 확인
-				new MovieCheak();
+			if(obj == arrBtnProfile.get(2)) {	// 영화 시간 관리
+				
 			}
-			if(obj == arrBtnProfile.get(3)) {	// 회원 정보 수정
-				new MemberModify();
+			if(obj == arrBtnProfile.get(3)) {	// 주문 확인
+				
 			}
 		}
 		
