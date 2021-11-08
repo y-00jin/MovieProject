@@ -38,7 +38,8 @@ public class MovieAPI {
 	Vector<String> time = new Vector<String>();
  
     //   - 일자 포맷
-    private SimpleDateFormat DATE_FMT = new SimpleDateFormat("20211010");
+	private SimpleDateFormat DATE_FMT = new SimpleDateFormat("20211106");
+//	private SimpleDateFormat DATE_FMT = new SimpleDateFormat("20211010");
     
     public void setDATE_FMT(String str) {
     	DATE_FMT = new SimpleDateFormat(str);
@@ -190,16 +191,12 @@ public class MovieAPI {
     	DBconnect.DB();   	
     	String val = "1";
     	String str = "SELECT COUNT(*) FROM MOVIE m WHERE MOVIE_NAME LIKE '" + name.get(i) + "'";
-    	String sql = "INSERT INTO MOVIE "
-    			+ "(MOVIE_NAME, MOVIE_GENRE, MOVIE_LIMIT, RUNNINGTIME) "
-    			+ "VALUES('" + 
-    			name.get(i) +  "', '" + 
-    			genre.get(i) + "', '" + 
-    			limit.get(i) + "', '" + 
-    			time.get(i) +  "')";
-    	String sql2 = "INSERT INTO URL "
-    			+ "(MOVIE_NAME, URL) "
-    			+ "VALUES('" + name.get(i) + "', '')";
+    	String cnt = "select COUNT(*) FROM MOVIE ";
+    	String num = "0";
+    	
+//    	String sql2 = "INSERT INTO URL "
+//    			+ "(MOVIE_NAME, URL) "
+//    			+ "VALUES('" + name.get(i) + "', '')";
 //    	INSERT INTO AMOVIE.MOVIE
 //    	(MOVIE_NAME, MOVIE_GENRE, MOVIE_LIMIT, RUNNINGTIME)
 //    	VALUES('', '', '', '');
@@ -214,8 +211,27 @@ public class MovieAPI {
 		}
     	
     	if(val.equals("0")) {
+    		ResultSet result = DBconnect.getResultSet(cnt);
+    		try {
+    			while(result .next()) {
+    				num = result .getString(1); 
+    			}
+    		} catch (SQLException e) {
+    			e.printStackTrace();
+    		}
+    		int n = Integer.parseInt(num)+1;
+    		num = Integer.toString(n);
+    		System.out.println(num);
+    		String sql = "INSERT INTO MOVIE "
+        			+ "(MOVIE_ID, MOVIE_NAME, MOVIE_GENRE, MOVIE_LIMIT, RUNNINGTIME) "
+        			+ "VALUES('" +
+        			num +  "', '" +
+        			name.get(i) +  "', '" + 
+        			genre.get(i) + "', '" + 
+        			limit.get(i) + "', '" + 
+        			time.get(i) +  "')";
     		DBconnect.getupdate(sql);
-    		DBconnect.getupdate(sql2);
+    		//DBconnect.getupdate(sql2);
     	}
     	else {
     		System.out.println("실패!");

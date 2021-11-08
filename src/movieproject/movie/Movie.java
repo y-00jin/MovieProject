@@ -2,14 +2,22 @@ package movieproject.movie;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,29 +34,55 @@ import movieproject.DBconnect;
 public class Movie extends JFrame implements MouseListener{
 	private DefaultTableModel model;
 	private JTable table;
+	private String posurl;
 	private JPanel main_panel;
 	private String[] set = { " 예매" };
 	private JScrollPane scroll;
+	private BufferedImage im;
 	private JList<String> tiket = new JList<String>();
+	private JLabel poster;
+	private ImageIcon img;
+	private URL url;
 	public Movie() {
 		setTitle("INHA CINEMA");
-		setSize(900, 600);
+		setSize(1000, 600);
 		setLocationRelativeTo(this); //모니터 가운데 위치
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //창에서 닫기 버튼 누르면 콘솔 종료
 		
 		main_panel = new JPanel();
 		main_panel = new JPanel();
-	    main_panel.setLayout(new BorderLayout());
+//	    main_panel.setLayout(new BorderLayout());
+		main_panel.setLayout(null);
 	    main_panel.setBackground(Color.WHITE);
 	    
 	    add(main_panel);
 	    
 		setmoviechoice();
-		
+		poster();
 		
 		setVisible(true);
 	}
+	private void poster() {
+		
+		JPanel poster_panal = new JPanel();
+		poster_panal.setBounds(18, 22, 400, 500);
+		img = new ImageIcon("resource/image/base.png");
+		
+
+        Image ximg = img.getImage();
+        Image yimg = ximg.getScaledInstance(400, 500, java.awt.Image.SCALE_SMOOTH);
+        img = new ImageIcon(yimg);
+        
+        poster = new JLabel(img);
+        poster_panal.setBackground(Color.WHITE);
+		poster_panal.add(poster);
+		main_panel.add(poster_panal);
+	}
 	private void setmoviechoice() {
+		int x = 500;
+		int y = 500;
+		JPanel table_panal = new JPanel();
+		table_panal.setBounds(450, 22, x, y);
 		DBconnect.DB();
 		Vector<String> header = new Vector<String>();
 	      header.add("영화제목");
@@ -101,7 +135,7 @@ public class Movie extends JFrame implements MouseListener{
 	      table.getColumnModel().getColumn(0).setPreferredWidth(150);
 	      table.getColumnModel().getColumn(2).setPreferredWidth(5);
 	      table.getColumnModel().getColumn(3).setPreferredWidth(5);
-
+	      table.setBackground(Color.white);
 	      tiket.setListData(set);
 	      //tiket.addListSelectionListener(this);
 	      tiket.setSize(37, 20);
@@ -112,18 +146,80 @@ public class Movie extends JFrame implements MouseListener{
 	      JTableHeader hd = table.getTableHeader();
 	   
 	      hd.setBackground(Color.pink);
-
-	      scroll.setBackground(Color.WHITE);
-	      main_panel.add(scroll);
+	      Color c = new Color(254, 228, 254);
+	      scroll.getViewport().setBackground(Color.white);
+//	      main_panel.add(scroll, BorderLayout.EAST);
+	      scroll.setPreferredSize(new Dimension(x, y));
+	      table_panal.setBackground(Color.white);
+	      table_panal.add(scroll);
+	      main_panel.add(table_panal);
         
 	}
+	
+	
 	public static void main(String[] args) {
 		
 		new Movie();
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+		Object ob = e.getSource();
+		if(ob == table) {
+//			테이블 클릭 이벤트
+//			//////////////////////////////////////////////////////////////////////////
+			int row = table.getSelectedRow();
+	        int col = table.getSelectedColumn();
+	         
+			Object v = table.getValueAt(row, 0);
+			
+	        String ti = v.toString();
+			System.out.println(ti);
+			String postersql = "select url from MOVIE where movie_name = '" + v.toString() + "'";
+	         ResultSet re = DBconnect.getResultSet(postersql);
+	         try {
+	            while (re.next()) {
+	               posurl = re.getString(1);
+	            }
+	         } catch (SQLException e1) {
+	            e1.printStackTrace();
+	         }
+	         System.out.println(posurl);
+	         if (posurl == null)
+	            posurl = "https://png.pngtree.com/png-clipart/20190916/ourlarge/pngtree-tile-free-font-spot-text.jpg";
+//	         System.out.println(posurl);
+	         try {
+	            url = new URL(posurl);
+	            im = ImageIO.read(url);
+
+	            try {
+	               ImageIcon con = new ImageIcon(im);
+
+	               Image ximg = con.getImage();
+	               Image yimg = ximg.getScaledInstance(400, 500, java.awt.Image.SCALE_SMOOTH);
+	               img = new ImageIcon(yimg);
+	            } catch (Exception eE) {
+	               
+	               	
+	            }
+	         } catch (Exception ee) {
+	        	 posurl = "https://png.pngtree.com/png-clipart/20190916/ourlarge/pngtree-tile-free-font-spot-text.jpg";
+
+	               try {
+	                  url = new URL(posurl);
+	                  im = ImageIO.read(url);
+
+	                  ImageIcon con = new ImageIcon(im);
+	                  Image ximg = con.getImage();
+	                  Image yimg = ximg.getScaledInstance(400, 500, java.awt.Image.SCALE_SMOOTH);
+	                  img = new ImageIcon(yimg);
+	               } catch (IOException e2) {
+	                  e2.printStackTrace();
+	               }
+	         }
+	         poster.setIcon(img);
+	         poster.repaint();
+//	         /////////////////////////////////////////////////////////////////////////////////////////////////
+		}
 		
 	}
 	@Override
