@@ -125,7 +125,6 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 	MovieAPI api = new MovieAPI();	// API 생성
 	
 	private String selectStr;
-	private String selectStr2;
 
 	// 창 구성요소와 배치도
 	JFrame mainFrame;
@@ -167,12 +166,11 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 	private DefaultTableModel model;
 	private JTable table;
 	private JPanel panelTitle, panelTop, panelSearch, panelTopInfo, CalendarSub, JPanelBtn;
-	private JLabel lblLogo, lblDate, lblHyphen;
-	private JTextField tfDate, tfDate2;
+	private JLabel lblLogo, lblDate;
+	private JTextField tfDate;
 
 	private JButton btnSearch, btnReset;
-	private String StrS;
-	private String strL;
+
 
 	public static void main(String[] args) {
 		DBconnect.DB();
@@ -523,7 +521,11 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 		model.setNumRows(0);
 		
 		//String strToday = today.get(Calendar.YEAR) + today.get(Calendar.MONTH -1) + today.get(Calendar.DATE -1) +"";
-		api.setDATE_FMT("20211105");
+		if(tfDate.getText().equals("")) {
+			api.setDATE_FMT("20161010");
+		}else {
+			api.setDATE_FMT(tfDate.getText());
+		}
 		api.requestAPI();
 		
 		String[] rsArr = new String[4]; // 값 받아올 배열
@@ -585,9 +587,9 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 						+ (calDates[i][j] < 10 ? "0" : "") + calDates[i][j] + ".txt");
 				if (f.exists()) {
 					dateButs[i][j]
-							.setText("<html><b><font color=" + fontColor + ">" + calDates[i][j] + "</font></b></html>");
+							.setText("<html><b><font color=" + fontColor + ">" + (calDates[i][j]<10? ("0" +calDates[i][j]): calDates[i][j]) + "</font></b></html>");
 				} else
-					dateButs[i][j].setText("<html><font color=" + fontColor + ">" + calDates[i][j] + "</font></html>");
+					dateButs[i][j].setText("<html><font color=" + fontColor + ">" + (calDates[i][j]<10? ("0" +calDates[i][j]): calDates[i][j]) + "</font></html>");
 
 				JLabel todayMark = new JLabel("<html><font color=green>*</html>");
 				dateButs[i][j].removeAll();
@@ -621,7 +623,7 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 			else if (e.getSource() == nYearBut)
 				moveMonth(12);
 
-			curMMYYYYLab.setText("<html><table width=100><tr><th><font size=5>" + ((calMonth + 1) < 10 ? "&nbsp;" : "")
+			curMMYYYYLab.setText("<html><table width=100><tr><th><font size=5>" + ((calMonth + 1) < 10 ? "0" : "")
 					+ (calMonth + 1) + " / " + calYear + "</th></tr></table></html>");
 			showCal();
 		}
@@ -649,7 +651,12 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 					if (e.getSource() == dateButs[i][j]) {
 						k = i;
 						l = j;
-						selectStr = calYear + "" + (calMonth + 1) + "" + calDayOfMon;
+						
+						
+//						System.out.println(calMonth+1);
+						
+						selectStr = calYear + "" + ( (calMonth + 1) <10 ? "0":"") + (calMonth+1) + "" + ( (calDayOfMon <10) ? "0":"" )+calDayOfMon;
+						System.out.println(selectStr);
 						tfDate.setText(selectStr);
 							
 
@@ -657,6 +664,8 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 				}
 			}
 
+			System.out.println(dateButs[k][l].getText());
+			
 			cal = new GregorianCalendar(calYear, calMonth, calDayOfMon);
 
 			// 날짜
@@ -689,23 +698,28 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 			if (tfDate.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "날짜를 입력해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
 			} else {
-				JOptionPane.showMessageDialog(null, "검색이 완료되었습니다.", "검색 완료", JOptionPane.INFORMATION_MESSAGE);
-				model.setNumRows(0);
 				
-				api.setDATE_FMT(selectStr);
-				api.requestAPI();
 				
-				String[] rsArr = new String[4]; // 값 받아올 배열
-				for(int i=0; i<api.getCo().size();i++) {
-					
-					rsArr[0] = api.getName().get(i);
-					rsArr[1] = api.getGenre().get(i);
-					rsArr[2] = api.getLimit().get(i);
-					rsArr[3] = api.getTime().get(i);
-					
-					model.addRow(rsArr);
-					
-				}
+				returnTable();
+				
+//				model.setNumRows(0);
+//				
+//				System.out.println("tf : " + tfDate.getText());
+//				
+//				api.setDATE_FMT(tfDate.getText());
+//				api.requestAPI();
+//				
+//				String[] rsArr = new String[4]; // 값 받아올 배열
+//				for(int i=0; i<api.getCo().size();i++) {
+//					
+//					rsArr[0] = api.getName().get(i);
+//					rsArr[1] = api.getGenre().get(i);
+//					rsArr[2] = api.getLimit().get(i);
+//					rsArr[3] = api.getTime().get(i);
+//					
+//					model.addRow(rsArr);
+//					
+//				}
 				
 //				String returnSelect = "SELECT return.returnid, umbrella.UMBRELLAID ,student.STUDENTID , student.NAME , TO_CHAR(rental.rentaldate, \'YYYY-MM-DD\'), TO_CHAR(return.returndate, \'YYYY-MM-DD\') "
 //						+ "FROM \"RETURN\" return , STUDENT student , UMBRELLA umbrella, RENTAL rental "
@@ -729,9 +743,11 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 //					// TODO Auto-generated catch block
 //					exception.printStackTrace();
 //				}
-
-				table = new JTable(model);
-				tfDate.setText("");
+//
+//				table = new JTable(model);
+				//tfDate.setText("");
+				JOptionPane.showMessageDialog(null, "검색이 완료되었습니다.", "검색 완료", JOptionPane.INFORMATION_MESSAGE);
+					
 			}
 			
 		}

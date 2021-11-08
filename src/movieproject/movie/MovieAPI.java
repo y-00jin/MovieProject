@@ -38,7 +38,7 @@ public class MovieAPI {
 	Vector<String> time = new Vector<String>();
  
     //   - 일자 포맷
-	private SimpleDateFormat DATE_FMT = new SimpleDateFormat("20211106");
+	private SimpleDateFormat DATE_FMT;
 //	private SimpleDateFormat DATE_FMT = new SimpleDateFormat("20211010");
     
     public void setDATE_FMT(String str) {
@@ -126,9 +126,9 @@ public class MovieAPI {
         for(int z = 0; z < co.size(); z++) {
         	request(co.get(z));
         }
-        for(int z = 0; z < co.size(); z++) {
-        	AddDB(z);
-        }
+//        for(int z = 0; z < co.size(); z++) {
+//        	AddDB(z);
+//        }
     }
     public void request(String code) {
     	// 변수설정
