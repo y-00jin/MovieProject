@@ -13,15 +13,15 @@ public class Style {
 		
 	}
 	
-	public void lblFont(JLabel lbl, int style, int size) {
+	public static void lblFont(JLabel lbl, int style, int size) {
 		lbl.setFont(new Font("1훈새마을운동 R", style, size));
 		
 	}
-	public void tfFont(JTextField tf, int style, int size) {
+	public static void tfFont(JTextField tf, int style, int size) {
 		tf.setFont(new Font("1훈새마을운동 R", style, size));
 		
 	}
-	public void btnFont(JButton btn, int style, int size) {
+	public static void btnFont(JButton btn, int style, int size) {
 		btn.setFont(new Font("1훈새마을운동 R", style, size));
 	}
 	public static void BtnDateStyle(JButton btn) {

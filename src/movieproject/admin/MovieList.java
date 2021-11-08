@@ -10,8 +10,11 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,6 +39,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+
 
 import movieproject.DBconnect;
 import movieproject.movie.MovieAPI;
@@ -120,7 +124,7 @@ class CalendarDataManager{ // 6*7배열에 나타낼 달력 값을 구하는 cla
 	}
 }
 
-public class MovieList extends CalendarDataManager implements ActionListener {
+public class MovieList extends CalendarDataManager implements ActionListener, MouseListener {
 	
 	MovieAPI api = new MovieAPI();	// API 생성
 	
@@ -170,6 +174,32 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 	private JTextField tfDate;
 
 	private JButton btnSearch, btnReset;
+
+	private JPanel pCenter;
+
+	private JPanel panelURL;
+
+	private JTextField tfURL;
+
+	private JPanel pUrlTitle;
+
+	private JLabel lblMovieName;
+
+	private JLabel lblChoiceName;
+
+	private JPanel pUrlInfo;
+
+	private JLabel lblUrl;
+
+	private JButton btnAdd;
+
+	private String clickName;
+
+	private String clickGenre;
+
+	private String clickLimit;
+
+	private String clickTime;
 
 
 	public static void main(String[] args) {
@@ -231,7 +261,7 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 		// frame에 전부 배치
 		mainFrame.setLayout(new BorderLayout());
 		mainFrame.add(panelTop, BorderLayout.WEST);
-		mainFrame.add(panelTable, BorderLayout.CENTER);
+		mainFrame.add(pCenter, BorderLayout.CENTER);
 		mainFrame.setVisible(true);
 
 		focusToday(); // 현재 날짜에 focus를 줌 (mainFrame.setVisible(true) 이후에 배치해야함)
@@ -272,15 +302,16 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 	// 날짜 검색(텍스트 필드, 레이블 등)
 	private void addPSearch() {
 		panelSearch = new JPanel();
+		panelSearch.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panelSearch.setBackground(Color.white);
-		panelSearch.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		panelSearch.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 0));
 		// 날짜 검색 라벨
 		lblDate = new JLabel("날짜 검색");
 		lblDate.setFont(lblFont);
 		panelSearch.add(lblDate);
 
 		// 텍스트 필드
-		tfDate = new JTextField(15);
+		tfDate = new JTextField(20);
 		tfDate.setHorizontalAlignment(SwingConstants.CENTER);
 		panelSearch.add(tfDate);
 
@@ -482,10 +513,15 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 
 	// 테이블 생성
 	private void addPTable() {
+		
+		pCenter = new JPanel();
+		pCenter.setLayout(new BorderLayout());
+		pCenter.setBackground(Color.white);
+		
 		panelTable = new JPanel();
 		panelTable.setBackground(new Color(0xFFFFFF));
 		panelTable.setLayout(new FlowLayout(FlowLayout.LEFT));
-		panelTable.setBorder(BorderFactory.createEmptyBorder(70, 10, 0, 10));
+		panelTable.setBorder(BorderFactory.createEmptyBorder(30, 10, 20, 10));
 
 		// 테이블 헤더 생성
 		returnColumn = new Vector<String>();
@@ -505,20 +541,71 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 
 		table.getTableHeader().setReorderingAllowed(false); // 테이블 편집X
 		table.setFillsViewportHeight(true); // 테이블 배경색
+		table.addMouseListener(this);
 		JTableHeader tableHeader = table.getTableHeader(); // 테이블 헤더 값 가져오기
-		tableHeader.setBackground(new Color(0xB2CCFF)); // 가져온 테이블 헤더의 색 지정
+		tableHeader.setBackground(Color.pink); // 가져온 테이블 헤더의 색 지정
 
 		// 스크롤 팬
 		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		sc.setPreferredSize(new Dimension(600, 420));
+		sc.setPreferredSize(new Dimension(600, 375));
 		panelTable.add(sc);
 
+		
+		
+		panelURL = new JPanel();
+		panelURL.setBackground(Color.white);
+		panelURL.setLayout(new BorderLayout());
+		panelURL.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
+
+		// URL 타이틀
+		pUrlTitle = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		pUrlTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		pUrlTitle.setBackground(Color.white);
+		
+		lblMovieName = new JLabel("선택된 영화 : ");
+		Style.lblFont(lblMovieName, Font.PLAIN, 15);
+		pUrlTitle.add(lblMovieName);
+		
+		lblChoiceName = new JLabel("");
+		Style.lblFont(lblChoiceName, Font.PLAIN, 15);
+		pUrlTitle.add(lblChoiceName);
+		
+		panelURL.add(pUrlTitle, BorderLayout.NORTH);
+		
+		// url 입력 부분
+		pUrlInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		pUrlInfo.setBackground(Color.white);
+		
+		lblUrl = new JLabel("URL 입력 : ");
+		Style.lblFont(lblUrl, Font.PLAIN, 15);
+		pUrlInfo.add(lblUrl);
+		
+		tfURL = new JTextField(45);
+		pUrlInfo.add(tfURL);
+		
+		btnAdd = new JButton("  추가  ");
+		Style.btnFont(btnAdd, Font.PLAIN, 12);
+		btnAdd.setForeground(Color.white); // 글자색
+		btnAdd.setBackground(new Color(0x123478));
+		btnAdd.addActionListener(this);
+		
+		pUrlInfo.add(btnAdd);
+		
+		panelURL.add(pUrlInfo, BorderLayout.CENTER);
+		
+		
+		pCenter.add(panelTable, BorderLayout.CENTER);
+		pCenter.add(panelURL, BorderLayout.SOUTH);
+		
+		
 	}
 
 	// 테이블 재구성 시 사용 (초기화 등)
 	private void returnTable() {
-		model.setNumRows(0);
+		
+		model.getDataVector().removeAllElements();
+		model.setRowCount(0);
 		
 		//String strToday = today.get(Calendar.YEAR) + today.get(Calendar.MONTH -1) + today.get(Calendar.DATE -1) +"";
 		if(tfDate.getText().equals("")) {
@@ -562,7 +649,8 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 //		}
 
 		table = new JTable(model); // 테이블에 추가
-
+		table.revalidate();
+		table.requestFocus();
 	}
 
 	// 현재 날짜에 focus
@@ -694,10 +782,12 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
 		if (obj == btnSearch) {
-
-			if (tfDate.getText().equals("")) {
+			
+			
+		    if (tfDate.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "날짜를 입력해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
-			} else {
+			}
+			else {
 				
 				
 				returnTable();
@@ -747,7 +837,7 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 //				table = new JTable(model);
 				//tfDate.setText("");
 				JOptionPane.showMessageDialog(null, "검색이 완료되었습니다.", "검색 완료", JOptionPane.INFORMATION_MESSAGE);
-					
+				
 			}
 			
 		}
@@ -756,14 +846,121 @@ public class MovieList extends CalendarDataManager implements ActionListener {
 			tfDate.setText("");
 			returnTable();
 		}
-
+		
+		else if(obj == btnAdd) {
+			if(lblChoiceName.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "영화를 선택해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
+			}
+			else if(tfURL.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "URL을 입력해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
+			}
+			else {
+				
+				DBconnect.DB();   	
+		    	String val = "0";
+		    	String str = "SELECT COUNT(*) FROM MOVIE m WHERE MOVIE_NAME LIKE '" + clickName + "'";
+		    	String cnt = "select COUNT(*) FROM MOVIE ";
+		    	String num = "0";
+		    	
+		    	ResultSet re = DBconnect.getResultSet(str);
+		    	try {
+					while(re.next()) {
+						JOptionPane.showMessageDialog(null, "동일한 영화가 있습니다.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
+						val = re.getString(1); 
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+		    	
+		    	if(val.equals("0")) {
+		    		ResultSet result = DBconnect.getResultSet(cnt);
+		    		try {
+		    			while(result .next()) {
+		    				num = result .getString(1); 
+		    			}
+		    		} catch (SQLException e2) {
+		    			e2.printStackTrace();
+		    		}
+		    		int n = Integer.parseInt(num)+1;
+		    		num = Integer.toString(n);
+		    		System.out.println(num);
+		    		String sql = "INSERT INTO MOVIE "
+		        			+ "(MOVIE_ID, MOVIE_NAME, MOVIE_GENRE, MOVIE_LIMIT, RUNNINGTIME, URL) "
+		        			+ "VALUES('" +
+		        			num +  "', '" +
+		        			clickName +  "', '" + 
+		        			clickGenre + "', '" + 
+		        			clickLimit + "', '" + 
+		        			clickTime +  "', '" +
+		        			tfURL.getText() +"')";
+		    		DBconnect.getupdate(sql);
+		    		JOptionPane.showMessageDialog(null, "< " + clickName + " > 추가되었습니다.", "추가 완료", JOptionPane.INFORMATION_MESSAGE);
+					
+		    	}
+		    	else {
+		    		System.out.println("실패!");
+		    	}
+		    	tfURL.setText("");
+		    	lblChoiceName.setText("");
+			}
+		}
 	}
 	public void BtnStyle(JButton btnFont){
 	      Font fontBtn = new Font("HY헤드라인M", Font.PLAIN, 15);
 	      btnFont.setFont(fontBtn); // 폰트 스타일 적용
-	      btnFont.setForeground(new Color(0x5D5D5D)); // 글자색
-	      btnFont.setBackground(new Color(0xD9E5FF));
-	      //btnFont.setBorderPainted(false); // 테두리 없애기
+	      btnFont.setForeground(Color.white); // 글자색
+	      btnFont.setBackground(new Color(18, 52, 120));
+	      btnFont.setBorderPainted(false); // 테두리 없애기
 	   }
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		Object ob = e.getSource();
+		if(ob == table) {
+			
+			int row = table.getSelectedRow();
+			
+			// 테이블 내용 저장
+			Object value = table.getValueAt(row, 0);
+			clickName = value.toString();
+			
+			Object value1 = table.getValueAt(row, 1);
+			clickGenre =  value1.toString();
+					
+			Object value2 = table.getValueAt(row, 2);
+			clickLimit =  value2.toString();
+					
+			Object value3 = table.getValueAt(row, 3);
+			clickTime =  value3.toString();
+			
+			lblChoiceName.setText(clickName);
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		
+		
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	    
 }
