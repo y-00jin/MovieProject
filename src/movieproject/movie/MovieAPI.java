@@ -31,15 +31,15 @@ public class MovieAPI {
     private final String AUTH_KEY = "0a12aeaa0a5445322e3b83211ca11804";
     
 	String [] code = new String[10]; 
-	Vector<String> co = new Vector<String>();
-	Vector<String> name = new Vector<String>();
-	Vector<String> genre = new Vector<String>();
-	Vector<String> limit = new Vector<String>();
-	Vector<String> time = new Vector<String>();
  
     //   - 일자 포맷
-	private SimpleDateFormat DATE_FMT;
-//	private SimpleDateFormat DATE_FMT = new SimpleDateFormat("20211010");
+	//kprivate SimpleDateFormat DATE_FMT;
+	private SimpleDateFormat DATE_FMT = new SimpleDateFormat("20161010");
+	private Vector<String> co;
+	private Vector<String> name;
+	private Vector<String> genre;
+	private Vector<String> limit;
+	private Vector<String> time;
     
     public void setDATE_FMT(String str) {
     	DATE_FMT = new SimpleDateFormat(str);
@@ -61,6 +61,11 @@ public class MovieAPI {
  
     // API요청
     public void requestAPI() {
+    	co = new Vector<String>();
+    	name = new Vector<String>();
+    	genre = new Vector<String>();
+    	limit = new Vector<String>();
+    	time = new Vector<String>();
         // 변수설정
         //   - 하루전 닐찌
         Calendar cal = Calendar.getInstance();

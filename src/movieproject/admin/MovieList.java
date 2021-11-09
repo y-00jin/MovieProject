@@ -39,7 +39,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
+import javax.swing.table.TableModel;
 
 import movieproject.DBconnect;
 import movieproject.movie.MovieAPI;
@@ -201,6 +201,8 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 
 	private String clickTime;
 
+	private JTable mtable;
+
 
 	public static void main(String[] args) {
 		DBconnect.DB();
@@ -256,7 +258,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		panelTop.add(JPanelBtn, BorderLayout.SOUTH);
 
 		// 테이블 생성
-		addPTable();
+		addPCenter();
 
 		// frame에 전부 배치
 		mainFrame.setLayout(new BorderLayout());
@@ -312,7 +314,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 
 		// 텍스트 필드
 		tfDate = new JTextField(20);
-		tfDate.setHorizontalAlignment(SwingConstants.CENTER);
+		//tfDate.setHorizontalAlignment(SwingConstants.CENTER);
 		panelSearch.add(tfDate);
 
 //		// -
@@ -512,46 +514,13 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 	}
 
 	// 테이블 생성
-	private void addPTable() {
+	private void addPCenter() {
 		
 		pCenter = new JPanel();
 		pCenter.setLayout(new BorderLayout());
 		pCenter.setBackground(Color.white);
 		
-		panelTable = new JPanel();
-		panelTable.setBackground(new Color(0xFFFFFF));
-		panelTable.setLayout(new FlowLayout(FlowLayout.LEFT));
-		panelTable.setBorder(BorderFactory.createEmptyBorder(30, 10, 20, 10));
-
-		// 테이블 헤더 생성
-		returnColumn = new Vector<String>();
-		returnColumn.add("영화 이름");
-		returnColumn.add("영화 장르");
-		returnColumn.add("연령 제한");
-		returnColumn.add("영화 시간");
-
-		model = new DefaultTableModel(returnColumn, 0) {
-			public boolean isCellEditable(int r, int c) {
-				return false;
-			}
-		};
-
-		// 테이블 생성
-		returnTable();
-
-		table.getTableHeader().setReorderingAllowed(false); // 테이블 편집X
-		table.setFillsViewportHeight(true); // 테이블 배경색
-		table.addMouseListener(this);
-		JTableHeader tableHeader = table.getTableHeader(); // 테이블 헤더 값 가져오기
-		tableHeader.setBackground(Color.pink); // 가져온 테이블 헤더의 색 지정
-
-		// 스크롤 팬
-		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		sc.setPreferredSize(new Dimension(600, 375));
-		panelTable.add(sc);
-
-		
+		addPTable();
 		
 		panelURL = new JPanel();
 		panelURL.setBackground(Color.white);
@@ -594,23 +563,66 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		
 		panelURL.add(pUrlInfo, BorderLayout.CENTER);
 		
-		
 		pCenter.add(panelTable, BorderLayout.CENTER);
 		pCenter.add(panelURL, BorderLayout.SOUTH);
 		
 		
 	}
 
+	private void addPTable() {
+		
+		
+		panelTable = new JPanel();
+		panelTable.setBackground(new Color(0xFFFFFF));
+		panelTable.setLayout(new FlowLayout(FlowLayout.LEFT));
+		panelTable.setBorder(BorderFactory.createEmptyBorder(30, 10, 20, 10));
+
+		
+		
+		// 테이블 헤더 생성
+		returnColumn = new Vector<String>();
+		returnColumn.add("영화 이름");
+		returnColumn.add("영화 장르");
+		returnColumn.add("연령 제한");
+		returnColumn.add("영화 시간");
+
+		model = new DefaultTableModel(returnColumn, 0) {
+			public boolean isCellEditable(int r, int c) {
+				return false;
+			}
+		};
+
+		// 테이블 생성
+		returnTable();
+
+		table.getTableHeader().setReorderingAllowed(false); // 테이블 편집X
+		table.setFillsViewportHeight(true); // 테이블 배경색
+		table.addMouseListener(this);
+		JTableHeader tableHeader = table.getTableHeader(); // 테이블 헤더 값 가져오기
+		tableHeader.setBackground(Color.pink); // 가져온 테이블 헤더의 색 지정
+
+		// 스크롤 팬
+		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		sc.setPreferredSize(new Dimension(600, 375));
+		
+		
+		panelTable.add(sc);
+		
+	}
+
 	// 테이블 재구성 시 사용 (초기화 등)
 	private void returnTable() {
 		
-		model.getDataVector().removeAllElements();
-		model.setRowCount(0);
+		
+		model.setNumRows(0);;
 		
 		//String strToday = today.get(Calendar.YEAR) + today.get(Calendar.MONTH -1) + today.get(Calendar.DATE -1) +"";
 		if(tfDate.getText().equals("")) {
+			System.out.println("tfDate : " + tfDate.getText());
 			api.setDATE_FMT("20161010");
 		}else {
+			System.out.println("tfDate 2: " + tfDate.getText());
 			api.setDATE_FMT(tfDate.getText());
 		}
 		api.requestAPI();
@@ -623,6 +635,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 			rsArr[2] = api.getLimit().get(i);
 			rsArr[3] = api.getTime().get(i);
 			
+			System.out.println(rsArr[0] + " " + rsArr[1] + " " + rsArr[2] + " " + rsArr[3]);
 			model.addRow(rsArr);
 			
 		}
@@ -649,7 +662,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 //		}
 
 		table = new JTable(model); // 테이블에 추가
-		table.revalidate();
+		
 		table.requestFocus();
 	}
 
@@ -791,7 +804,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 				
 				
 				returnTable();
-				
+				//panelTable.requestFocus();
 //				model.setNumRows(0);
 //				
 //				System.out.println("tf : " + tfDate.getText());
@@ -915,23 +928,33 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		mtable = (JTable) e.getComponent();
+	    model = (DefaultTableModel) table.getModel();
+		
 		Object ob = e.getSource();
 		if(ob == table) {
 			
 			int row = table.getSelectedRow();
+			TableModel data = table.getModel();
 			
-			// 테이블 내용 저장
-			Object value = table.getValueAt(row, 0);
-			clickName = value.toString();
+			clickName = (String) data.getValueAt(row, 0);
+			clickGenre = (String) data.getValueAt(row, 1);
+			clickLimit = (String) data.getValueAt(row, 2);
+			clickTime = (String) data.getValueAt(row, 3);
 			
-			Object value1 = table.getValueAt(row, 1);
-			clickGenre =  value1.toString();
-					
-			Object value2 = table.getValueAt(row, 2);
-			clickLimit =  value2.toString();
-					
-			Object value3 = table.getValueAt(row, 3);
-			clickTime =  value3.toString();
+//			
+//			// 테이블 내용 저장
+//			Object value = table.getValueAt(row, 0);
+//			clickName = value.toString();
+//			
+//			Object value1 = table.getValueAt(row, 1);
+//			clickGenre =  value1.toString();
+//					
+//			Object value2 = table.getValueAt(row, 2);
+//			clickLimit =  value2.toString();
+//					
+//			Object value3 = table.getValueAt(row, 3);
+//			clickTime =  value3.toString();
 			
 			lblChoiceName.setText(clickName);
 		}
