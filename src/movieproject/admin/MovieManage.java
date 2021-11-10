@@ -1,4 +1,4 @@
-package movieproject.movie;
+package movieproject.admin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,7 +37,7 @@ import javax.swing.table.TableColumnModel;
 import movieproject.DBconnect;
 import movieproject.util.Style;
 
-public class Movie extends JFrame implements MouseListener, ActionListener{
+public class MovieManage extends JFrame implements MouseListener, ActionListener{
 	private DefaultTableModel model;
 	private JTable table;
 	private String posurl;
@@ -52,7 +52,7 @@ public class Movie extends JFrame implements MouseListener, ActionListener{
 	private JPanel pTitle;
 	private JLabel lblTitle;
 	private JButton btnBack;
-	public Movie() {
+	public MovieManage() {
 		setTitle("INHA CINEMA");
 		setSize(965, 600);
 		setLocationRelativeTo(this); //모니터 가운데 위치
@@ -193,7 +193,7 @@ public class Movie extends JFrame implements MouseListener, ActionListener{
 	
 	public static void main(String[] args) {
 		
-		new Movie();
+		new MovieManage();
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {

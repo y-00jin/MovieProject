@@ -124,7 +124,7 @@ class CalendarDataManager{ // 6*7배열에 나타낼 달력 값을 구하는 cla
 	}
 }
 
-public class MovieList extends CalendarDataManager implements ActionListener, MouseListener {
+public class MovieAdd extends CalendarDataManager implements ActionListener, MouseListener {
 	
 	MovieAPI api = new MovieAPI();	// API 생성
 	
@@ -203,22 +203,26 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 
 	private JTable mtable;
 
+	private JPanel pBack;
+
+	private JButton btnBack;
+
 
 	public static void main(String[] args) {
 		DBconnect.DB();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new MovieList(); // invokeLater는 나중에 호출해라 / 나중에 호출할 대상이 바로 파라미터로 주어지는 Runnable
+				new MovieAdd(); // invokeLater는 나중에 호출해라 / 나중에 호출할 대상이 바로 파라미터로 주어지는 Runnable
 			}
 		});
 	}
 
-	public MovieList() {
+	public MovieAdd() {
 		// 레이아웃 구성
 
 		mainFrame = new JFrame(title);
 		mainFrame.setBackground(Color.white);
-		mainFrame.setSize(1110, 550); // 메인 프레임 크기
+		mainFrame.setSize(1110, 600); // 메인 프레임 크기
 		mainFrame.setLocationRelativeTo(null);
 
 		panelTop = new JPanel();
@@ -291,12 +295,13 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 
 		panelTitle = new JPanel();
 		panelTitle.setBorder(BorderFactory.createEmptyBorder(5, 10, 0, 0));
-		panelTitle.setBackground(Color.white);
+		panelTitle.setBackground(Color.PINK);
 		panelTitle.setLayout(new FlowLayout(FlowLayout.LEFT));
-		ImageIcon icontitle = new ImageIcon("libs/폼로고.jpg");
-		Image changeIcon = icontitle.getImage().getScaledInstance(350, 40, Image.SCALE_SMOOTH);
-		ImageIcon lblIcontitle = new ImageIcon(changeIcon);
-		lblLogo = new JLabel(lblIcontitle);
+		
+		lblLogo = new JLabel("INHA CINEMA");
+		lblLogo.setFont(new Font("배달의민족 도현", Font.ITALIC, 20));
+		lblLogo.setForeground(Color.white);
+		
 		panelTitle.add(lblLogo);
 
 	}
@@ -306,7 +311,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		panelSearch = new JPanel();
 		panelSearch.setLayout(new FlowLayout(FlowLayout.LEFT));
 		panelSearch.setBackground(Color.white);
-		panelSearch.setBorder(BorderFactory.createEmptyBorder(10, 20, 0, 0));
+		panelSearch.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		// 날짜 검색 라벨
 		lblDate = new JLabel("날짜 검색");
 		lblDate.setFont(lblFont);
@@ -384,7 +389,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		calOpPanel.setLayout(new GridBagLayout()); // 그리드 백 레이아웃
 		calOpPanel.setBackground(Color.white);
 		GridBagConstraints calOpGC = new GridBagConstraints(); // 그리드백 콘스트레인트 만들기
-
+		
 		// today
 		calOpGC.gridx = 1; // 컴포넌트 위치 값 Component가 표시될 격자의 좌표 지정_ 좌측상단은 gridx=0, gridy=0 _ 지정하지 않으면 왼쪽에서 오른
 							// 쪽으로 차례대로 붙음
@@ -478,7 +483,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 			}
 		}
 		calPanel.setLayout(new GridLayout(0, 7, 2, 2));
-		calPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+		calPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 5));
 	}
 
 	// 구성한 달력 스타일 지정
@@ -491,6 +496,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		CalendarSub.setLayout(new BorderLayout());
 		CalendarSub.add(calOpPanel, BorderLayout.NORTH);
 		CalendarSub.add(calPanel, BorderLayout.CENTER);
+		
 
 	}
 
@@ -498,7 +504,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 	private void addBottomBtn() {
 		JPanelBtn = new JPanel();
 		JPanelBtn.setLayout(new GridLayout(1, 2, 20, 0));
-		JPanelBtn.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+		JPanelBtn.setBorder(BorderFactory.createEmptyBorder(0, 20, 30, 20));
 		JPanelBtn.setBackground(Color.white);
 
 		btnSearch = new JButton("검색");
@@ -520,12 +526,16 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		pCenter.setLayout(new BorderLayout());
 		pCenter.setBackground(Color.white);
 		
+		
+		addPtLogo();
+		
+		
 		addPTable();
 		
 		panelURL = new JPanel();
 		panelURL.setBackground(Color.white);
 		panelURL.setLayout(new BorderLayout());
-		panelURL.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
+		panelURL.setBorder(BorderFactory.createEmptyBorder(0, 10, 30, 10));
 
 		// URL 타이틀
 		pUrlTitle = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -550,7 +560,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		Style.lblFont(lblUrl, Font.PLAIN, 15);
 		pUrlInfo.add(lblUrl);
 		
-		tfURL = new JTextField(45);
+		tfURL = new JTextField(43);
 		pUrlInfo.add(tfURL);
 		
 		btnAdd = new JButton("  추가  ");
@@ -563,10 +573,29 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		
 		panelURL.add(pUrlInfo, BorderLayout.CENTER);
 		
+		pCenter.add(pBack, BorderLayout.NORTH);
 		pCenter.add(panelTable, BorderLayout.CENTER);
 		pCenter.add(panelURL, BorderLayout.SOUTH);
 		
 		
+	}
+
+	private void addPtLogo() {
+		
+		pBack = new JPanel();
+		pBack.setBackground(Color.pink);
+		pBack.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		pBack.setBorder(BorderFactory.createEmptyBorder(2, 0, 3, 0));
+		
+		btnBack = new JButton("돌아가기");
+		Style.btnFont(btnBack, Font.PLAIN, 15);
+		btnBack.setForeground(Color.white);
+		btnBack.setBackground(Color.pink);
+		btnBack.setBorderPainted(false);
+		btnBack.addActionListener(this);
+		
+		
+		pBack.add(btnBack);
 	}
 
 	private void addPTable() {
@@ -575,7 +604,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		panelTable = new JPanel();
 		panelTable.setBackground(new Color(0xFFFFFF));
 		panelTable.setLayout(new FlowLayout(FlowLayout.LEFT));
-		panelTable.setBorder(BorderFactory.createEmptyBorder(30, 10, 20, 10));
+		panelTable.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
 
 		
 		
@@ -604,7 +633,7 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		// 스크롤 팬
 		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		sc.setPreferredSize(new Dimension(600, 375));
+		sc.setPreferredSize(new Dimension(580, 375));
 		
 		
 		panelTable.add(sc);
@@ -784,11 +813,6 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		}
 	}
 
-	public static void main1(String[] args) {
-		
-		new MovieList();
-
-	}
 	
 	
 	@Override
@@ -802,62 +826,22 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 			}
 			else {
 				
-				
 				returnTable();
 				//panelTable.requestFocus();
-//				model.setNumRows(0);
-//				
-//				System.out.println("tf : " + tfDate.getText());
-//				
-//				api.setDATE_FMT(tfDate.getText());
-//				api.requestAPI();
-//				
-//				String[] rsArr = new String[4]; // 값 받아올 배열
-//				for(int i=0; i<api.getCo().size();i++) {
-//					
-//					rsArr[0] = api.getName().get(i);
-//					rsArr[1] = api.getGenre().get(i);
-//					rsArr[2] = api.getLimit().get(i);
-//					rsArr[3] = api.getTime().get(i);
-//					
-//					model.addRow(rsArr);
-//					
-//				}
-				
-//				String returnSelect = "SELECT return.returnid, umbrella.UMBRELLAID ,student.STUDENTID , student.NAME , TO_CHAR(rental.rentaldate, \'YYYY-MM-DD\'), TO_CHAR(return.returndate, \'YYYY-MM-DD\') "
-//						+ "FROM \"RETURN\" return , STUDENT student , UMBRELLA umbrella, RENTAL rental "
-//						+ "WHERE return.RENTALID = rental.rentalid AND rental.studentid = student.studentid AND rental.umbrellaid = umbrella.umbrellaid and return.RETURNDATE BETWEEN '"
-//						+ StrS + "' AND '" + strL
-//						+ "'ORDER BY RETURN.RETURNDATE DESC , RETURN.RENTALID DESC";
-//				
-//				ResultSet rs = DB.getResultSet(returnSelect); // 데이터 불러오기
-//				String[] rsArr = new String[6];
-//				try {
-//					while (rs.next()) {
-//
-//						for (int i = 0; i < rsArr.length; i++) {
-//							rsArr[i] = rs.getString(i + 1);
-//						}
-//
-//						model.addRow(rsArr); // 테이블에 추가
-//
-//					}
-//				} catch (SQLException exception) {
-//					// TODO Auto-generated catch block
-//					exception.printStackTrace();
-//				}
-//
-//				table = new JTable(model);
-				//tfDate.setText("");
+
 				JOptionPane.showMessageDialog(null, "검색이 완료되었습니다.", "검색 완료", JOptionPane.INFORMATION_MESSAGE);
 				
 			}
 			
 		}
-
 		else if (obj == btnReset) {
+			
 			tfDate.setText("");
 			returnTable();
+		}
+		
+		else if(obj == btnBack) {
+			// 창 닫기 왜 안돼 엉엉
 		}
 		
 		else if(obj == btnAdd) {
@@ -878,7 +862,6 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		    	ResultSet re = DBconnect.getResultSet(str);
 		    	try {
 					while(re.next()) {
-						JOptionPane.showMessageDialog(null, "동일한 영화가 있습니다.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
 						val = re.getString(1); 
 					}
 				} catch (SQLException e1) {
@@ -910,12 +893,15 @@ public class MovieList extends CalendarDataManager implements ActionListener, Mo
 		    		JOptionPane.showMessageDialog(null, "< " + clickName + " > 추가되었습니다.", "추가 완료", JOptionPane.INFORMATION_MESSAGE);
 					
 		    	}
+		    	else if(val.equals("1")) {
+		    		JOptionPane.showMessageDialog(null, "동일한 영화가 있습니다.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
+		    	}
 		    	else {
 		    		System.out.println("실패!");
 		    	}
 		    	tfURL.setText("");
 		    	lblChoiceName.setText("");
-			}
+			} 
 		}
 	}
 	public void BtnStyle(JButton btnFont){

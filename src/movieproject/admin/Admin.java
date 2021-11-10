@@ -73,7 +73,7 @@ public class Admin extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
 		if(ob == add) {
-			new AddMovie("영화추가",330, 120);
+			new MovieAdd();
 		}
 		else if(ob == poster) {
 			new AddURL("URL추가",570, 140);
