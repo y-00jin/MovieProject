@@ -208,6 +208,8 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 
 	private JButton btnBack;
 
+	private JLabel lblTableTitle;
+
 
 	public static void main(String[] args) {
 		DBconnect.DB();
@@ -296,7 +298,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 
 		panelTitle = new JPanel();
 		panelTitle.setBorder(BorderFactory.createEmptyBorder(5, 10, 0, 0));
-		panelTitle.setBackground(Color.PINK);
+		panelTitle.setBackground(Color.pink);
 		panelTitle.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		lblLogo = new JLabel("INHA CINEMA");
@@ -315,6 +317,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		panelSearch.setBorder(BorderFactory.createEmptyBorder(20, 20, 0, 0));
 		// 날짜 검색 라벨
 		lblDate = new JLabel("날짜 검색");
+		lblDate.setForeground(Color.black);
 		lblDate.setFont(lblFont);
 		panelSearch.add(lblDate);
 
@@ -351,10 +354,9 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		todayBut.addActionListener(lForCalOpButtons);
 
 		// 현재 날짜 라벨로 출력
-		todayLab = new JLabel(today.get(Calendar.MONTH) + 1 + "/" + today.get(Calendar.DAY_OF_MONTH) + "/"
-				+ today.get(Calendar.YEAR));
+		todayLab = new JLabel(today.get(Calendar.YEAR) + "/" +  (today.get(Calendar.MONTH) + 1 ) + "/" + today.get(Calendar.DAY_OF_MONTH) );
 		todayLab.setFont(lblFont);
-
+		
 		// 이전 년도
 		lYearBut = new JButton("<<");
 		Style.BtnDateStyle(lYearBut);
@@ -368,9 +370,8 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		lMonBut.addActionListener(lForCalOpButtons);
 
 		// 달력에서 클릭 or 이전, 다음 화살표 클릭 시 해당하는 날짜 라벨에 표시
-		curMMYYYYLab = new JLabel("<html><table width=100><tr><th><font size=5>" + ((calMonth + 1) < 10 ? "&nbsp;" : "")
-				+ (calMonth + 1) + " / " + calYear + "</th></tr></table></html>"); // today누르면 년도와 월 텍스트 변경함
-
+		curMMYYYYLab = new JLabel("<html><table width=100><tr><th><font size=5>" + calYear + "/"+ ((calMonth + 1) < 10 ? "&nbsp;" : "")
+				+ (calMonth + 1)  + "</th></tr></table></html>"); // today누르면 년도와 월 텍스트 변경함
 		// 다음 달
 		nMonBut = new JButton(">");
 		Style.BtnDateStyle(nMonBut);
@@ -388,7 +389,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 	// 그리드 백 레이아웃 지정
 	private void addCOpPGridBag() {
 		calOpPanel.setLayout(new GridBagLayout()); // 그리드 백 레이아웃
-		calOpPanel.setBackground(Color.white);
+		//calOpPanel.setBackground(Color.white);
 		GridBagConstraints calOpGC = new GridBagConstraints(); // 그리드백 콘스트레인트 만들기
 		
 		// today
@@ -455,7 +456,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 			weekDaysName[i] = new JButton(WEEK_DAY_NAME[i]);
 			weekDaysName[i].setBorderPainted(false); // 테두리
 			weekDaysName[i].setContentAreaFilled(false); // 내용영역 채우기 x
-			weekDaysName[i].setForeground(Color.WHITE); // 배경색
+			weekDaysName[i].setForeground(Color.white); // 배경색
 
 			if (i == 0)
 				weekDaysName[i].setBackground(new Color(255, 162, 162)); // 일요일
@@ -463,6 +464,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 				weekDaysName[i].setBackground(new Color(178, 204, 255)); // 토요일
 			else
 				weekDaysName[i].setBackground(new Color(18, 52, 120)); // 월요일~금요일
+				//weekDaysName[i].setBackground(new Color(18, 52, 120)); // 월요일~금요일
 			weekDaysName[i].setOpaque(true); // 투명도
 			weekDaysName[i].setFocusPainted(false);
 			calPanel.add(weekDaysName[i]);
@@ -477,7 +479,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 				dateButs[i][j] = new JButton();
 				dateButs[i][j].setBorderPainted(false);
 				dateButs[i][j].setContentAreaFilled(false);
-				dateButs[i][j].setBackground(Color.WHITE);
+				dateButs[i][j].setBackground(Color.white);
 				dateButs[i][j].setOpaque(true);
 				dateButs[i][j].addActionListener(lForDateButs);
 				calPanel.add(dateButs[i][j]);
@@ -545,10 +547,12 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		
 		lblMovieName = new JLabel("선택된 영화 : ");
 		Style.lblFont(lblMovieName, Font.PLAIN, 15);
+		lblMovieName.setForeground(Color.black);
 		pUrlTitle.add(lblMovieName);
 		
 		lblChoiceName = new JLabel("");
 		Style.lblFont(lblChoiceName, Font.PLAIN, 15);
+		lblChoiceName.setForeground(Color.black);
 		pUrlTitle.add(lblChoiceName);
 		
 		panelURL.add(pUrlTitle, BorderLayout.NORTH);
@@ -558,6 +562,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		pUrlInfo.setBackground(Color.white);
 		
 		lblUrl = new JLabel("URL 입력 : ");
+		lblUrl.setForeground(Color.black);
 		Style.lblFont(lblUrl, Font.PLAIN, 15);
 		pUrlInfo.add(lblUrl);
 		
@@ -567,7 +572,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		btnAdd = new JButton("  추가  ");
 		Style.btnFont(btnAdd, Font.PLAIN, 12);
 		btnAdd.setForeground(Color.white); // 글자색
-		btnAdd.setBackground(new Color(0x123478));
+		btnAdd.setBackground(new Color(18, 52, 120));
 		btnAdd.addActionListener(this);
 		
 		pUrlInfo.add(btnAdd);
@@ -603,11 +608,14 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		
 		
 		panelTable = new JPanel();
-		panelTable.setBackground(new Color(0xFFFFFF));
-		panelTable.setLayout(new FlowLayout(FlowLayout.LEFT));
-		panelTable.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
+		panelTable.setBackground(Color.white);
+		panelTable.setLayout(new BorderLayout(0,20));
+		panelTable.setBorder(BorderFactory.createEmptyBorder(60, 10, 10, 10));
 
+		lblTableTitle = new JLabel("영화 목록");
+		Style.lblFont(lblTableTitle, Font.CENTER_BASELINE, 18);
 		
+		panelTable.add(lblTableTitle, BorderLayout.NORTH);
 		
 		// 테이블 헤더 생성
 		returnColumn = new Vector<String>();
@@ -634,18 +642,17 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		// 스크롤 팬
 		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		sc.setPreferredSize(new Dimension(580, 375));
+		sc.setPreferredSize(new Dimension(580, 300));
 		
 		
-		panelTable.add(sc);
+		panelTable.add(sc, BorderLayout.CENTER);
 		
 	}
 
 	// 테이블 재구성 시 사용 (초기화 등)
 	private void returnTable() {
 		
-		
-		model.setNumRows(0);;
+		model.setNumRows(0);
 		
 		//String strToday = today.get(Calendar.YEAR) + today.get(Calendar.MONTH -1) + today.get(Calendar.DATE -1) +"";
 		if(tfDate.getText().equals("")) {
@@ -670,29 +677,8 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 			
 		}
 		
-//		String returnSelect = "select return.RETURNID, um.UMBRELLAID, st.STUDENTID, st.NAME, TO_CHAR(rental.rentaldate, \'YYYY-MM-DD\'), TO_CHAR(return.returndate, \'YYYY-MM-DD\') "
-//				+ " from RETURN return, RENTAL rental, STUDENT st, UMBRELLA um where return.rentalid = rental.rentalid"
-//				+ "  and rental.studentid = st.studentid and rental.umbrellaid = um.umbrellaid ORDER BY RETURN.RETURNDATE DESC , RETURN.RENTALID DESC";
-//
-//		ResultSet rs = DBconnect.getResultSet(returnSelect);
-//		
-//		
-//		try {
-//			while (rs.next()) {
-//				
-//				for (int i = 0; i < rsArr.length; i++) {
-//					rsArr[i] = rs.getString(i + 1); // 값 저장
-//				}
-//
-//				model.addRow(rsArr); // 모델에 추가
-//
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-
 		table = new JTable(model); // 테이블에 추가
-		
+		//table.addMouseListener(this);
 		table.requestFocus();
 	}
 
@@ -826,7 +812,6 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 				JOptionPane.showMessageDialog(null, "날짜를 입력해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
 			}
 			else {
-				
 				returnTable();
 				//panelTable.requestFocus();
 
@@ -843,7 +828,6 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		
 		else if(obj == btnBack) {
 			mainFrame.dispose();
-			// 창 닫기 왜 안돼 엉엉
 		}
 		
 		else if(obj == btnAdd) {
@@ -911,6 +895,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 	      btnFont.setFont(fontBtn); // 폰트 스타일 적용
 	      btnFont.setForeground(Color.white); // 글자색
 	      btnFont.setBackground(new Color(18, 52, 120));
+	      
 	      btnFont.setBorderPainted(false); // 테두리 없애기
 	   }
 
@@ -923,28 +908,17 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		if(ob == table) {
 			
 			int row = table.getSelectedRow();
-			TableModel data = table.getModel();
+			if(row >=0 && row <10) {
+				TableModel data = table.getModel();
+				System.out.println(row);
+				clickName = (String) data.getValueAt(row, 0);
+				clickGenre = (String) data.getValueAt(row, 1);
+				clickLimit = (String) data.getValueAt(row, 2);
+				clickTime = (String) data.getValueAt(row, 3);
+				
+				lblChoiceName.setText(clickName);
+			}
 			
-			clickName = (String) data.getValueAt(row, 0);
-			clickGenre = (String) data.getValueAt(row, 1);
-			clickLimit = (String) data.getValueAt(row, 2);
-			clickTime = (String) data.getValueAt(row, 3);
-			
-//			
-//			// 테이블 내용 저장
-//			Object value = table.getValueAt(row, 0);
-//			clickName = value.toString();
-//			
-//			Object value1 = table.getValueAt(row, 1);
-//			clickGenre =  value1.toString();
-//					
-//			Object value2 = table.getValueAt(row, 2);
-//			clickLimit =  value2.toString();
-//					
-//			Object value3 = table.getValueAt(row, 3);
-//			clickTime =  value3.toString();
-			
-			lblChoiceName.setText(clickName);
 		}
 	}
 
