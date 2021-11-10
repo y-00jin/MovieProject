@@ -29,6 +29,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -37,7 +39,7 @@ import javax.swing.table.TableColumnModel;
 import movieproject.DBconnect;
 import movieproject.util.Style;
 
-public class Movie extends JFrame implements MouseListener, ActionListener{
+public class Movie extends JFrame implements MouseListener, ActionListener, ListSelectionListener{
 	private DefaultTableModel model;
 	private JTable table;
 	private String posurl;
@@ -171,10 +173,11 @@ public class Movie extends JFrame implements MouseListener, ActionListener{
 	      table.getColumnModel().getColumn(3).setPreferredWidth(5);
 	      table.setBackground(Color.white);
 	      tiket.setListData(set);
-	      //tiket.addListSelectionListener(this);
+	      tiket.addListSelectionListener(this);
 	      tiket.setSize(37, 20);
 	      tiket.setBorder(new LineBorder(Color.PINK));
 	      tiket.setVisible(false);
+	      
 	      table.add(tiket);
 	      
 	      JTableHeader hd = table.getTableHeader();
@@ -199,6 +202,7 @@ public class Movie extends JFrame implements MouseListener, ActionListener{
 	public void mouseClicked(MouseEvent e) {
 		Object ob = e.getSource();
 		if(ob == table) {
+			tiket.setVisible(false);
 //			테이블 클릭 이벤트
 //			//////////////////////////////////////////////////////////////////////////
 			int row = table.getSelectedRow();
@@ -208,6 +212,12 @@ public class Movie extends JFrame implements MouseListener, ActionListener{
 			
 	        String ti = v.toString();
 			System.out.println(ti);
+			
+			if (e.getClickCount() >= 2) {
+	            tiket.setVisible(true);
+	            tiket.setLocation(e.getX() + 10, e.getY() - 10);
+	         }
+			
 			String postersql = "select url from MOVIE where movie_name = '" + v.toString() + "'";
 	         ResultSet re = DBconnect.getResultSet(postersql);
 	         try {
@@ -283,5 +293,11 @@ public class Movie extends JFrame implements MouseListener, ActionListener{
 			// new UserMain();	// 만약 메인에서 버튼 누를 때 창이 사라진다면 써줌,,!?
 			dispose();
 		}
+	}
+	////////////////////////////////////////////////////////////////////////
+	@Override
+	public void valueChanged(ListSelectionEvent e) { // 예매 클릭 했을때
+		System.out.println("예매");
+		
 	}
 }
