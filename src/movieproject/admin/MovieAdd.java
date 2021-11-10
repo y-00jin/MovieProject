@@ -47,6 +47,7 @@ import movieproject.util.Style;
 
 
 
+
 class CalendarDataManager{ // 6*7배열에 나타낼 달력 값을 구하는 class
 
 	static final int CAL_WIDTH = 7; // 너비 ( 일~월 까지 7개)
@@ -841,6 +842,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		}
 		
 		else if(obj == btnBack) {
+			mainFrame.dispose();
 			// 창 닫기 왜 안돼 엉엉
 		}
 		
