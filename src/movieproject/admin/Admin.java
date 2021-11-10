@@ -76,7 +76,7 @@ public class Admin extends JFrame implements ActionListener{
 			new MovieAdd();
 		}
 		else if(ob == poster) {
-			new AddURL("URL추가",570, 140);
+			//new AddURL("URL추가",570, 140);
 		}
 		else if(ob == movie_time) {
 			new AddmoiveTime("기존 영화시간 추가",370, 220);

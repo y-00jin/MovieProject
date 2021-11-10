@@ -27,6 +27,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -52,26 +53,37 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 	private JPanel pTitle;
 	private JLabel lblTitle;
 	private JButton btnBack;
+	private String clickName;
+	private JPanel panelURL;
+	private JPanel pUrlTitle;
+	private JLabel lblMovieName;
+	private JLabel lblChoiceName;
+	private JPanel pUrlInfo;
+	private JLabel lblUrl;
+	private JTextField tfURL;
+	private JButton btnAdd;
+
 	public MovieManage() {
 		setTitle("INHA CINEMA");
-		setSize(965, 600);
-		setLocationRelativeTo(this); //모니터 가운데 위치
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //창에서 닫기 버튼 누르면 콘솔 종료
-		
+		setSize(965, 700);
+		setLocationRelativeTo(this); // 모니터 가운데 위치
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
+
 		main_panel = new JPanel();
-		//main_panel = new JPanel();
+		// main_panel = new JPanel();
 //	    main_panel.setLayout(new BorderLayout());
 		main_panel.setLayout(null);
-	    main_panel.setBackground(Color.WHITE);
-	    
-	    add(main_panel);
-	    
-	    addTitle();
+		main_panel.setBackground(Color.WHITE);
+
+		add(main_panel);
+
+		addTitle();
 		setmoviechoice();
 		poster();
-		
+
 		setVisible(true);
 	}
+
 	private void addTitle() {
 
 		pTitle = new JPanel();
@@ -79,39 +91,39 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 		pTitle.setLayout(new BorderLayout());
 		pTitle.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
 		pTitle.setBackground(Color.pink);
-		
+
 		lblTitle = new JLabel("INHA CINEMA");
-		lblTitle.setFont(new Font("배달의민족 도현", Font.ITALIC, 25));
+		lblTitle.setFont(new Font("배달의민족 도현", Font.ITALIC, 20));
 		lblTitle.setForeground(Color.white);
 		pTitle.add(lblTitle, BorderLayout.WEST);
-		
-		
+
 		btnBack = new JButton("돌아가기");
 		Style.btnFont(btnBack, Font.PLAIN, 15);
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);
 		btnBack.addActionListener(this);
-		
+
 		pTitle.add(btnBack, BorderLayout.EAST);
 		main_panel.add(pTitle);
 	}
+
 	private void poster() {
-		
+
 		JPanel poster_panal = new JPanel();
 		poster_panal.setBounds(30, 80, 350, 450);
 		img = new ImageIcon("resource/image/base.png");
-		
 
-        Image ximg = img.getImage();
-        Image yimg = ximg.getScaledInstance(350, 450, java.awt.Image.SCALE_SMOOTH);
-        img = new ImageIcon(yimg);
-        
-        poster = new JLabel(img);
-        poster_panal.setBackground(Color.WHITE);
+		Image ximg = img.getImage();
+		Image yimg = ximg.getScaledInstance(350, 450, java.awt.Image.SCALE_SMOOTH);
+		img = new ImageIcon(yimg);
+
+		poster = new JLabel(img);
+		poster_panal.setBackground(Color.WHITE);
 		poster_panal.add(poster);
 		main_panel.add(poster_panal);
 	}
+
 	private void setmoviechoice() {
 		int x = 500;
 		int y = 450;
@@ -119,78 +131,121 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 		table_panal.setBounds(420, 80, x, y);
 		DBconnect.DB();
 		Vector<String> header = new Vector<String>();
-	      header.add("영화제목");
-	      header.add("영화장르");
-	      header.add("관람등급");
-	      header.add("러닝타임");
-	      model = new DefaultTableModel(header, 0) {
-	         public boolean isCellEditable(int rowIndex, int mColIndex) {
-	            return false;
-	         }
-	      };
-	      table = new JTable(model);
-	      table.getTableHeader().setReorderingAllowed(false);
-	      
-	      scroll = new JScrollPane(table);
-	      
-	      String sql = "SELECT DISTINCT m.MOVIE_NAME, "
-	              + "m.MOVIE_GENRE, "
-	              + "m.MOVIE_LIMIT, "
-	              + "m.RUNNINGTIME FROM MOVIE m";
-	      
-	      ResultSet re = DBconnect.getResultSet(sql);
-	      try {
-	         while (re.next()) {
-	            String name = re.getString(1);
-	            String genre = re.getString(2);
-	            String limit = re.getString(3);
-	            String running_time = re.getString(4) + "분";
+		header.add("영화제목");
+		header.add("영화장르");
+		header.add("관람등급");
+		header.add("러닝타임");
+		model = new DefaultTableModel(header, 0) {
+			public boolean isCellEditable(int rowIndex, int mColIndex) {
+				return false;
+			}
+		};
+		table = new JTable(model);
+		table.getTableHeader().setReorderingAllowed(false);
 
-	            String[] str = { name, genre, limit, running_time };
+		scroll = new JScrollPane(table);
 
-	            model.addRow(str);
-	         }
-	      } catch (SQLException e) {
-	         e.printStackTrace();
-	      }
+		String sql = "SELECT DISTINCT m.MOVIE_NAME, " + "m.MOVIE_GENRE, " + "m.MOVIE_LIMIT, "
+				+ "m.RUNNINGTIME FROM MOVIE m";
 
-	      table.setRowHeight(40);
-	      table.addMouseListener(this);
-	      
-	      DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
-	      tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		ResultSet re = DBconnect.getResultSet(sql);
+		try {
+			while (re.next()) {
+				String name = re.getString(1);
+				String genre = re.getString(2);
+				String limit = re.getString(3);
+				String running_time = re.getString(4) + "분";
 
-	      TableColumnModel tm = table.getColumnModel();
+				String[] str = { name, genre, limit, running_time };
 
-	      for (int i = 0; i < tm.getColumnCount(); i++) {
-	         tm.getColumn(i).setCellRenderer(tScheduleCellRenderer);
-	      }
+				model.addRow(str);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-	      table.getColumnModel().getColumn(0).setPreferredWidth(150);
-	      table.getColumnModel().getColumn(2).setPreferredWidth(5);
-	      table.getColumnModel().getColumn(3).setPreferredWidth(5);
-	      table.setBackground(Color.white);
-	      tiket.setListData(set);
-	      //tiket.addListSelectionListener(this);
-	      tiket.setSize(37, 20);
-	      tiket.setBorder(new LineBorder(Color.PINK));
-	      tiket.setVisible(false);
-	      table.add(tiket);
-	      
-	      JTableHeader hd = table.getTableHeader();
-	   
-	      hd.setBackground(Color.pink);
-	      Color c = new Color(254, 228, 254);
-	      scroll.getViewport().setBackground(Color.white);
+		table.setRowHeight(40);
+		table.addMouseListener(this);
+
+		DefaultTableCellRenderer tScheduleCellRenderer = new DefaultTableCellRenderer();
+		tScheduleCellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+		TableColumnModel tm = table.getColumnModel();
+
+		for (int i = 0; i < tm.getColumnCount(); i++) {
+			tm.getColumn(i).setCellRenderer(tScheduleCellRenderer);
+		}
+
+		table.getColumnModel().getColumn(0).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(5);
+		table.getColumnModel().getColumn(3).setPreferredWidth(5);
+		table.setBackground(Color.white);
+		tiket.setListData(set);
+		// tiket.addListSelectionListener(this);
+		tiket.setSize(37, 20);
+		tiket.setBorder(new LineBorder(Color.PINK));
+		tiket.setVisible(false);
+		table.add(tiket);
+
+		JTableHeader hd = table.getTableHeader();
+
+		hd.setBackground(Color.pink);
+		Color c = new Color(254, 228, 254);
+		scroll.getViewport().setBackground(Color.white);
 //	      main_panel.add(scroll, BorderLayout.EAST);
-	      scroll.setPreferredSize(new Dimension(x, 440));
-	      table_panal.setBackground(Color.white);
-	      table_panal.add(scroll);
-	      main_panel.add(table_panal);
-        
+		scroll.setPreferredSize(new Dimension(x, 445));
+		table_panal.setBackground(Color.white);
+		table_panal.add(scroll);
+		main_panel.add(table_panal);
+
+		panelURL = new JPanel();
+		panelURL.setBackground(Color.white);
+		
+		panelURL.setBounds(20, 550, 965, 150);
+		panelURL.setLayout(new BorderLayout());
+		panelURL.setBorder(BorderFactory.createEmptyBorder(0, 10, 30, 10));
+		
+
+		// URL 타이틀
+		pUrlTitle = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		pUrlTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+		pUrlTitle.setBackground(Color.white);
+
+		lblMovieName = new JLabel("선택된 영화 : ");
+		Style.lblFont(lblMovieName, Font.CENTER_BASELINE, 15);
+		pUrlTitle.add(lblMovieName);
+
+		lblChoiceName = new JLabel("");
+		Style.lblFont(lblChoiceName, Font.PLAIN, 15);
+		pUrlTitle.add(lblChoiceName);
+
+		panelURL.add(pUrlTitle, BorderLayout.NORTH);
+
+		// url 입력 부분
+		pUrlInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		pUrlInfo.setBackground(Color.white);
+
+		lblUrl = new JLabel("URL 입력 : ");
+		Style.lblFont(lblUrl, Font.PLAIN, 15);
+		pUrlInfo.add(lblUrl);
+
+		tfURL = new JTextField(43);
+		pUrlInfo.add(tfURL);
+
+		btnAdd = new JButton("  수정  ");
+		Style.btnFont(btnAdd, Font.PLAIN, 12);
+		btnAdd.setForeground(Color.white); // 글자색
+		btnAdd.setBackground(new Color(0x123478));
+		btnAdd.addActionListener(this);
+
+		pUrlInfo.add(btnAdd);
+
+		panelURL.add(pUrlInfo, BorderLayout.CENTER);
+
+		main_panel.add(panelURL);
+
 	}
-	
-	
+
 	public static void main(String[] args) {
 		
 		new MovieManage();
@@ -204,11 +259,12 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 			int row = table.getSelectedRow();
 	        int col = table.getSelectedColumn();
 	         
-			Object v = table.getValueAt(row, 0);
+			Object value = table.getValueAt(row, 0);
+			clickName = value.toString();
 			
-	        String ti = v.toString();
+	        String ti = value.toString();
 			System.out.println(ti);
-			String postersql = "select url from MOVIE where movie_name = '" + v.toString() + "'";
+			String postersql = "select url from MOVIE where movie_name = '" + value.toString() + "'";
 	         ResultSet re = DBconnect.getResultSet(postersql);
 	         try {
 	            while (re.next()) {
