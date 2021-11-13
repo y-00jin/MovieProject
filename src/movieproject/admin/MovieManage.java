@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -61,7 +62,9 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 	private JPanel pUrlInfo;
 	private JLabel lblUrl;
 	private JTextField tfURL;
-	private JButton btnAdd;
+	private JButton btnUpdate;
+	private JButton btnDelete;
+	private JPanel table_panal;
 
 	public MovieManage() {
 		setTitle("INHA CINEMA");
@@ -79,6 +82,9 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 
 		addTitle();
 		setmoviechoice();
+		addURL();
+		
+		
 		poster();
 
 		setVisible(true);
@@ -127,7 +133,7 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 	private void setmoviechoice() {
 		int x = 500;
 		int y = 450;
-		JPanel table_panal = new JPanel();
+		table_panal = new JPanel();
 		table_panal.setBounds(420, 80, x, y);
 		DBconnect.DB();
 		Vector<String> header = new Vector<String>();
@@ -198,6 +204,9 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 		table_panal.add(scroll);
 		main_panel.add(table_panal);
 
+	}
+
+	private void addURL() {
 		panelURL = new JPanel();
 		panelURL.setBackground(Color.white);
 		
@@ -229,21 +238,40 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 		Style.lblFont(lblUrl, Font.PLAIN, 15);
 		pUrlInfo.add(lblUrl);
 
-		tfURL = new JTextField(43);
+		tfURL = new JTextField(60);
 		pUrlInfo.add(tfURL);
 
-		btnAdd = new JButton("  수정  ");
-		Style.btnFont(btnAdd, Font.PLAIN, 12);
-		btnAdd.setForeground(Color.white); // 글자색
-		btnAdd.setBackground(new Color(0x123478));
-		btnAdd.addActionListener(this);
+		btnUpdate = new JButton("  수정  ");
+		btnUpdate.setPreferredSize(new Dimension(100, 25));
+		Style.btnFont(btnUpdate, Font.PLAIN, 12);
+		btnUpdate.setForeground(Color.white); // 글자색
+		btnUpdate.setBackground(new Color(0x123478));
+		btnUpdate.addActionListener(this);
+		pUrlInfo.add(btnUpdate);
 
-		pUrlInfo.add(btnAdd);
-
+		btnDelete = new JButton("삭제");
+		btnDelete.setPreferredSize(new Dimension(100, 25));
+		Style.btnFont(btnDelete, Font.PLAIN, 12);
+		btnDelete.setForeground(Color.white); // 글자색
+		btnDelete.setBackground(new Color(0x123478));
+		btnDelete.addActionListener(this);
+		pUrlInfo.add(btnDelete);
+		
 		panelURL.add(pUrlInfo, BorderLayout.CENTER);
 
 		main_panel.add(panelURL);
+	}
+	
+	public JPanel getTable_panal() {
+		return table_panal;
+	}
 
+
+	public void reTable() {
+		getTable_panal().removeAll();
+		setmoviechoice();
+		getTable_panal().revalidate(); // 레이아웃 변화 재확인
+		getTable_panal().repaint(); // 레이아웃 다시 가져오기
 	}
 
 	public static void main(String[] args) {
@@ -262,8 +290,8 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 			Object value = table.getValueAt(row, 0);
 			clickName = value.toString();
 			
-	        String ti = value.toString();
-			System.out.println(ti);
+			lblChoiceName.setText(clickName);
+			
 			String postersql = "select url from MOVIE where movie_name = '" + value.toString() + "'";
 	         ResultSet re = DBconnect.getResultSet(postersql);
 	         try {
@@ -273,6 +301,8 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 	         } catch (SQLException e1) {
 	            e1.printStackTrace();
 	         }
+	         tfURL.setText(posurl);
+	         
 	         System.out.println(posurl);
 	         if (posurl == null)
 	            posurl = "https://png.pngtree.com/png-clipart/20190916/ourlarge/pngtree-tile-free-font-spot-text.jpg";
@@ -308,7 +338,6 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 	         }
 	         poster.setIcon(img);
 	         poster.repaint();
-//	         /////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 		
 	}
@@ -338,6 +367,36 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 		if(obj == btnBack) {
 			// new UserMain();	// 만약 메인에서 버튼 누를 때 창이 사라진다면 써줌,,!?
 			dispose();
+		}
+		else if(obj == btnUpdate) {
+			if(lblChoiceName.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "영화를 선택해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
+			}
+			else if(tfURL.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "URL을 입력해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
+			}
+			else {
+				String str = "UPDATE MOVIE SET URL='" + tfURL.getText() + "' WHERE MOVIE_NAME = '" + clickName + "'";
+				
+				DBconnect.getupdate(str);
+				JOptionPane.showMessageDialog(null, "URL 수정이 완료되었습니다.", "완료 메시지", JOptionPane.INFORMATION_MESSAGE);
+				
+				reTable();
+			}
+		}
+		else if(obj == btnDelete) {
+			if(lblChoiceName.getText().equals("")) {
+				JOptionPane.showMessageDialog(null, "영화를 선택해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
+			}
+			else {
+				String strDel = "DELETE FROM MOVIE WHERE MOVIE_NAME='" + clickName + "'";
+				DBconnect.getupdate(strDel);
+				JOptionPane.showMessageDialog(null, clickName + " 영화가 삭제되었습니다.", "완료 메시지", JOptionPane.INFORMATION_MESSAGE);
+				
+				reTable();
+				
+			
+			}
 		}
 	}
 }
