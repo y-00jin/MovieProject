@@ -116,11 +116,11 @@ public class AdminMain extends JFrame implements ActionListener{
 			dispose();
 		}
 		else {
-			if(obj == arrBtnProfile.get(0)) {	// 영화 목록
-				
+			if(obj == arrBtnProfile.get(0)) {	// 영화 관리
+				new MovieManage();
 			}
-			if(obj == arrBtnProfile.get(1)) {	// 영화 관리
-				
+			if(obj == arrBtnProfile.get(1)) {	// 영화 추가
+				new MovieAdd();
 			}
 			if(obj == arrBtnProfile.get(2)) {	// 영화 시간 관리
 				

@@ -18,10 +18,12 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -589,10 +591,43 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 
 		// 테이블 생성
 		if (tfDate.getText().equals("")) {
-			System.out.println("tfDate : " + tfDate.getText());
-			api.setDATE_FMT("20161010");
+
+			// 1. 날짜 표시 format
+			SimpleDateFormat  formatter = new SimpleDateFormat("yyyyMMdd");    
+			
+			// 2. 오늘날짜 Data 클래스로 구하기(기준날짜가 오늘이 아니면 생략가능)
+			Date today = new Date();
+			
+			// 3. 오늘날짜 format에 맞춰서 String 으로 변경(기준날짜가 오늘이 아니면 생략가능)
+			String date =  formatter.format(today);
+
+			// 4. 기준이 되는 날짜(format에 맞춘)
+			Date setDate = null;
+			try {
+				setDate = formatter.parse(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			// 5. 한국 날짜 기준 Calendar 클래스 선언
+			Calendar cal = new GregorianCalendar(Locale.KOREA);
+
+			// 6. 선언된 Calendar 클래스에 기준 날짜 설정
+			cal.setTime(setDate);
+
+			// 7. 하루전으로 날짜 설정
+			cal.add(Calendar.DATE, -1);
+
+			// 8. 하루전으로 설정된 날짜를 설정된 format으로 String 타입 변경
+			String y_date = formatter.format(cal.getTime());
+			
+			System.out.println("y_date : " + y_date);
+			
+			api.setDATE_FMT(y_date);
+			
 		} else {
-			System.out.println("tfDate 2: " + tfDate.getText());
+			//System.out.println("tfDate 2: " + tfDate.getText());
 			api.setDATE_FMT(tfDate.getText());
 		}
 		api.requestAPI();
@@ -898,7 +933,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 			int row = table.getSelectedRow();
 			if (row >= 0 && row < 10) {
 				TableModel data = table.getModel();
-				System.out.println(row);
+				//System.out.println(row);
 				clickName = (String) data.getValueAt(row, 0);
 				clickGenre = (String) data.getValueAt(row, 1);
 				clickLimit = (String) data.getValueAt(row, 2);
