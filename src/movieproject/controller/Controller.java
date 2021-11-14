@@ -10,7 +10,7 @@ public class Controller {
 
 	private static Controller singleton = new Controller();
 	public String userId = "";
-
+	public String movieName = "";
 
 	private Controller() {
 		// clientSocket = new ClientSocket(); 클라이언트 소켓 (나중에 추가해야함)
@@ -76,4 +76,15 @@ public class Controller {
 		}
 		return arrUserInfo;
 	}
+
+	// 영화이름
+	public String getMovieName() {
+		return movieName;
+	}
+
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+	
+	
 }
