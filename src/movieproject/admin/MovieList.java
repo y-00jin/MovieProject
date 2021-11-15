@@ -65,7 +65,7 @@ public class MovieList extends JFrame implements MouseListener, ActionListener, 
 		setTitle("INHA CINEMA");
 		setSize(965, 600);
 		setLocationRelativeTo(this); //모니터 가운데 위치
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //창에서 닫기 버튼 누르면 콘솔 종료
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //창에서 닫기 버튼 누르면 콘솔 종료
 		
 		main_panel = new JPanel();
 		//main_panel = new JPanel();
@@ -304,7 +304,9 @@ public class MovieList extends JFrame implements MouseListener, ActionListener, 
 	////////////////////////////////////////////////////////////////////////
 	@Override
 	public void valueChanged(ListSelectionEvent e) { // 시간 지정 클릭 했을때
-
+		
 		controller.setMovieName(clickMovieName);
+		new MovieTimeSet();
 	}
+	
 }

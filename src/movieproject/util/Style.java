@@ -24,6 +24,10 @@ public class Style {
 	public static void btnFont(JButton btn, int style, int size) {
 		btn.setFont(new Font("1훈새마을운동 R", style, size));
 	}
+	public static void btnFontStyle(JButton btn, int style, int size, int color) {
+		btn.setFont(new Font("1훈새마을운동 R", style, size));
+		btn.setBackground(new Color(color));
+	}
 	public static void BtnDateStyle(JButton btn) {
     	Font fontBtn = new Font("HY헤드라인M", Font.PLAIN, 15);
     	btn.setFont(fontBtn); // 폰트 스타일 적용
