@@ -227,6 +227,39 @@ class CustomUI extends JFrame {
 
 		return btn;
 	}
+	public JButton setBtn(String name, String text, int y) {
+
+		class RoundedBorder implements Border {
+			int radius;
+
+			RoundedBorder(int radius) {
+				this.radius = radius;
+			}
+
+			public Insets getBorderInsets(Component c) {
+				return new Insets(this.radius + 1, this.radius + 1, this.radius + 2, this.radius);
+			}
+
+			public boolean isBorderOpaque() {
+				return true;
+			}
+
+			public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
+				g.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
+			}
+		}
+
+		JButton btn = new JButton();
+		btn.setBorder(new RoundedBorder(30));
+		Font btnFont = new Font("맑은 고딕", Font.PLAIN, 17);
+		btn.setFont(btnFont);
+		btn.setContentAreaFilled(false);
+		btn.setForeground(Color.BLACK);
+		btn.setText(text);
+		btn.setName(name);
+
+		return btn;
+	}
 	
 	protected JButton setBtnMovie(String name, String time, String seatCnt, int x, int y) {
 		JButton btn = new JButton("<html>" + time + "<br/>" + seatCnt + "</html>");
