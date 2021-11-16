@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 import movieproject.DBconnect;
 import movieproject.admin.Admin;
+import movieproject.admin.AdminMain;
 import movieproject.controller.Controller;
 import movieproject.movie.Main;
 import movieproject.movie.UserMain;
@@ -184,10 +185,9 @@ public class login extends JFrame implements ActionListener {
 
 		if (obj == btnmanager) {
 			String managerlogin = JOptionPane.showInputDialog("관리자 핀번호를 입력하세요.");
-			int pin = Integer.parseInt(managerlogin);
-			if (pin == 1234) {
-				new Admin("관리자용", 600, 110);
-				// System.out.println("관리자 접속");
+			if (managerlogin.equals("****")) {
+				new AdminMain();
+				dispose();
 			} else {
 				JOptionPane.showMessageDialog(null, "관리자가 핀번호가 아닙니다.", "핀번호 오류", JOptionPane.ERROR_MESSAGE);
 			}

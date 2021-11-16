@@ -209,6 +209,10 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 
 	private JLabel lblTableTitle;
 
+	private JButton btnTableTitle;
+
+	private JPanel ptabletitle;
+
 	public static void main(String[] args) {
 		DBconnect.DB();
 		SwingUtilities.invokeLater(new Runnable() {
@@ -564,10 +568,18 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		panelTable.setLayout(new BorderLayout(0, 20));
 		panelTable.setBorder(BorderFactory.createEmptyBorder(60, 10, 10, 10));
 
-		lblTableTitle = new JLabel("영화 목록");
-		Style.lblFont(lblTableTitle, Font.CENTER_BASELINE, 18);
-
-		panelTable.add(lblTableTitle, BorderLayout.NORTH);
+		ptabletitle = new JPanel();
+		ptabletitle.setLayout(new FlowLayout(FlowLayout.LEFT));
+		ptabletitle.setBackground(Color.white);
+		btnTableTitle = new JButton(">> 영화 목록");
+		
+		//btnTableTitle.setPreferredSize(new Dimension(100, 30));
+		Style.btnFontStyle(btnTableTitle, Font.CENTER_BASELINE, 17, 0xFFFFFF);
+		btnTableTitle.addActionListener(this);
+		btnTableTitle.setBorderPainted(false); // 테두리 없애기
+		ptabletitle.add(btnTableTitle);
+		
+		panelTable.add(ptabletitle, BorderLayout.NORTH);
 
 		// 테이블 헤더 생성
 		returnColumn = new Vector<String>();
@@ -859,6 +871,10 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		else if (obj == btnBack) {
 			mainFrame.dispose();
 		}
+		
+		else if(obj == btnTableTitle ){
+			new MovieManage();
+		}
 
 		else if (obj == btnAdd) {
 			if (lblChoiceName.getText().equals("")) {
@@ -866,6 +882,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 			} else if (tfURL.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "URL을 입력해주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
 			} else {
+			
 
 				DBconnect.DB();
 				String val = "0";

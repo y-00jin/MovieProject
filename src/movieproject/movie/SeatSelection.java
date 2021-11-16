@@ -30,8 +30,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import movieproject.DBconnect;
-import movieproject.DateLabelFormatter;
 import movieproject.payment.Payment;
+import movieproject.util.DateLabelFormatter;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
