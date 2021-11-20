@@ -245,7 +245,7 @@ public class Main extends JFrame implements ActionListener, MouseListener, ListS
          new MemberModify();
       }
       else if(ob == information) {
-         new MovieCheak();
+        // new MovieCheak();
       }
       else if (ob == table) {
          int row = table.getSelectedRow();
