@@ -119,8 +119,8 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 		p1.add(p1_2);
 		
 		tt = "매드 맥스: 분노의 도로";
-		//selmovie = new JLabel("매드 맥스: 분노의 도로"+ " | ");
-		JLabel selmovie = new JLabel(movie.getTi().toString() + " | ");
+		selmovie = new JLabel("매드 맥스: 분노의 도로"+ " | ");
+//		JLabel selmovie = new JLabel(movie.getTi().toString() + " | ");
 		//selmovie.setPreferredSize();
 		selmovie.setFont(lafont);
 		p1_2.add(selmovie);
@@ -274,8 +274,8 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 	}
 
 	public static void main(String[] args) {
-		DBconnect.DB();
-		//new SeatSelection("좌석선택", 800, 520, null);
+//		DBconnect.DB();
+		new SeatSelection("좌석선택", 800, 520, null);
 		//DBconnect.DB();
 		//new Main("메인화면", 900, 600);
 	}
@@ -304,25 +304,25 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 			//System.out.println(model.getYear() + " " + model.getMonth() + " " + model.getDay());
 		//			String sql = "SELECT * FROM time WHERE MOVIE_NAME = '" + movie.getTi().toString() + "' "
 		//			+ "order BY time ASC";
-			String sql = "SELECT * FROM time WHERE MOVIE_NAME = '" + movie.getTi().toString() + "' AND DATES = '"
-					+ date + "' order BY time ASC ";
+//			String sql = "SELECT * FROM time WHERE MOVIE_NAME = '" + movie.getTi().toString() + "' AND DATES = '"
+//					+ date + "' order BY time ASC ";
 //			System.out.println(sql);
-			ResultSet re = DBconnect.getResultSet(sql);
-			try {
-				while(re.next()) {
-					//String n = re.getString(2);
-					
-					time.addItem(re.getString(2));
-					//System.out.println(re.getString(1)+ " " + re.getString(2) + " " + re.getString(3));
-				}
-			} catch (SQLException e3) {
-				e3.printStackTrace();
-			}
+//			ResultSet re = DBconnect.getResultSet(sql);
+//			try {
+//				while(re.next()) {
+//					//String n = re.getString(2);
+//					
+//					time.addItem(re.getString(2));
+//					//System.out.println(re.getString(1)+ " " + re.getString(2) + " " + re.getString(3));
+//				}
+//			} catch (SQLException e3) {
+//				e3.printStackTrace();
+//			}
 		}
 		if(ob == time) {
 			main.removeAll();
 			creatseat();
-			seatcheck(time.getSelectedItem().toString());
+//			seatcheck(time.getSelectedItem().toString());
 			main.revalidate();
 			main.repaint();
 		}
