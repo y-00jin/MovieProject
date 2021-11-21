@@ -181,7 +181,7 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 
 		//p3.add(tiketing);
 		mo.add(main);
-//		creatseat();
+		creatseat();
 //		seatcheck();
 
 		add(p1, BorderLayout.NORTH);
@@ -359,13 +359,13 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 //					saveC + "', '1')";
 //			System.out.println(sql);
 //			DBconnect.getupdate(sql);
-			info.add(movie.getId().toString());
-			info.add(movie.getTi().toString());
-			info.add(date);
-			info.add(time.getSelectedItem().toString());
-			info.add(saveA);
-			info.add(saveB);
-			info.add(saveC);
+//			info.add(movie.getId().toString());
+//			info.add(movie.getTi().toString());
+//			info.add(date);
+//			info.add(time.getSelectedItem().toString());
+//			info.add(saveA);
+//			info.add(saveB);
+//			info.add(saveC);
 			//info
 //			System.out.println(info.get(4));
 //			System.out.println(info.get(5));

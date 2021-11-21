@@ -35,8 +35,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
-
 import movieproject.DBconnect;
+import movieproject.controller.Controller;
 import movieproject.util.Style;
 
 public class Movie extends JFrame implements MouseListener, ActionListener, ListSelectionListener{
@@ -47,10 +47,13 @@ public class Movie extends JFrame implements MouseListener, ActionListener, List
 	private String[] set = { " 예매" };
 	private JScrollPane scroll;
 	private BufferedImage im;
+	private Controller con = Controller.getInstance();
 	private JList<String> tiket = new JList<String>();
 	private JLabel poster;
 	private ImageIcon img;
+	private String mv_name;
 	private URL url;
+	private static int cnt = 0;
 	private JPanel pTitle;
 	private JLabel lblTitle;
 	private JButton btnBack;
@@ -178,6 +181,7 @@ public class Movie extends JFrame implements MouseListener, ActionListener, List
 	      tiket.setBorder(new LineBorder(Color.PINK));
 	      tiket.setVisible(false);
 	      
+	      
 	      table.add(tiket);
 	      
 	      JTableHeader hd = table.getTableHeader();
@@ -202,6 +206,7 @@ public class Movie extends JFrame implements MouseListener, ActionListener, List
 	public void mouseClicked(MouseEvent e) {
 		Object ob = e.getSource();
 		if(ob == table) {
+			cnt = 0;
 			tiket.setVisible(false);
 //			테이블 클릭 이벤트
 //			//////////////////////////////////////////////////////////////////////////
@@ -214,6 +219,7 @@ public class Movie extends JFrame implements MouseListener, ActionListener, List
 			System.out.println(ti);
 			
 			if (e.getClickCount() >= 2) {
+				mv_name = ti;
 	            tiket.setVisible(true);
 	            tiket.setLocation(e.getX() + 10, e.getY() - 10);
 	         }
@@ -297,7 +303,13 @@ public class Movie extends JFrame implements MouseListener, ActionListener, List
 	////////////////////////////////////////////////////////////////////////
 	@Override
 	public void valueChanged(ListSelectionEvent e) { // 예매 클릭 했을때
-		System.out.println("예매");
+		cnt++;
+		if(cnt == 1) {
+			con.setMovieName(mv_name);
+			System.out.println(con.getMovieName());
+			new Reservation();
+		}
+		tiket.clearSelection();
 		
 	}
 }

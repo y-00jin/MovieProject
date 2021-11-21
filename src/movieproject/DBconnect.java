@@ -11,8 +11,8 @@ public class DBconnect {
 	public static void DB() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			 //conn = DriverManager.getConnection("jdbc:oracle:thin:@114.71.137.174:53994:XE", "JAVAJO", "5555");
-			 conn = DriverManager.getConnection("jdbc:oracle:thin:@114.71.137.174:53994:XE", "jagijang", "5555");
+			 conn = DriverManager.getConnection("jdbc:oracle:thin:@114.71.137.174:53994:XE", "JAVAJO", "6666");
+//			 conn = DriverManager.getConnection("jdbc:oracle:thin:@114.71.137.174:53994:XE", "jagijang", "5555");
 			 //System.out.println("연동");
 			 stat = conn.createStatement();
 			

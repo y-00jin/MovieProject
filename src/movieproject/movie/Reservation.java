@@ -2,6 +2,9 @@ package movieproject.movie;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -15,17 +18,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import movieproject.DBconnect;
+import movieproject.controller.Controller;
 
-public class Reservation extends JFrame{
+public class Reservation extends JFrame implements ActionListener{
 //	나이트 오브 더 데이 오브 더 돈 오브 더 손 오브 더 브라이드
-	private String[] str = {"2021-11-20","2021-11-21","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27"};
+//	private String[] str = {"2021-11-20","2021-11-21","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27"};
 	private JPanel main_panel;
 	private JComboBox<String> movie_time;
 	private DefaultTableModel model;
 	private JTable table;
 	private JButton back,next;
+	private Controller con = Controller.getInstance();
 	private JScrollPane scroll;
 	public Reservation() {
+		DBconnect.DB();
 		setTitle("INHA CINEMA");
 		setSize(765, 520);
 		setLocationRelativeTo(this); //모니터 가운데 위치
@@ -49,6 +55,7 @@ public class Reservation extends JFrame{
 		back.setForeground(Color.black);
 		back.setBackground(Color.white);
 		back.setBounds(530, 425, 80, 30);
+		back.addActionListener(this);
 		
 		next = new JButton("다음");
 		next.setForeground(Color.black);
@@ -85,12 +92,28 @@ public class Reservation extends JFrame{
 	}
 	private void addmovie_infor() {
 //		JLabel movie_name = new JLabel("나이트 오브 더 데이 오브 더 돈 오브 더 손 오브 더 브라이드");
-		JLabel movie_name = new JLabel("이터널스");
+		JLabel movie_name = new JLabel("귀멸의 칼날: 남매의 연");
+//		JLabel movie_name = new JLabel(con.getMovieName());
 		movie_name.setFont(new Font("배달의민족 도현", Font.ITALIC, 15));
 		movie_name.setBounds(50, 55, 350, 30);
 		movie_name.setHorizontalAlignment(JLabel.RIGHT);
 		
-		movie_time = new JComboBox<String>(str);
+		String temp = "";
+		movie_time = new JComboBox<String>();
+		try {
+			String sql = "SELECT DISTINCT(mt.MOVIE_DATE) FROM MOVIE_TIME mt, MOVIE m WHERE mt.MOVIE_ID = m.MOVIE_ID AND m.MOVIE_NAME = '"+ movie_name.getText() +"'"
+					+ "ORDER BY MOVIE_DATE";
+			ResultSet re = DBconnect.getResultSet(sql);
+			while(re.next()) {
+				temp = re.getString(1);
+				con.sel_date = temp;
+				String date = temp.substring(0, 4) + "-" + temp.substring(4, 6) + "-" + temp.substring(6, 8);
+				movie_time.addItem(date);
+			}
+		} catch (Exception e) {
+			System.out.println("sql 실패2");
+		}
+
 		movie_time.setBackground(Color.white);
 		movie_time.setBounds(450, 55, 100, 30);
 		movie_time.setFocusable(false);
@@ -110,5 +133,13 @@ public class Reservation extends JFrame{
 	}
 	public static void main(String[] args) {
 		new Reservation();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object ob = e.getSource();
+		if(ob == back) {
+			dispose();
+		}
+		
 	}
 }

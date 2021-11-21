@@ -11,6 +11,8 @@ public class Controller {
 	private static Controller singleton = new Controller();
 	public String userId = "";
 	public String movieName = "";
+	public String sel_date = "";
+	public String sel_time = "";
 
 	private Controller() {
 		// clientSocket = new ClientSocket(); 클라이언트 소켓 (나중에 추가해야함)
