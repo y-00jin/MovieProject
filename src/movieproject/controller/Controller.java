@@ -87,6 +87,22 @@ public class Controller {
 	public void setMovieName(String movieName) {
 		this.movieName = movieName;
 	}
+
+	public String getSel_date() {
+		return sel_date;
+	}
+
+	public void setSel_date(String sel_date) {
+		this.sel_date = sel_date;
+	}
+
+	public String getSel_time() {
+		return sel_time;
+	}
+
+	public void setSel_time(String sel_time) {
+		this.sel_time = sel_time;
+	}
 	
 	
 }

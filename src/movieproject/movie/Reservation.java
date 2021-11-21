@@ -4,7 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -30,7 +36,10 @@ public class Reservation extends JFrame implements ActionListener{
 	private JButton back,next;
 	private Controller con = Controller.getInstance();
 	private JScrollPane scroll;
+	private JPanel table_panal;
+	private JLabel movie_name;
 	public Reservation() {
+		
 		DBconnect.DB();
 		setTitle("INHA CINEMA");
 		setSize(765, 520);
@@ -66,7 +75,7 @@ public class Reservation extends JFrame implements ActionListener{
 		main_panel.add(next);
 	}
 	private void addtable() {
-		JPanel table_panal = new JPanel();
+		table_panal = new JPanel();
 		table_panal.setBounds(140, 100, 450, 300);
 		Vector<String> header = new Vector<String>();
 	      header.add("시작시간");
@@ -84,36 +93,53 @@ public class Reservation extends JFrame implements ActionListener{
 		   
 	      hd.setBackground(Color.pink);
 	      scroll = new JScrollPane(table);
-	      scroll.getViewport().setBackground(Color.cyan);
+	      scroll.getViewport().setBackground(Color.white);
 	      
 	      table_panal.add(scroll);
 	      table_panal.setBackground(Color.white);
 	      main_panel.add(table_panal);
 	}
 	private void addmovie_infor() {
+		con.setSel_date("20211123");
+		con.setSel_time("14:00");
 //		JLabel movie_name = new JLabel("나이트 오브 더 데이 오브 더 돈 오브 더 손 오브 더 브라이드");
-		JLabel movie_name = new JLabel("귀멸의 칼날: 남매의 연");
+		movie_name = new JLabel("귀멸의 칼날: 남매의 연");
 //		JLabel movie_name = new JLabel(con.getMovieName());
 		movie_name.setFont(new Font("배달의민족 도현", Font.ITALIC, 15));
 		movie_name.setBounds(50, 55, 350, 30);
 		movie_name.setHorizontalAlignment(JLabel.RIGHT);
 		
 		String temp = "";
-		movie_time = new JComboBox<String>();
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate now = LocalDate.now();
+		String formatedNow = now.format(formatter);
+//		System.out.println(formatedNow); 
+	
+		
+		Vector<String> list = new Vector<String>();
 		try {
 			String sql = "SELECT DISTINCT(mt.MOVIE_DATE) FROM MOVIE_TIME mt, MOVIE m WHERE mt.MOVIE_ID = m.MOVIE_ID AND m.MOVIE_NAME = '"+ movie_name.getText() +"'"
 					+ "ORDER BY MOVIE_DATE";
 			ResultSet re = DBconnect.getResultSet(sql);
 			while(re.next()) {
 				temp = re.getString(1);
-				con.sel_date = temp;
 				String date = temp.substring(0, 4) + "-" + temp.substring(4, 6) + "-" + temp.substring(6, 8);
-				movie_time.addItem(date);
+				System.out.println(date);
+				Date date1 = dateFormat.parse(formatedNow);
+	            Date date2 = dateFormat.parse(date);
+				if(date1.before(date2)) { 
+					list.add(date);
+				}
+				main_panel.requestFocus();
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("sql 실패2");
 		}
-
+		
+		movie_time = new JComboBox<String>(list);
+		movie_time.addActionListener(this);
 		movie_time.setBackground(Color.white);
 		movie_time.setBounds(450, 55, 100, 30);
 		movie_time.setFocusable(false);
@@ -132,11 +158,59 @@ public class Reservation extends JFrame implements ActionListener{
 		main_panel.add(lblTitle);
 	}
 	public static void main(String[] args) {
+		
 		new Reservation();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
+		if(ob == movie_time) {
+			con.setSel_date(movie_time.getSelectedItem().toString().replace("-", ""));
+			model.setNumRows(0);
+			System.out.println("1");
+			Vector<String> time = new Vector<String>();
+			Vector<String> run_time = new Vector<String>();
+			Vector<String> seat = new Vector<String>();
+			System.out.println(con.getSel_date());
+			String sql = "SELECT mt.MOVIE_DATE, mt.MOVIE_TIME, m.RUNNINGTIME FROM MOVIE_TIME mt, MOVIE m WHERE mt.MOVIE_ID = m.MOVIE_ID "
+					+ "AND m.MOVIE_NAME = '"+ movie_name.getText() +"' "
+					+ "AND mt.MOVIE_DATE = '"+ con.getSel_date() +"'"
+					+ "ORDER BY MOVIE_DATE";
+			System.out.println(sql);
+			ResultSet re = DBconnect.getResultSet(sql);
+			try {
+				while(re.next()) {
+					System.out.println("2");
+					time.add(re.getString(2));
+					run_time.add(re.getString(3));
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+			for(int i = 0; i < time.size(); i++) {
+				int len = 75;
+				String sql2 = "SELECT SEAT FROM MOVIE_RESERVATION mr "
+						+ "WHERE mr.MOVIE_NAME = '"+ movie_name.getText() +"' "
+						+ "AND mr.\"DATE\" = '"+ con.getSel_date() + "' "
+						+ "AND mr.\"TIME\" = '" + time.get(i) + "'";
+				ResultSet r = DBconnect.getResultSet(sql2);
+				try {
+					while(r.next()) {
+						String[] str = r.getString(1).split(",");
+						len -= str.length;
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				seat.add(Integer.toString(len));
+				String[] str = {time.get(i) , run_time.get(i), seat.get(i)};
+				model.addRow(str);
+			}
+			
+			
+//			model.addRow(str);
+		}
 		if(ob == back) {
 			dispose();
 		}

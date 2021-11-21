@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -27,7 +29,7 @@ import javax.swing.border.TitledBorder;
 import movieproject.DBconnect;
 import movieproject.controller.Controller;
 
-public class Seat_Selection extends JFrame implements MouseListener {
+public class Seat_Selection extends JFrame implements MouseListener, ActionListener {
 	private Controller con = Controller.getInstance();
 	JLabel Ala[] = new JLabel[25];
 	private int Aseat[] = new int[25];
@@ -44,7 +46,7 @@ public class Seat_Selection extends JFrame implements MouseListener {
 	private JLabel personnel;
 	private int person_cnt = 0;
 	private JButton back;
-	private JComponent next;
+	private JButton next;
 	Font font1 = new Font("맑은 고딕", Font.PLAIN, 18);
 	private JPanel seat_panel; 
 	public Seat_Selection() {
@@ -72,10 +74,38 @@ public class Seat_Selection extends JFrame implements MouseListener {
 		///////////////////////////// 우측
 		addseat_panel();
 		creatseat();
-		
+		seatcheck();
 		
 		main_panel.add(g);
 		setVisible(true);
+	}
+	private void seatcheck() {
+		String t = "A1, A2, A3, A4, A5";
+		String seat_temp[] = t.split(",");
+		String temp = "";
+		for(int i = 0; i < seat_temp.length; i++) {
+			if(seat_temp[i].contains("A")) {
+				temp = seat_temp[i].replace("A", "");
+				temp = temp.trim();
+				Ala[Integer.parseInt(temp) - 1].setForeground(Color.RED);
+				Aseat[Integer.parseInt(temp) - 1] = 2;
+				System.out.println(temp);
+			}
+			else if(seat_temp[i].contains("B")) {
+				temp = seat_temp[i].replace("B", "");
+				temp = temp.trim();
+				Bla[Integer.parseInt(temp) - 1].setForeground(Color.RED);
+				Bseat[Integer.parseInt(temp) - 1] = 2;
+				System.out.println(temp);
+			} 
+			else if(seat_temp[i].contains("C")) {
+				temp = seat_temp[i].replace("C", "");
+				temp = temp.trim();
+				Cla[Integer.parseInt(temp) - 1].setForeground(Color.RED);
+				Cseat[Integer.parseInt(temp) - 1] = 2;
+				System.out.println(temp);
+			}
+		}
 	}
 	private void creatseat() {
 		JPanel A = new JPanel();
@@ -122,12 +152,13 @@ public class Seat_Selection extends JFrame implements MouseListener {
 		back.setForeground(Color.black);
 		back.setBackground(Color.white);
 		back.setBounds(70, 470, 80, 30);
-//		back.addActionListener(this);
+		back.addActionListener(this);
 		
 		next = new JButton("다음");
 		next.setForeground(Color.black);
 		next.setBackground(Color.white);
 		next.setBounds(200, 470, 80, 30);
+		next.addActionListener(this);
 		
 		main_panel.add(back);
 		main_panel.add(next);
@@ -239,6 +270,39 @@ public class Seat_Selection extends JFrame implements MouseListener {
 		new Seat_Selection();
 	}
 	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object ob = e.getSource();
+		String save = "";
+		String saveA = "";
+		String saveB = "";
+		String saveC = "";
+		if(ob == next) {
+			for (int i = 0; i < 25; i++) {
+				if (Aseat[i] == 1) {
+					Ala[i].setForeground(Color.red);
+					save += "A" + Integer.toString(i + 1) + ", ";
+					Aseat[i] = 2;
+				}
+			}
+			for (int i = 0; i < 25; i++) {
+				if (Bseat[i] == 1) {
+					Bla[i].setForeground(Color.red);
+					save += "B" + Integer.toString(i + 1) + ", ";
+					Bseat[i] = 2;
+				}
+			}
+			for (int i = 0; i < 25; i++) {
+				if (Cseat[i] == 1) {
+					Cla[i].setForeground(Color.red);
+					save += "C" + Integer.toString(i + 1) + ", ";
+					Cseat[i] = 2;
+				}
+			}
+			save = save.substring(0, save.length()-2);
+			System.out.println(save);
+		}
+	}
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		Object ob = e.getSource();
 		for (int i = 0; i < 25; i++) {
@@ -298,4 +362,5 @@ public class Seat_Selection extends JFrame implements MouseListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
 }
