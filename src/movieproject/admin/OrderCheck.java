@@ -45,7 +45,7 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 	public OrderCheck() {
 
 		setTitle("INHA CINEMA");
-		setSize(900, 600);
+		setSize(900, 545);
 		setLocationRelativeTo(this); // 모니터 가운데 위치
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
 
