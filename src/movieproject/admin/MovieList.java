@@ -307,6 +307,7 @@ public class MovieList extends JFrame implements MouseListener, ActionListener, 
 		
 		controller.setMovieName(clickMovieName);
 		new MovieTimeSet();
+		dispose();
 	}
 	
 }

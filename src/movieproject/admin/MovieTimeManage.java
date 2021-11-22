@@ -11,6 +11,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -54,6 +60,8 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 	private String clickDate = "";
 	private String clickTime = "";
 	private String strCode;
+	private int count;
+	
 
 	public MovieTimeManage() {
 		setTitle("INHA CINEMA");
@@ -63,6 +71,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 
 		setBackground(Color.white);
 
+		
 		setLayout(new BorderLayout());
 
 		// 타이틀 생성
@@ -75,6 +84,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 
 		setVisible(true);
 	}
+
 
 	private void addPTitle() {
 		pTitle = new JPanel();
@@ -174,7 +184,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 	}
 
 	private void addTable() {
-
+		count=0;
 		// 테이블 생성
 		pTable = new JPanel();
 		pTable.setLayout(new BorderLayout());
@@ -196,13 +206,12 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 		};
 
 		table = new JTable(model); // 테이블에 추가
-
 		if (searchName.equals("")) {
-			selectTable = "SELECT DISTINCT m.MOVIE_ID, m.MOVIE_NAME , mt.MOVIE_DATE, mt.MOVIE_TIME FROM MOVIE m , MOVIE_TIME mt "
+			selectTable = "SELECT DISTINCT m.MOVIE_ID, m.MOVIE_NAME , TO_CHAR(mt.MOVIE_DATE, 'YYYYMMDD'), mt.MOVIE_TIME FROM MOVIE m , MOVIE_TIME mt "
 					+ "WHERE m.movie_id = mt.movie_id ORDER BY m.MOVIE_ID";
 		} else {
-			selectTable = "SELECT DISTINCT m.MOVIE_ID, m.MOVIE_NAME , mt.MOVIE_DATE, mt.MOVIE_TIME FROM MOVIE m , MOVIE_TIME mt "
-					+ "WHERE m.movie_id = mt.movie_id AND m.MOVIE_NAME = '" + searchName + "' ORDER BY m.MOVIE_ID";
+			selectTable = "SELECT DISTINCT m.MOVIE_ID, m.MOVIE_NAME , TO_CHAR(mt.MOVIE_DATE, 'YYYYMMDD'), mt.MOVIE_TIME FROM MOVIE m , MOVIE_TIME mt "
+					+ "WHERE m.movie_id = mt.movie_id AND m.MOVIE_NAME = '" + searchName + "' ORDER BY TO_CHAR(mt.MOVIE_DATE, 'YYYYMMDD')";
 		}
 
 		ResultSet re = DBconnect.getResultSet(selectTable);
@@ -210,11 +219,16 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 		try {
 			while (re.next()) {
 				for (int i = 0; i < reArr.length; i++) {
-					reArr[i] = re.getString(i + 1);
+					
+					
+						reArr[i] = re.getString(i + 1);
+					
 				}
 
 				model.addRow(reArr);
-
+				System.out.println(count);
+				count++;
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -233,8 +247,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 		JTableHeader tableHeader = table.getTableHeader(); // 테이블 헤더 값 가져오기
 		tableHeader.setBackground(new Color(0xFFEAEA)); // 가져온 테이블 헤더의 색 지정
 		// tableHeader.setForeground(Color.white);
-		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		pTable.add(sc);
 		pCenter.add(pTable);
@@ -283,16 +296,18 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 
 		Object ob = e.getSource();
 		if (ob == table) {
-
+			
 			int row = table.getSelectedRow();
-
-			TableModel data = table.getModel();
+			if(row>=0 && row<=count) {
+				TableModel data = table.getModel();
 			// System.out.println(row);
 			clickCode = (String) data.getValueAt(row, 0);
 			clickName = (String) data.getValueAt(row, 1);
 			clickDate = (String) data.getValueAt(row, 2);
 			clickTime = (String) data.getValueAt(row, 3);
 			System.out.println(clickCode + clickName + clickDate + clickTime);
+			}
+			
 		}
 
 	}

@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,6 +26,7 @@ import javax.swing.table.JTableHeader;
 
 import movieproject.DBconnect;
 import movieproject.controller.Controller;
+import movieproject.movie.Movie;
 import movieproject.util.Style;
 
 public class ReservationCheck extends JFrame implements ActionListener {
@@ -62,14 +64,14 @@ public class ReservationCheck extends JFrame implements ActionListener {
 	private JButton btnPayment;
 	private JButton btnReset;
 	private JLabel lblMenu;
-	
+
 	public ReservationCheck() {
 
 		controller = Controller.getInstance();
 		userId = controller.getUserId();
 
 		setTitle("INHA CINEMA");
-		setSize(900, 600);
+		setSize(820, 480);
 		setLocationRelativeTo(this); // 모니터 가운데 위치
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
 
@@ -105,7 +107,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		Style.lblFont(lblMovieName, Font.PLAIN, 15);
 		pInfo.add(lblMovieName);
 
-		lblMvChoice = new JLabel("귀멸의 칼날 : 남매의 연입니당당당");
+		lblMvChoice = new JLabel(strMovieName);
 		lblMvChoice.setBounds(100, 40, 300, 20);
 		Style.lblFont(lblMvChoice, Font.PLAIN, 15);
 		pInfo.add(lblMvChoice);
@@ -152,7 +154,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		Style.lblFont(lblMenu, Font.PLAIN, 17);
 		lblMenu.setBounds(420, 80, 100, 20);
 		pMain.add(lblMenu);
-		
+
 		pFoodTable = new JPanel();
 		pFoodTable.setBounds(420, 110, 350, 200);
 		pFoodTable.setLayout(new BorderLayout());
@@ -172,19 +174,20 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		};
 
 		table = new JTable(model); // 테이블에 추가
-		
-		
-		
+
 		System.out.println("strFood : " + strFood);
-		String[] arrMenu = strFood.split(",");
-		for(int i=0;i<arrMenu.length;i++) {
-			
-			String [] arrCount = new String[3];
-			
-			System.out.println("arrMenu" + arrMenu[i]);
-			
-			arrCount = arrMenu[i].split(":");
-			arrPrice.add(arrCount[2]);
+		if (strFood == null) {
+
+		} else {
+			String[] arrMenu = strFood.split(",");
+			for (int i = 0; i < arrMenu.length; i++) {
+
+				String[] arrCount = new String[3];
+
+				System.out.println("arrMenu" + arrMenu[i]);
+
+				arrCount = arrMenu[i].split(":");
+				arrPrice.add(arrCount[2]);
 //			String strSelectPrice = "select price from movie_menu where menu = '" + arrCount[0] + "'";
 //			ResultSet re = DBconnect.getResultSet(strSelectPrice);
 //			try {
@@ -200,74 +203,67 @@ public class ReservationCheck extends JFrame implements ActionListener {
 //			String strCount = arrCount[1];
 //			int sum = price * Integer.parseInt(strCount);
 //			arrCount[2] = sum+"";
-			
-			model.addRow(arrCount);
+
+				model.addRow(arrCount);
+			}
 		}
 
-	
 		table.getTableHeader().setReorderingAllowed(false); // 테이블 편집X
 		table.setFillsViewportHeight(true); // 테이블 배경색
 		JTableHeader tableHeader = table.getTableHeader(); // 테이블 헤더 값 가져오기
 		tableHeader.setBackground(new Color(0xFFEAEA)); // 가져온 테이블 헤더의 색 지정
-		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane sc = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		pFoodTable.add(sc);
 
 		pMain.add(pFoodTable);
-		
-		
+
 		lblSumTitle = new JLabel(" |  합계  : ");
 		lblSumTitle.setBackground(new Color(0xFFEAEA));
 		lblSumTitle.setOpaque(true);
 		Style.lblFont(lblSumTitle, Font.PLAIN, 18);
-		lblSumTitle.setBounds(40, 340, 80, 30);
+		lblSumTitle.setBounds(40, 360, 80, 30);
 		pMain.add(lblSumTitle);
-		
-		
+
 		int ticketNum = 0;
-		
+
 		String[] splitSeat = strSeat.split(",");
-		for(int i=0;i<splitSeat.length;i++) {
+		for (int i = 0; i < splitSeat.length; i++) {
 			ticketNum++;
 		}
-		int sum=0;
-		for(int j=0; j < arrPrice.size();j++) {
-			sum +=Integer.parseInt(arrPrice.get(j));
+		int sum = 0;
+		for (int j = 0; j < arrPrice.size(); j++) {
+			sum += Integer.parseInt(arrPrice.get(j));
 		}
 		sum += ticketNum * 12000;
 		System.out.println(sum);
-		lblSum = new JLabel(sum+" 원");
+		lblSum = new JLabel(sum + " 원");
 		lblSum.setBackground(new Color(0xFFEAEA));
 		lblSum.setOpaque(true);
 		Style.lblFont(lblSum, Font.PLAIN, 18);
-		lblSum.setBounds(120, 340, 100, 30);
-		
+		lblSum.setBounds(120, 360, 100, 30);
+
 		pMain.add(lblSum);
-		
+
 		btnPayment = new JButton("결제");
 		btnPayment.setForeground(Color.white);
 		btnPayment.setBackground(Color.pink);
 		btnPayment.addActionListener(this);
 		Style.btnFont(btnPayment, Font.PLAIN, 15);
-		btnPayment.setBounds(235, 340, 100, 30);
+		btnPayment.setBounds(235, 360, 100, 30);
 		pMain.add(btnPayment);
-		
-		
+
 		btnReset = new JButton("취소");
 		btnReset.setForeground(Color.white);
 		btnReset.setBackground(Color.pink);
 		btnReset.addActionListener(this);
 		Style.btnFont(btnReset, Font.PLAIN, 15);
-		btnReset.setBounds(350, 340, 100, 30);
+		btnReset.setBounds(350, 360, 100, 30);
 		pMain.add(btnReset);
-		
-		
-		
+
 		add(pMain);
 
-		
-		
-		
 		setVisible(true);
 
 	}
@@ -282,11 +278,11 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		try {
 			while (re.next()) {
 
-				strMovieName = re.getString(2);
-				strDate = re.getString(3);
-				strTime = re.getString(4);
-				strSeat = re.getString(5);
-				strFood = re.getString(6);
+				strMovieName = re.getString(3);
+				strDate = re.getString(4);
+				strTime = re.getString(5);
+				strSeat = re.getString(6);
+				strFood = re.getString(7);
 
 			}
 		} catch (SQLException e1) {
@@ -318,8 +314,30 @@ public class ReservationCheck extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+
+		Object obj = e.getSource();
+		if (obj == btnPayment) {
+			// JOptionPane.showMessageDialog(null, "시간을 선택해 주세요.", "오류 메시지",
+			// JOptionPane.WARNING_MESSAGE);
+			int paymentResult = JOptionPane.showConfirmDialog(null, "결제하시겠습니까?", "결제 확인", JOptionPane.OK_CANCEL_OPTION);
+
+			if (paymentResult == 0) {
+				JOptionPane.showMessageDialog(null, "결제가 완료되었습니다.", "결제 완료", JOptionPane.INFORMATION_MESSAGE);
+				new ReservationInfo();
+				dispose();
+			}
+
+		} else if (obj == btnReset) {
+			int resetResult = JOptionPane.showConfirmDialog(null, "결제를 취소하겠습니까?\n첫 화면으로 돌아갑니다.", "취소 확인",
+					JOptionPane.OK_CANCEL_OPTION);
+			if (resetResult == 0) {
+				JOptionPane.showMessageDialog(null, "취소되었습니다.\n첫 화면으로 돌아갑니다.", "취소 완료",
+						JOptionPane.INFORMATION_MESSAGE);
+				new Movie();
+				dispose();
+			}
+		}
+
 	}
 
 }

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import movieproject.login.login;
+import movieproject.payment.ReservationInfo;
 
 public class UserMain extends JFrame implements ActionListener{
 
@@ -123,7 +124,7 @@ public class UserMain extends JFrame implements ActionListener{
 				
 			}
 			if(obj == arrBtnProfile.get(2)) {	// 예매 정보 확인
-				//new MovieCheak();
+				new ReservationInfo();
 			}
 			if(obj == arrBtnProfile.get(3)) {	// 회원 정보 수정
 				new MemberModify();

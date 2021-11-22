@@ -9,6 +9,14 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,7 +36,7 @@ import movieproject.movie.Main;
 import movieproject.movie.UserMain;
 
 public class login extends JFrame implements ActionListener {
-	
+
 	Controller controller;
 	public static Connection conn;
 	public JPanel panel1, panel2, panel3, panel4;
@@ -41,10 +49,20 @@ public class login extends JFrame implements ActionListener {
 	private JPanel p2Img;
 	private JPanel pLogin;
 	private JLabel lblUser;
+	private String strMovieTimeId;
+	private String strMovieDate;
+	private Date tempDate;
+	private Date tempDate1;
+	private String strReservId;
+	private String strReservMovieDate;
+	private Date tempReservDate;
 
 	public login() {
+
+		delete();
+
 		controller = Controller.getInstance();
-		
+
 		setTitle("INHA CINEMA");
 		setSize(1000, 700);
 //		setLocation(800, 300);
@@ -81,13 +99,12 @@ public class login extends JFrame implements ActionListener {
 		lblUser = new JLabel(lblIUserIcon);
 		p2Img.add(lblUser);
 
-		
 		// 로그인 정보 입력 패널
 		pLogin = new JPanel();
 		pLogin.setLayout(new GridLayout(3, 1, 25, 25));
 		pLogin.setBackground(Color.white);
 
-		//아이디
+		// 아이디
 		tfid = new JTextField();
 		TextHint hint1 = new TextHint(tfid, "아이디");
 		tfid.setFont(new Font("1훈새마을운동 R", Font.CENTER_BASELINE, 15));
@@ -121,7 +138,7 @@ public class login extends JFrame implements ActionListener {
 
 		lbljoin = new JLabel("아이디가 없으신가요?");
 		lbljoin.setFont(new Font("1훈새마을운동 R", Font.CENTER_BASELINE, 15));
-		
+
 		btnjoin = new JButton("회원가입");
 		btnjoin.setFont(new Font("1훈새마을운동 R", Font.PLAIN, 13));
 		btnjoin.setBackground(a);
@@ -134,7 +151,7 @@ public class login extends JFrame implements ActionListener {
 		// 관리자 로그인
 		lblmanager = new JLabel("관리자로 로그인 하시겠습니까?");
 		lblmanager.setFont(new Font("1훈새마을운동 R", Font.CENTER_BASELINE, 15));
-		
+
 		btnmanager = new JButton("관리자 로그인");
 		btnmanager.addActionListener(this);
 		btnmanager.setFont(new Font("1훈새마을운동 R", Font.PLAIN, 13));
@@ -149,6 +166,97 @@ public class login extends JFrame implements ActionListener {
 		add(panel3, BorderLayout.SOUTH);
 
 		setVisible(true); // 이게 없으면 창이 뜨지 않음
+	}
+
+	private void delete() {
+
+		DBconnect.DB();
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		Date today = new Date();
+		String date = formatter.format(today);
+		
+		Date setDate = null;
+		try {
+			setDate = formatter.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Calendar calToday = new GregorianCalendar(Locale.KOREA);
+		calToday.setTime(setDate);
+		
+		
+		// TIME테이블에서 오늘 날짜 전 데이터는 삭제
+		String selectTime = "select MOVIE_TIME_ID, TO_CHAR(MOVIE_DATE , 'YYYYMMDD') from MOVIE_TIME";
+		
+		ResultSet re = DBconnect.getResultSet(selectTime);
+		try {
+			while (re.next()) {
+
+				strMovieTimeId = re.getString(1);
+				strMovieDate = re.getString(2);
+
+				try {
+					
+					tempDate = formatter.parse(strMovieDate);
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Calendar calSelect = new GregorianCalendar(Locale.KOREA);
+				calSelect.setTime(tempDate);
+				
+				if(calToday.compareTo(calSelect) == 1) {
+
+					String del = "DELETE FROM MOVIE_TIME WHERE MOVIE_TIME_ID='" + strMovieTimeId + "'";
+					DBconnect.getupdate(del);
+				}
+				
+			}
+		} catch (SQLException e1) {
+			//e1.printStackTrace();
+		}
+		
+		
+		
+		// RESERVATION 테이블에서 오늘 날짜 전 데이터는 삭제
+		String selectReserv = "select RESERVATION_ID, TO_CHAR(MOVIE_DATE , 'YYYYMMDD') from MOVIE_RESERVATION";
+		ResultSet re1 = DBconnect.getResultSet(selectReserv);
+		try {
+			while (re1.next()) {
+
+				strReservId = re1.getString(1);
+				strReservMovieDate = re1.getString(2);
+
+				try {
+					
+					tempReservDate = formatter.parse(strReservMovieDate);
+					
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				Calendar calSelect = new GregorianCalendar(Locale.KOREA);
+				calSelect.setTime(tempReservDate);
+				
+				if(calToday.compareTo(calSelect) == 1) {
+
+					String del = "DELETE FROM MOVIE_RESERVATION WHERE RESERVATION_ID='" + strReservId + "'";
+					DBconnect.getupdate(del);
+				
+				}
+				
+			}
+		} catch (SQLException e1) {
+			//e1.printStackTrace();
+		}
+		
+
 	}
 
 	public static void main(String[] args) {
@@ -167,10 +275,10 @@ public class login extends JFrame implements ActionListener {
 			String id = tfid.getText();
 			String pw = tfpw.getText();
 
-			boolean check = controller.checkIDPW(id, pw);	// Controller에 id값 저장함
+			boolean check = controller.checkIDPW(id, pw); // Controller에 id값 저장함
 			if (check) {
 				// System.out.println("로그인 성공");
-				//new Main(this);
+				// new Main(this);
 				new UserMain();
 				this.dispose();
 
@@ -194,8 +302,6 @@ public class login extends JFrame implements ActionListener {
 		}
 
 	}
-
-
 
 	public JTextField getTfid() {
 		return tfid;

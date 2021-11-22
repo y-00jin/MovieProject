@@ -69,6 +69,8 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 	private JButton btnAdd;
 	private String strmovieId;
 	private Container c;
+	private String countNum;
+	private String insertTime;
 
 	public MovieTimeSet() {
 
@@ -77,7 +79,7 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		setTitle("INHA CINEMA");
 		setSize(900, 570);
 		setLocationRelativeTo(this); // 모니터 가운데 위치
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
+		// setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
 		setLayout(new BorderLayout());
 
 		// 타이틀 생성
@@ -140,7 +142,6 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		addpTime();
 		pCenter.add(pTime);
 
-		
 		addCheck();
 		pCenter.add(pCheck);
 	}
@@ -160,7 +161,7 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 
 		String getMovieName = controller.getMovieName();
 		lblChoiceMovieName = new JLabel(getMovieName);
-		//lblChoiceMovieName = new JLabel("냥냥냥");
+		// lblChoiceMovieName = new JLabel("냥냥냥");
 		Style.lblFont(lblChoiceMovieName, Font.PLAIN, 15);
 		pInfo.add(lblChoiceMovieName);
 
@@ -172,7 +173,7 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		dateModel = new UtilDateModel(); // 데이터모델 객체 생성
 		datePanel = new JDatePanelImpl(dateModel); // 모델 객체를 이용해 JDatePanelInterfaceimplements 객체 생성 -> 달력 생성
 		datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter()); // 생성된 달력을 텍스트필드와 ...버튼으로 나타냄 /
-		datePanel.addActionListener(this);	//달력이 선택되었을 때 액션이벤트
+		datePanel.addActionListener(this); // 달력이 선택되었을 때 액션이벤트
 		pInfo.add(datePicker);
 
 	}
@@ -199,13 +200,13 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 
 		int amX = 25;
 		arrTime = new ArrayList<JButton>();
-		for(int i=0;i<3;i++) {
+		for (int i = 0; i < 3; i++) {
 			// 오전 시간 버튼
-			btnTimeAm = new JButton( (9+i) + ":00 ~");
-			if(i == 0)
+			btnTimeAm = new JButton((9 + i) + ":00 ~");
+			if (i == 0)
 				btnTimeAm.setBounds(amX, 70, 100, 60);
 			else {
-				btnTimeAm.setBounds(amX+110, 70, 100, 60);
+				btnTimeAm.setBounds(amX + 110, 70, 100, 60);
 				amX += 110;
 			}
 			Style.btnFontStyle(btnTimeAm, Font.PLAIN, 15, 0xFFEAEA);
@@ -214,7 +215,6 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 			arrTime.add(btnTimeAm);
 		}
 
-
 		// 오후
 		lblPm = new JLabel("  |  P.M.  ");
 		lblPm.setBackground(new Color(0xF6F6F6));
@@ -222,41 +222,36 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		Style.lblFont(lblPm, Font.PLAIN, 15);
 		lblPm.setBounds(25, 160, 100, 20);
 		pTime.add(lblPm);
-		
+
 		int pmX = 25, pmX2 = 25;
 		int timeSet = 12;
 
-		for(int i=0;i<10;i++) {
+		for (int i = 0; i < 10; i++) {
 			// 오전 시간 버튼
-			if(i == 0) {
-				btnTimePm = new JButton( "12:00 ~");
+			if (i == 0) {
+				btnTimePm = new JButton("12:00 ~");
 				btnTimePm.setBounds(pmX, 200, 100, 60);
-			}
-			else if(i >0 && i<=4) {
-				btnTimePm = new JButton(( timeSet + 1 ) + ":00 ~");
-				btnTimePm.setBounds(pmX+110, 200, 100, 60);
+			} else if (i > 0 && i <= 4) {
+				btnTimePm = new JButton((timeSet + 1) + ":00 ~");
+				btnTimePm.setBounds(pmX + 110, 200, 100, 60);
 				timeSet += 1;
 				pmX += 110;
-			}
-			else if(i == 5) {
-				btnTimePm = new JButton(( timeSet +1 ) + ":00 ~");
+			} else if (i == 5) {
+				btnTimePm = new JButton((timeSet + 1) + ":00 ~");
 				btnTimePm.setBounds(pmX2, 270, 100, 60);
 				timeSet += 1;
-			}
-			else if(i ==6) {
-				btnTimePm = new JButton(( timeSet +1 ) + ":00 ~");
-				btnTimePm.setBounds(pmX2+110, 270, 100, 60);
+			} else if (i == 6) {
+				btnTimePm = new JButton((timeSet + 1) + ":00 ~");
+				btnTimePm.setBounds(pmX2 + 110, 270, 100, 60);
 				pmX2 += 110;
 				timeSet += 1;
-			}
-			else {
-				btnTimePm = new JButton(( timeSet +2 ) + ":00 ~");
-				btnTimePm.setBounds(pmX2+110, 270, 100, 60);
+			} else {
+				btnTimePm = new JButton((timeSet + 2) + ":00 ~");
+				btnTimePm.setBounds(pmX2 + 110, 270, 100, 60);
 				timeSet += 2;
 				pmX2 += 110;
 			}
-				
-			
+
 			Style.btnFontStyle(btnTimePm, Font.PLAIN, 15, 0xFFEAEA);
 			btnTimePm.addActionListener(this);
 			pTime.add(btnTimePm);
@@ -270,39 +265,37 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		pCheck.setBackground(Color.white);
 		pCheck.setBounds(20, 440, 840, 28);
 		pCheck.setLayout(new BorderLayout());
-		
+
 		pCheckInfo = new JPanel();
 		pCheckInfo.setBackground(Color.white);
 		pCheckInfo.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
+
 		lblCheckDate = new JLabel("|  선택한 날짜 : ");
 		Style.lblFont(lblCheckDate, Font.PLAIN, 15);
 		pCheckInfo.add(lblCheckDate);
-		
+
 		lblChoiceDate = new JLabel("");
 		Style.lblFont(lblChoiceDate, Font.PLAIN, 15);
 		pCheckInfo.add(lblChoiceDate);
-		
+
 		lblCheckTime = new JLabel("      |  선택한 시간 : ");
 		Style.lblFont(lblCheckTime, Font.PLAIN, 15);
 		pCheckInfo.add(lblCheckTime);
-		
+
 		lblChoiceTime = new JLabel("");
 		Style.lblFont(lblChoiceTime, Font.PLAIN, 15);
 		pCheckInfo.add(lblChoiceTime);
-		
-		
+
 		btnAdd = new JButton("   추가   ");
 		btnAdd.setForeground(Color.white);
 		btnAdd.setBackground(Color.pink);
 		Style.btnFont(btnAdd, Font.PLAIN, 15);
 		btnAdd.addActionListener(this);
-		
-		
+
 		pCheck.add(pCheckInfo, BorderLayout.WEST);
 		pCheck.add(btnAdd, BorderLayout.EAST);
 	}
-	
+
 	public static void main(String[] args) {
 		new MovieTimeSet();
 	}
@@ -310,52 +303,49 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object obj = e.getSource();
-		if(obj == btnBack) {
-			dispose();	// 창 닫기
-		}
-		else if(obj == datePanel) {
-			
+		if (obj == btnBack) {
+			dispose(); // 창 닫기
+		} else if (obj == datePanel) {
+
 			String datePattern = "yyyyMMdd"; // 데이터 포맷 형식 지정
 			dateFormatter = new SimpleDateFormat(datePattern); // 데이터 포맷 형식 지정한 객체 생성 -> 출력할 때 사용하기 위함
 			SelectedDate = (Date) datePicker.getModel().getValue(); // 달력에서 클릭된 날짜 값 가져오기
 			choiceDate = dateFormatter.format(SelectedDate);
-			
+
 			lblChoiceDate.setText(choiceDate);
-			
+
 			System.out.println("선택한 날짜 : " + choiceDate);
-		}
-		else if(obj == btnAdd) {
-			
+		} else if (obj == btnAdd) {
+
 			addInsertTime();
-			
-		}
-		else {
-			for(int i=0;i<arrTime.size();i++) {
-				if(obj == arrTime.get(i)) {
-					
+
+		} else {
+			for (int i = 0; i < arrTime.size(); i++) {
+				if (obj == arrTime.get(i)) {
+
 					String[] arrSplit = arrTime.get(i).getText().split(" ");
 					choiceTime = arrSplit[0];
-					
+
 					lblChoiceTime.setText(choiceTime);
 					System.out.println("선택한 시간 : " + choiceTime);
-					
+
 				}
 			}
 		}
 		c.requestFocus();
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			addInsertTime();
 		}
 		c.requestFocus();
@@ -364,60 +354,79 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public void addInsertTime() {
-		
-		if(lblChoiceDate.getText().equals("")) {
+
+		if (lblChoiceDate.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "날짜를 선택해 주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
-		}
-		else if(lblChoiceTime.getText().equals("")) {
+		} else if (lblChoiceTime.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "시간을 선택해 주세요.", "오류 메시지", JOptionPane.WARNING_MESSAGE);
-		}
-		else {
-			
+		} else {
+
 			String countCheck = "";
-			
+
 			// 영화 코드 검색
-			String selectMovieId = "SELECT MOVIE_ID	FROM MOVIE WHERE MOVIE_NAME = '" + lblChoiceMovieName.getText() +"'";
+			String selectMovieId = "SELECT MOVIE_ID	FROM MOVIE WHERE MOVIE_NAME = '" + lblChoiceMovieName.getText()
+					+ "'";
 			ResultSet re = DBconnect.getResultSet(selectMovieId);
-					
+
 			try {
-				while(re.next()) {
-					
+				while (re.next()) {
+
 					strmovieId = re.getString(1);
-					
+
 				}
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			String timeCheck = "SELECT COUNT(*) FROM MOVIE_TIME WHERE MOVIE_ID ='" +strmovieId+"' AND MOVIE_DATE='" + lblChoiceDate.getText() +"' AND MOVIE_TIME = '" + lblChoiceTime.getText() + "'";
+
+			String timeCheck = "SELECT COUNT(*) FROM MOVIE_TIME WHERE MOVIE_ID ='" + strmovieId + "' AND MOVIE_DATE='"
+					+ lblChoiceDate.getText() + "' AND MOVIE_TIME = '" + lblChoiceTime.getText() + "'";
 			ResultSet re1 = DBconnect.getResultSet(timeCheck);
-			
+
 			try {
-				while(re1.next()) {
+				while (re1.next()) {
 					countCheck = re1.getString(1);
 				}
 			} catch (SQLException e1) {
 
 				countCheck = "0";
 			}
-			
-			if(countCheck.equals("0")) {
-				// 시간 추가
-			String insertTime = "INSERT INTO MOVIE_TIME (MOVIE_ID, MOVIE_DATE, MOVIE_TIME) VALUES('" +strmovieId + "', '" + choiceDate +"', '" + choiceTime + "')";
-			DBconnect.getupdate(insertTime);
-			
-			JOptionPane.showMessageDialog(null, "영화 이름 : " + lblChoiceMovieName.getText() + "\n날짜 : " + lblChoiceDate.getText() +"\n시간 : " + lblChoiceTime.getText() +"\n추가되었습니다.", "확인", JOptionPane.INFORMATION_MESSAGE);
-		
-			}else {
-				JOptionPane.showMessageDialog(null, "영화 이름 : " + lblChoiceMovieName.getText() + "\n날짜 : " + lblChoiceDate.getText() +"\n시간 : " + lblChoiceTime.getText() +"\n중복된 데이터입니다.", "오류", JOptionPane.ERROR_MESSAGE);
+
+			if (countCheck.equals("0")) {
+				
+				
+				String selectCount = "SELECT COUNT(*) FROM MOVIE_TIME";
+				ResultSet rs = DBconnect.getResultSet(selectCount);
+				try {
+					while (rs.next()) {
+						countNum = rs.getString(1);
+					}
+				} catch (SQLException e1) {
+
+					countNum = "0";
+				}
+				
+				if(countNum.equals("0")) {
+					insertTime = "INSERT INTO MOVIE_TIME (MOVIE_TIME_ID, MOVIE_ID, MOVIE_DATE, MOVIE_TIME) VALUES('1', '" + strmovieId + "', '" + choiceDate + "', '" + choiceTime + "')";
+				}
+				else {
+					insertTime = "INSERT INTO MOVIE_TIME (MOVIE_TIME_ID, MOVIE_ID, MOVIE_DATE, MOVIE_TIME) VALUES('" + (Integer.parseInt(countNum)+1)  +"', '" + strmovieId + "', '" + choiceDate + "', '" + choiceTime + "')";
+				
+				}
+				
+				DBconnect.getupdate(insertTime);
+
+				JOptionPane.showMessageDialog(null, "영화 이름 : " + lblChoiceMovieName.getText() + "\n날짜 : " + lblChoiceDate.getText()+ "\n시간 : " + lblChoiceTime.getText() + "\n추가되었습니다.", "확인", JOptionPane.INFORMATION_MESSAGE);
+
+			} else {
+				JOptionPane.showMessageDialog(null, "영화 이름 : " + lblChoiceMovieName.getText() + "\n날짜 : " + lblChoiceDate.getText()+ "\n시간 : " + lblChoiceTime.getText() + "\n중복된 데이터입니다.","오류", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		
+
 	}
 
 }
