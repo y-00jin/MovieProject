@@ -31,6 +31,7 @@ import javax.swing.table.JTableHeader;
 
 import movieproject.CustomUI;
 import movieproject.controller.Controller;
+import movieproject.payment.ReservationCheck;
 import movieproject.util.Style;
 import oracle.net.aso.b;
 
@@ -334,6 +335,7 @@ public class Shop extends JFrame implements ActionListener, MouseListener {
 			System.out.println(con.getSel_time());
 			System.out.println(con.getSeat());
 			System.out.println(con.getMenu());
+			new ReservationCheck();
 		}
 		
 		if(ob == back) {
