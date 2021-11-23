@@ -292,6 +292,7 @@ public class login extends JFrame implements ActionListener {
 		if (obj == btnmanager) {
 			String managerlogin = JOptionPane.showInputDialog("관리자 핀번호를 입력하세요.");
 			if (managerlogin.equals("****")) {
+				controller.userId ="admin";
 				new AdminMain();
 				dispose();
 			} else {

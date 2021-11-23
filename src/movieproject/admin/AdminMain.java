@@ -126,7 +126,7 @@ public class AdminMain extends JFrame implements ActionListener{
 				new MovieTimeManage();
 			}
 			if(obj == arrBtnProfile.get(3)) {	// 주문 확인
-				
+				new OrderCheck();
 			}
 		}
 		
