@@ -29,7 +29,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import movieproject.DBconnect;
-import movieproject.admin.Admin;
 import movieproject.admin.AdminMain;
 import movieproject.controller.Controller;
 import movieproject.movie.Main;

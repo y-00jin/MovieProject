@@ -30,7 +30,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import movieproject.DBconnect;
-import movieproject.payment.Payment;
 import movieproject.util.DateLabelFormatter;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -370,7 +369,6 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 //			System.out.println(info.get(4));
 //			System.out.println(info.get(5));
 //			System.out.println(info.get(6));
-			new Payment("결제 ", 450, 600, this);
 		}	
 	}
 	@Override

@@ -26,7 +26,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import movieproject.DBconnect;
-import movieproject.admin.Admin;
 import movieproject.util.Style;
 
 public class MovieJoin extends JFrame implements MouseListener, ActionListener { // 회원가입
