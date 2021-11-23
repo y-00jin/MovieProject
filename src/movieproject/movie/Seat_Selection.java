@@ -80,7 +80,20 @@ public class Seat_Selection extends JFrame implements MouseListener, ActionListe
 		setVisible(true);
 	}
 	private void seatcheck() {
-		String t = "A1, A2, A3, A4, A5";
+		String t = new String();
+		String sql2 = "SELECT SEAT FROM MOVIE_RESERVATION mr "
+				+ "WHERE mr.MOVIE_NAME = '"+ con.getMovieName() +"' "
+				+ "AND mr.MOVIE_DATE = '"+ con.getSel_date() + "' "
+				+ "AND mr.MOVIE_TIME = '" + con.getSel_time() + "'";
+		System.out.println(sql2);
+		ResultSet r = DBconnect.getResultSet(sql2);
+		try {
+			while(r.next()) {
+				t = r.getString(1);
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		String seat_temp[] = t.split(",");
 		String temp = "";
 		for(int i = 0; i < seat_temp.length; i++) {
@@ -169,8 +182,8 @@ public class Seat_Selection extends JFrame implements MouseListener, ActionListe
 		movie_name.setBounds(10, 310, 320, 30);
 		movie_name.setHorizontalAlignment(JLabel.CENTER);
 		
-		con.sel_date = "20211122";
-		con.sel_time = "14:00";
+//		con.sel_date = "20211122";
+//		con.sel_time = "14:00";
 		
 		JLabel movie_date = new JLabel("날짜   " +con.sel_date);
 		movie_date.setFont(new Font("배달의민족 도현", Font.PLAIN, 15));
@@ -203,7 +216,7 @@ public class Seat_Selection extends JFrame implements MouseListener, ActionListe
 	}	
 
 	private void addposter() {
-		con.setMovieName("귀멸의 칼날: 남매의 연");
+//		con.setMovieName("귀멸의 칼날: 남매의 연");
 		String postersql = "select url from MOVIE where movie_name = '" + con.getMovieName() + "'";
 		ResultSet re = DBconnect.getResultSet(postersql);
 		try {
@@ -300,6 +313,11 @@ public class Seat_Selection extends JFrame implements MouseListener, ActionListe
 			}
 			save = save.substring(0, save.length()-2);
 			System.out.println(save);
+			con.setSeat(save);
+			new Shop();
+		}
+		if(ob == back) {
+			dispose();
 		}
 	}
 	@Override

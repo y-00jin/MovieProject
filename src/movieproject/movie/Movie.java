@@ -138,10 +138,8 @@ public class Movie extends JFrame implements MouseListener, ActionListener, List
 	      
 	      scroll = new JScrollPane(table);
 	      
-	      String sql = "SELECT DISTINCT m.MOVIE_NAME, "
-	              + "m.MOVIE_GENRE, "
-	              + "m.MOVIE_LIMIT, "
-	              + "m.RUNNINGTIME FROM MOVIE m";
+	      String sql = "SELECT DISTINCT m.MOVIE_NAME, m.MOVIE_GENRE, m.MOVIE_LIMIT, m.RUNNINGTIME "
+	      		+ "FROM MOVIE m, MOVIE_TIME mt WHERE m.MOVIE_ID = mt.MOVIE_ID";
 	      
 	      ResultSet re = DBconnect.getResultSet(sql);
 	      try {

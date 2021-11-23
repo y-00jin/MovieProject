@@ -13,10 +13,10 @@ public class Controller {
 	public String movieName = "";
 	public String sel_date = "";
 	public String sel_time = "";
-	public String peopleNum ="";
-	public String seat ="";
+	public String peopleNum = "";
+	public String seat = "";
 	public String menu = "";
-	
+
 	private Controller() {
 		// clientSocket = new ClientSocket(); 클라이언트 소켓 (나중에 추가해야함)
 
@@ -29,6 +29,7 @@ public class Controller {
 
 	/***
 	 * 로그인
+	 * 
 	 * @param id
 	 * @param pw
 	 * @return
@@ -55,6 +56,7 @@ public class Controller {
 
 	/**
 	 * id 리턴
+	 * 
 	 * @return
 	 */
 	public String getUserId() {
@@ -63,17 +65,18 @@ public class Controller {
 
 	/**
 	 * id로 이름, 전화번호 찾아 리턴
+	 * 
 	 * @param id
 	 */
 	public ArrayList<String> findInfo(String id) {
 		ArrayList<String> arrUserInfo = new ArrayList<>();
-		
+
 		String selectUser = "SELECT NAME, PHONE FROM MOVIE_MEMBER WHERE ID = " + id;
 		ResultSet rs = DBconnect.getResultSet(selectUser);
 
 		try {
 			while (rs.next()) {
-				
+
 			}
 		} catch (SQLException e1) {
 			System.out.println("사용자 찾기 오류");
@@ -106,6 +109,21 @@ public class Controller {
 	public void setSel_time(String sel_time) {
 		this.sel_time = sel_time;
 	}
-	
+
+	public String getSeat() {
+		return seat;
+	}
+
+	public void setSeat(String seat) {
+		this.seat = seat;
+	}
+
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}
 	
 }

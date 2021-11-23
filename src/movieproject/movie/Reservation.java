@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.ResultSet;
@@ -26,7 +28,7 @@ import javax.swing.table.JTableHeader;
 import movieproject.DBconnect;
 import movieproject.controller.Controller;
 
-public class Reservation extends JFrame implements ActionListener{
+public class Reservation extends JFrame implements ActionListener, MouseListener{
 //	나이트 오브 더 데이 오브 더 돈 오브 더 손 오브 더 브라이드
 //	private String[] str = {"2021-11-20","2021-11-21","2021-11-23","2021-11-24","2021-11-25","2021-11-26","2021-11-27"};
 	private JPanel main_panel;
@@ -70,6 +72,7 @@ public class Reservation extends JFrame implements ActionListener{
 		next.setForeground(Color.black);
 		next.setBackground(Color.white);
 		next.setBounds(630, 425, 80, 30);
+		next.addActionListener(this);
 		
 		main_panel.add(back);
 		main_panel.add(next);
@@ -89,6 +92,7 @@ public class Reservation extends JFrame implements ActionListener{
 	      table = new JTable(model);
 	      table.getTableHeader().setReorderingAllowed(false);
 	      table.setBackground(Color.white);
+	      table.addMouseListener(this);
 	      JTableHeader hd = table.getTableHeader();
 		   
 	      hd.setBackground(Color.pink);
@@ -100,11 +104,11 @@ public class Reservation extends JFrame implements ActionListener{
 	      main_panel.add(table_panal);
 	}
 	private void addmovie_infor() {
-		con.setSel_date("20211123");
-		con.setSel_time("14:00");
+//		con.setSel_date("20211123");
+//		con.setSel_time("14:00");
 //		JLabel movie_name = new JLabel("나이트 오브 더 데이 오브 더 돈 오브 더 손 오브 더 브라이드");
-		movie_name = new JLabel("귀멸의 칼날: 남매의 연");
-//		JLabel movie_name = new JLabel(con.getMovieName());
+//		movie_name = new JLabel("귀멸의 칼날: 남매의 연");
+		JLabel movie_name = new JLabel(con.getMovieName());
 		movie_name.setFont(new Font("배달의민족 도현", Font.ITALIC, 15));
 		movie_name.setBounds(50, 55, 350, 30);
 		movie_name.setHorizontalAlignment(JLabel.RIGHT);
@@ -116,7 +120,6 @@ public class Reservation extends JFrame implements ActionListener{
 		String formatedNow = now.format(formatter);
 //		System.out.println(formatedNow); 
 	
-		
 		Vector<String> list = new Vector<String>();
 		try {
 			String sql = "SELECT DISTINCT(mt.MOVIE_DATE) FROM MOVIE_TIME mt, MOVIE m WHERE mt.MOVIE_ID = m.MOVIE_ID AND m.MOVIE_NAME = '"+ movie_name.getText() +"'"
@@ -124,7 +127,7 @@ public class Reservation extends JFrame implements ActionListener{
 			ResultSet re = DBconnect.getResultSet(sql);
 			while(re.next()) {
 				temp = re.getString(1);
-				String date = temp.substring(0, 4) + "-" + temp.substring(4, 6) + "-" + temp.substring(6, 8);
+				String date = temp.substring(0, 10);
 				System.out.println(date);
 				Date date1 = dateFormat.parse(formatedNow);
 	            Date date2 = dateFormat.parse(date);
@@ -165,15 +168,14 @@ public class Reservation extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
 		if(ob == movie_time) {
-			con.setSel_date(movie_time.getSelectedItem().toString().replace("-", ""));
+			con.setSel_date(movie_time.getSelectedItem().toString());
 			model.setNumRows(0);
 			System.out.println("1");
 			Vector<String> time = new Vector<String>();
 			Vector<String> run_time = new Vector<String>();
 			Vector<String> seat = new Vector<String>();
-			System.out.println(con.getSel_date());
 			String sql = "SELECT mt.MOVIE_DATE, mt.MOVIE_TIME, m.RUNNINGTIME FROM MOVIE_TIME mt, MOVIE m WHERE mt.MOVIE_ID = m.MOVIE_ID "
-					+ "AND m.MOVIE_NAME = '"+ movie_name.getText() +"' "
+					+ "AND m.MOVIE_NAME = '"+ con.getMovieName() +"' "
 					+ "AND mt.MOVIE_DATE = '"+ con.getSel_date() +"'"
 					+ "ORDER BY MOVIE_DATE";
 			System.out.println(sql);
@@ -191,9 +193,10 @@ public class Reservation extends JFrame implements ActionListener{
 			for(int i = 0; i < time.size(); i++) {
 				int len = 75;
 				String sql2 = "SELECT SEAT FROM MOVIE_RESERVATION mr "
-						+ "WHERE mr.MOVIE_NAME = '"+ movie_name.getText() +"' "
-						+ "AND mr.\"DATE\" = '"+ con.getSel_date() + "' "
-						+ "AND mr.\"TIME\" = '" + time.get(i) + "'";
+						+ "WHERE mr.MOVIE_NAME = '"+ con.getMovieName() +"' "
+						+ "AND mr.MOVIE_DATE = '"+ con.getSel_date() + "' "
+						+ "AND mr.MOVIE_TIME = '" + time.get(i) + "'";
+				System.out.println(sql2);
 				ResultSet r = DBconnect.getResultSet(sql2);
 				try {
 					while(r.next()) {
@@ -207,13 +210,48 @@ public class Reservation extends JFrame implements ActionListener{
 				String[] str = {time.get(i) , run_time.get(i), seat.get(i)};
 				model.addRow(str);
 			}
-			
-			
 //			model.addRow(str);
 		}
 		if(ob == back) {
 			dispose();
 		}
+		if(ob == next) {
+			System.out.println("next");
+			new Seat_Selection();
+		}
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		Object ob = e.getSource();
+		if(ob == table) {
+			int row = table.getSelectedRow();
+	        int col = table.getSelectedColumn();
+	        Object v = table.getValueAt(row, 0);
+	        String ti = v.toString();
+//	        System.out.println(ti);
+			con.setSel_time(ti);
+			System.out.println(con.getSel_time());
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }
