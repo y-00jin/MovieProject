@@ -50,7 +50,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 	private String strDate;
 	private String strTime;
 	private String strSeat;
-	private String strFood;
+	private String strMenu;
 	private JPanel pFoodTable;
 	private JPanel pTable;
 	private Vector<String> returnColumn;
@@ -64,11 +64,30 @@ public class ReservationCheck extends JFrame implements ActionListener {
 	private JButton btnPayment;
 	private JButton btnReset;
 	private JLabel lblMenu;
+	private String strPeopleNum;
+	private String countNum;
+	private String insertReserv;
+	private String countCheck;
 
 	public ReservationCheck() {
-
+		DBconnect.DB();
 		controller = Controller.getInstance();
 		userId = controller.getUserId();
+		strMovieName = controller.movieName;
+		strDate = controller.sel_date;
+		strTime = controller.sel_time;
+		strPeopleNum = controller.peopleNum;
+		strSeat = controller.seat;
+		strMenu = controller.menu;
+
+		// 일단 데이터 우겨넣기
+		userId = "a";
+		strMovieName = "귀멸의 칼날: 남매의 연";
+		strDate = "20211130";
+		strTime = "14:00";
+		strPeopleNum = "2";
+		strSeat = "A1,A2,A3";
+		strMenu = "팝콘:1:8500,츄러스:1:2000";
 
 		setTitle("INHA CINEMA");
 		setSize(820, 480);
@@ -88,7 +107,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 //		lblReservCheck.setBounds(20, 60, 200, 20);
 //		pMain.add(lblReservCheck);
 
-		SelectReservation();
+		// SelectReservation();
 
 		// 예매 정보 확인
 		pInfo = new JPanel();
@@ -175,11 +194,11 @@ public class ReservationCheck extends JFrame implements ActionListener {
 
 		table = new JTable(model); // 테이블에 추가
 
-		System.out.println("strFood : " + strFood);
-		if (strFood == null) {
+		System.out.println("strFood : " + strMenu);
+		if (strMenu == null) {
 
 		} else {
-			String[] arrMenu = strFood.split(",");
+			String[] arrMenu = strMenu.split(",");
 			for (int i = 0; i < arrMenu.length; i++) {
 
 				String[] arrCount = new String[3];
@@ -268,29 +287,29 @@ public class ReservationCheck extends JFrame implements ActionListener {
 
 	}
 
-	private void SelectReservation() {
-
-		DBconnect.DB();
-		userId = "a";
-		String selectReservation = "select * from MOVIE_RESERVATION where id = '" + userId + "'";
-
-		ResultSet re = DBconnect.getResultSet(selectReservation);
-		try {
-			while (re.next()) {
-
-				strMovieName = re.getString(3);
-				strDate = re.getString(4);
-				strTime = re.getString(5);
-				strSeat = re.getString(6);
-				strFood = re.getString(7);
-
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-	}
+//	private void SelectReservation() {
+//
+//		DBconnect.DB();
+//		userId = "a";
+//		String selectReservation = "select * from MOVIE_RESERVATION where id = '" + userId + "'";
+//
+//		ResultSet re = DBconnect.getResultSet(selectReservation);
+//		try {
+//			while (re.next()) {
+//
+//				strMovieName = re.getString(3);
+//				strDate = re.getString(4);
+//				strTime = re.getString(5);
+//				strSeat = re.getString(6);
+//				strFood = re.getString(7);
+//
+//			}
+//		} catch (SQLException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//
+//	}
 
 	private void addPTitle() {
 
@@ -322,7 +341,8 @@ public class ReservationCheck extends JFrame implements ActionListener {
 			int paymentResult = JOptionPane.showConfirmDialog(null, "결제하시겠습니까?", "결제 확인", JOptionPane.OK_CANCEL_OPTION);
 
 			if (paymentResult == 0) {
-				JOptionPane.showMessageDialog(null, "결제가 완료되었습니다.", "결제 완료", JOptionPane.INFORMATION_MESSAGE);
+				insertReservation();
+
 				new ReservationInfo();
 				dispose();
 			}
@@ -336,6 +356,56 @@ public class ReservationCheck extends JFrame implements ActionListener {
 				new Movie();
 				dispose();
 			}
+		}
+
+	}
+
+	private void insertReservation() {
+
+		String reservCheck = "SELECT COUNT(*) FROM MOVIE_RESERVATION WHERE ID='" + userId + "' AND MOVIE_NAME='" + strMovieName + "' AND MOVIE_DATE='" + strDate + "' AND MOVIE_TIME='" + strTime + "' AND SEAT='" + strSeat+ "' AND FOOD='" + strMenu + "'";
+		ResultSet re = DBconnect.getResultSet(reservCheck);
+		
+		System.out.println(reservCheck);
+		try {
+			while (re.next()) {
+				countCheck = re.getString(1);
+			}
+		} catch (SQLException e1) {
+
+			countCheck = "0";
+		}
+
+		if (countCheck.equals("0")) {
+			
+			String reservCount = "select COUNT(*) from MOVIE_RESERVATION";
+			ResultSet rs = DBconnect.getResultSet(reservCount);
+			try {
+				while (rs.next()) {
+					countNum = rs.getString(1);
+					System.out.println(countNum);
+				}
+			} catch (SQLException e1) {
+
+				countNum = "0";
+			}
+
+			if (countNum.equals("0")) {
+
+				insertReserv = "INSERT INTO MOVIE_RESERVATION (RESERVATION_ID, ID, MOVIE_NAME, MOVIE_DATE, MOVIE_TIME, SEAT, FOOD) VALUES('1', '" + userId + "', '" + strMovieName + "', '" + strDate + "', '" + strTime + "', '" + strSeat+ "', '" + strMenu + "')";
+
+				
+				
+			} else {
+				insertReserv = "INSERT INTO MOVIE_RESERVATION (RESERVATION_ID, ID, MOVIE_NAME, MOVIE_DATE, MOVIE_TIME, SEAT, FOOD) VALUES('"+ (Integer.parseInt(countNum)+1) + "', '" + userId + "', '" + strMovieName + "', '" + strDate + "', '" + strTime+ "', '" + strSeat + "', '" + strMenu + "')";
+
+			}
+
+			DBconnect.getupdate(insertReserv);
+			JOptionPane.showMessageDialog(null, "결제가 완료되었습니다.", "결제 완료", JOptionPane.INFORMATION_MESSAGE);
+			
+		}else {
+			JOptionPane.showMessageDialog(null, "이미 예약한 영화입니다.\n결제가 취소됩니다.","오류", JOptionPane.ERROR_MESSAGE);
+			
 		}
 
 	}

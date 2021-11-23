@@ -13,7 +13,10 @@ public class Controller {
 	public String movieName = "";
 	public String sel_date = "";
 	public String sel_time = "";
-
+	public String peopleNum ="";
+	public String seat ="";
+	public String menu = "";
+	
 	private Controller() {
 		// clientSocket = new ClientSocket(); 클라이언트 소켓 (나중에 추가해야함)
 
