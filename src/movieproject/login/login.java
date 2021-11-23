@@ -210,7 +210,7 @@ public class login extends JFrame implements ActionListener {
 				
 				if(calToday.compareTo(calSelect) == 1) {
 
-					String del = "DELETE FROM MOVIE_TIME WHERE MOVIE_TIME_ID='" + strMovieTimeId + "'";
+					String del = "DELETE FROM MOVIE_TIME WHERE MOVIE_TIME_ID='" + strMovieTimeId + "' AND MOVIE_DATE ='"+ strMovieDate + "'";
 					DBconnect.getupdate(del);
 				}
 				
@@ -244,7 +244,7 @@ public class login extends JFrame implements ActionListener {
 				
 				if(calToday.compareTo(calSelect) == 1) {
 
-					String del = "DELETE FROM MOVIE_RESERVATION WHERE RESERVATION_ID='" + strReservId + "'";
+					String del = "DELETE FROM MOVIE_RESERVATION WHERE RESERVATION_ID='" + strReservId + "' AND MOVIE_DATE ='"+ strReservMovieDate +"'";
 					DBconnect.getupdate(del);
 				
 				}
