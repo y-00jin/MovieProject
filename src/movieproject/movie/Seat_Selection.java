@@ -54,7 +54,7 @@ public class Seat_Selection extends JFrame implements MouseListener, ActionListe
 		setTitle("INHA CINEMA");
 		setSize(1100, 600);
 		setLocationRelativeTo(this); // 모니터 가운데 위치
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
 
 		main_panel = new JPanel();
 		// main_panel = new JPanel();

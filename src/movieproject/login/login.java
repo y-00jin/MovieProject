@@ -65,7 +65,7 @@ public class login extends JFrame implements ActionListener {
 		setSize(1000, 700);
 //		setLocation(800, 300);
 		setLocationRelativeTo(this); // 모니터 가운데 위치
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
 
 		// 전체
 		setLayout(new BorderLayout());

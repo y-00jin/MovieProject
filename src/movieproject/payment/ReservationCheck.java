@@ -81,18 +81,18 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		strMenu = controller.menu;
 
 		// 일단 데이터 우겨넣기
-		userId = "a";
-		strMovieName = "귀멸의 칼날: 남매의 연";
-		strDate = "20211130";
-		strTime = "14:00";
-		strPeopleNum = "2";
-		strSeat = "A1,A2,A3";
-		strMenu = "팝콘:1:8500,츄러스:1:2000";
+//		userId = "a";
+//		strMovieName = "귀멸의 칼날: 남매의 연";
+//		strDate = "20211130";
+//		strTime = "14:00";
+//		strPeopleNum = "2";
+//		strSeat = "A1,A2,A3";
+//		strMenu = "팝콘:1:8500,츄러스:1:2000";
 
 		setTitle("INHA CINEMA");
 		setSize(820, 480);
 		setLocationRelativeTo(this); // 모니터 가운데 위치
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
 
 		pMain = new JPanel();
 		pMain.setBackground(Color.white);

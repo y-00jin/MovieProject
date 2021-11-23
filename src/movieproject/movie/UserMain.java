@@ -37,7 +37,7 @@ public class UserMain extends JFrame implements ActionListener{
 		setTitle("INHA CINEMA");
 		setSize(900, 600);
 		setLocationRelativeTo(this); //모니터 가운데 위치
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //창에서 닫기 버튼 누르면 콘솔 종료
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //창에서 닫기 버튼 누르면 콘솔 종료
 		
 		// 메인 패널 생성
 		pMain = new JPanel();
