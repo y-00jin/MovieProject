@@ -46,7 +46,6 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 	Font font1 = new Font("맑은 고딕", Font.PLAIN, 23);
 	private JPanel main;
 	private JButton tiketing;
-	private Main movie;
 	private JComboBox<String> time;
 	private JTextField tf;
 	private UtilDateModel model;
@@ -56,8 +55,7 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 	private String tt;
 	private Vector<String> info = new Vector<String>();
 	private String date;
-	public SeatSelection(String Title, int width, int height, Main movie) {
-		this.movie = movie;
+	public SeatSelection(String Title, int width, int height) {
 		this.setTitle(Title);
 		setSize(width, height);
 		// setLocation(900, 400);
@@ -198,7 +196,7 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 		String checkC[] = null;
 		try {
 			String sql = "SELECT A , B , C FROM SEAT s WHERE "
-					+ "MOVIE_NAME = '" + movie.getTi().toString() + "' AND "
+					+ "MOVIE_NAME = '" + "' AND "
 				    + "MOVIE_TIME = '" + s + "'";
 			ResultSet re = DBconnect.getResultSet(sql);
 //			System.out.println(sql);
@@ -274,7 +272,6 @@ public class SeatSelection extends JFrame implements MouseListener, ActionListen
 
 	public static void main(String[] args) {
 //		DBconnect.DB();
-		new SeatSelection("좌석선택", 800, 520, null);
 		//DBconnect.DB();
 		//new Main("메인화면", 900, 600);
 	}

@@ -31,7 +31,6 @@ import javax.swing.border.EmptyBorder;
 import movieproject.DBconnect;
 import movieproject.admin.AdminMain;
 import movieproject.controller.Controller;
-import movieproject.movie.Main;
 import movieproject.movie.UserMain;
 
 public class login extends JFrame implements ActionListener {

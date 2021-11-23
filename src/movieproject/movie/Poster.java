@@ -19,13 +19,11 @@ import javax.swing.JPanel;
 
 public class Poster extends JFrame {
 
-	private Main main;	
 	private JLabel pos = new JLabel();
 	private ImageIcon img;
 
 	private JPanel m = new JPanel();
-	public Poster(String Title, int width, int height, Main main) {
-		this.main = main;
+	public Poster(String Title, int width, int height) {
 		this.setTitle(Title);
 		setSize(width, height);
 		setLocation(112, 100);

@@ -43,7 +43,7 @@ public class MemberModify extends JFrame implements ActionListener {
 	public ImageIcon img;
 
 	public static Connection conn;
-	private Main log;
+
 	private Font tfFont;
 	private Style style = new Style();
 	private String  uName="", uPhone="";
