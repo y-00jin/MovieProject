@@ -47,6 +47,7 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 	private JTable mtable;
 	private String sel_ID = "";
 	private String time = "";
+	private JButton btnReset;
 	
 	public OrderCheck() {
 		
@@ -113,8 +114,14 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 		StyleSet.btnFontStyle(btnOk, Font.PLAIN, 15, 0xFFEAEA);
 		btnOk.addActionListener(this);
 		btnOk.setBounds(40, 450, 100, 30);
-
 		pMain.add(btnOk);
+		
+		btnReset = new JButton("새로고침");
+		StyleSet.btnFontStyle(btnReset, Font.PLAIN, 15, 0xFFEAEA);
+		btnReset.addActionListener(this);
+		btnReset.setBounds(150, 450, 100, 30);
+
+		pMain.add(btnReset);
 	}
 
 	private void addTable() {
@@ -139,17 +146,14 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 
 		table = new JTable(model); // 테이블에 추가
 
-		// 데이터 서버로부터 받아야함.
 		String[] reArr = new String[3];
 		
 		long now = System.currentTimeMillis();
 		SimpleDateFormat timeformeat = new SimpleDateFormat("yyyy-MM-dd");
 		String date = timeformeat.format(now);
-//		System.out.println("Date : " + date);
 		
 		String str = "select * from MOVIE_RESERVATION where MOVIE_DATE = '"+ date +"' AND STATE != 'true' ORDER BY MOVIE_TIME";
 		ResultSet rs = DBconnect.getResultSet(str);
-//		System.out.println(str);
 		try {
 			while(rs.next()) {
 				reArr[0] = rs.getString(2);
@@ -161,28 +165,6 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-//		for (int i = 0; i < 3; i++) {
-//			if(i==0) {
-//				reArr[0] = "a";
-//				reArr[1] = "팝콘:1:8500,츄러스:3:6000";
-//				reArr[2] = "20211122 13:00";
-//				model.addRow(reArr);
-//			}
-//			else if(i==1) {
-//				reArr[0] = "b";
-//				reArr[1] = "콜라:2:1500";
-//				reArr[2] = "20211122 14:00";
-//				model.addRow(reArr);
-//			}
-//			else {
-//				reArr[0] = "c";
-//				reArr[1] = "나쵸:1:7500,사이다:1:1500";
-//				reArr[2] = "20211122 15:00";
-//				model.addRow(reArr);
-//			}
-//			
-//		}
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(50);
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);
@@ -255,6 +237,21 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 
 	}
 
+	
+	public void reTable() {
+		getpTable().removeAll();
+		addTable();
+		getpTable().revalidate(); // 레이아웃 변화 재확인
+		getpTable().repaint(); // 레이아웃 다시 가져오기
+	}
+	
+
+	
+	public JPanel getpTable() {
+		return pTable;
+	}
+
+
 	public static void main(String[] args) {
 		new OrderCheck();
 	}
@@ -271,6 +268,13 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 			System.out.println(str);
 			DBconnect.getupdate(str);
 			reTableDetails();
+		}
+		else if(ob == btnBack) {
+			dispose();
+		}
+		else if(ob == btnReset) {
+			reTable();
+			modelDetails.setNumRows(0);
 		}
 
 	}
@@ -295,6 +299,7 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 			System.out.println(clickMenu);
 			reTableDetails();
 		}
+	
 
 	}
 
