@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -20,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
+import movieproject.DBconnect;
 import movieproject.util.StyleSet;
 
 public class OrderCheck extends JFrame implements ActionListener, MouseListener {
@@ -41,10 +45,14 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 	private JLabel lblDetails;
 	private String clickMenu = "";
 	private JTable mtable;
-
+	private String sel_ID = "";
+	private String time = "";
+	
 	public OrderCheck() {
-
+		
 		setTitle("INHA CINEMA");
+		
+		DBconnect.DB();
 		setSize(900, 545);
 		setLocationRelativeTo(this); // 모니터 가운데 위치
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 창에서 닫기 버튼 누르면 콘솔 종료
@@ -100,7 +108,7 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 		StyleSet.lblFont(lblOrder, Font.PLAIN, 18);
 		lblOrder.setBounds(40, 90, 100, 20);
 		pMain.add(lblOrder);
-
+		
 		btnOk = new JButton("완료");
 		StyleSet.btnFontStyle(btnOk, Font.PLAIN, 15, 0xFFEAEA);
 		btnOk.addActionListener(this);
@@ -110,7 +118,7 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 	}
 
 	private void addTable() {
-
+		
 		pTable = new JPanel();
 		pTable.setLayout(new BorderLayout());
 		pTable.setBounds(40, 130, 400, 300);
@@ -134,30 +142,47 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 		// 데이터 서버로부터 받아야함.
 		String[] reArr = new String[3];
 		
+		long now = System.currentTimeMillis();
+		SimpleDateFormat timeformeat = new SimpleDateFormat("yyyy-MM-dd");
+		String date = timeformeat.format(now);
+//		System.out.println("Date : " + date);
 		
-		
-		
-		for (int i = 0; i < 3; i++) {
-			if(i==0) {
-				reArr[0] = "a";
-				reArr[1] = "팝콘:1:8500,츄러스:3:6000";
-				reArr[2] = "20211122 13:00";
+		String str = "select * from MOVIE_RESERVATION where MOVIE_DATE = '"+ date +"' AND STATE != 'true' ORDER BY MOVIE_TIME";
+		ResultSet rs = DBconnect.getResultSet(str);
+//		System.out.println(str);
+		try {
+			while(rs.next()) {
+				reArr[0] = rs.getString(2);
+				reArr[1] = rs.getString(7);
+				reArr[2] = rs.getString(4).substring(0, 10) + " " + rs.getString(5);
+				
 				model.addRow(reArr);
 			}
-			else if(i==1) {
-				reArr[0] = "b";
-				reArr[1] = "콜라:2:1500";
-				reArr[2] = "20211122 14:00";
-				model.addRow(reArr);
-			}
-			else {
-				reArr[0] = "c";
-				reArr[1] = "나쵸:1:7500,사이다:1:1500";
-				reArr[2] = "20211122 15:00";
-				model.addRow(reArr);
-			}
-			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		
+//		for (int i = 0; i < 3; i++) {
+//			if(i==0) {
+//				reArr[0] = "a";
+//				reArr[1] = "팝콘:1:8500,츄러스:3:6000";
+//				reArr[2] = "20211122 13:00";
+//				model.addRow(reArr);
+//			}
+//			else if(i==1) {
+//				reArr[0] = "b";
+//				reArr[1] = "콜라:2:1500";
+//				reArr[2] = "20211122 14:00";
+//				model.addRow(reArr);
+//			}
+//			else {
+//				reArr[0] = "c";
+//				reArr[1] = "나쵸:1:7500,사이다:1:1500";
+//				reArr[2] = "20211122 15:00";
+//				model.addRow(reArr);
+//			}
+//			
+//		}
 
 		table.getColumnModel().getColumn(0).setPreferredWidth(50);
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);
@@ -236,7 +261,17 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		Object ob = e.getSource();
+		if(ob == btnOk) {
+			String str = "update MOVIE_RESERVATION set STATE = 'true' where "
+					+ "ID = '"+ sel_ID +"' and "
+					+ "FOOD = '"+ clickMenu +"' and "
+					+ "MOVIE_DATE = '"+ time.substring(0, 10) +"' and "
+					+ "MOVIE_TIME = '"+ time.substring(11, time.length()) +"' ";
+			System.out.println(str);
+			DBconnect.getupdate(str);
+			reTableDetails();
+		}
 
 	}
 
@@ -252,8 +287,12 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 
 			TableModel data = table.getModel();
 			// System.out.println(row);
-
+			
+			
+			sel_ID = (String) data.getValueAt(row, 0);
 			clickMenu = (String) data.getValueAt(row, 1);
+			time = (String) data.getValueAt(row, 2);
+			System.out.println(clickMenu);
 			reTableDetails();
 		}
 
