@@ -121,7 +121,7 @@ public class UserMain extends JFrame implements ActionListener{
 				new Movie();
 			}
 			if(obj == arrBtnProfile.get(1)) {	// 먹거리 주문
-				
+				new Chat();
 			}
 			if(obj == arrBtnProfile.get(2)) {	// 예매 정보 확인
 				new ReservationInfo();

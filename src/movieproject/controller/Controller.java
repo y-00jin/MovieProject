@@ -17,6 +17,8 @@ public class Controller {
 	public String seat = "";
 	public String menu = "";
 
+	public String show_movie_name = "";
+
 	private Controller() {
 		// clientSocket = new ClientSocket(); 클라이언트 소켓 (나중에 추가해야함)
 
