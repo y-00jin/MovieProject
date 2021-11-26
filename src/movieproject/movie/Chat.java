@@ -10,24 +10,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleContext;
 
 import movieproject.controller.Controller;
 import movieproject.util.BtnStyle;
+import movieproject.util.Emoji;
 import movieproject.util.Style;
 
 public class Chat extends JFrame implements ActionListener, KeyListener{
@@ -145,6 +150,7 @@ public class Chat extends JFrame implements ActionListener, KeyListener{
 		movie_name = new JComboBox<String>(list);
 		movie_name.setBackground(Color.white);
 		movie_name.setFocusable(false);
+		movie_name.addActionListener(this);
 		
 		main_panel.add(movie_name);
 	}
@@ -192,7 +198,7 @@ public class Chat extends JFrame implements ActionListener, KeyListener{
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);
-//		btnBack.addActionListener(this);
+		btnBack.addActionListener(this);
 		
 		pTitle.add(btnBack, BorderLayout.EAST);
 		main_panel.add(pTitle);
@@ -202,8 +208,33 @@ public class Chat extends JFrame implements ActionListener, KeyListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		Object ob = e.getSource();
+		if(ob == btnBack) {
+			dispose();
+		}
+		if(ob == movie_name) {
+			controller.show_movie_name = movie_name.getSelectedItem().toString();
+			System.out.println(controller.show_movie_name);
+			
+		}
+		if(ob == btnEmoji) {
+			Emoji emoji = new Emoji(this);
+			taWriteMsg.requestFocus(true);	// 포커스를 메시지 입력 창으로
+		}
+		if(ob == btnFile) {
+			JFileChooser chooser = new JFileChooser();	// 파일 선택
+			FileNameExtensionFilter fiter = new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif", "png");	// 필터 지정
+			chooser.setFileFilter(fiter);	//필터 설정해줌
+
+			int ret = chooser.showOpenDialog(null);	//다이얼로그
+			if (ret != JFileChooser.APPROVE_OPTION) {	//취소버튼이나 강제로 닫았을 경우
+				JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다.", "경고", JOptionPane.WARNING_MESSAGE);	
+			} else {
+				File file = chooser.getSelectedFile();	// 선택한 파일 정보
+				taWriteMsg.setText(file.toString());	// 메시지 입력창에 추가
+			}
+			taWriteMsg.requestFocus(true);	// 포커스를 메시지 입력 창으로
+		}
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -217,7 +248,17 @@ public class Chat extends JFrame implements ActionListener, KeyListener{
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		int keyCode = e.getKeyCode();
+		if (keyCode == KeyEvent.VK_ENTER) {	// 엔터 키 눌렸을 때
+			if (taWriteMsg.getText().equals("")) {
+
+			} else {
+				taWriteMsg.setText(taWriteMsg.getText().trim());
+//				MessageSend();	//메시지 전송
+			}
+		}
+	}
+	public JTextArea getTaWriteMsg() {
+		return taWriteMsg;
 	}
 }

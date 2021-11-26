@@ -197,7 +197,6 @@ public class Movie extends JFrame implements MouseListener, ActionListener, List
 	
 	
 	public static void main(String[] args) {
-		
 		new Movie();
 	}
 	@Override
