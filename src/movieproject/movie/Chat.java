@@ -12,8 +12,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -38,6 +44,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import movieproject.DBconnect;
 import movieproject.controller.Controller;
 import movieproject.server.datacommunication.Message;
 import movieproject.util.AlignEnum;
@@ -74,13 +81,13 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 
 	public Chat() {
 		controller = Controller.getInstance();
-
+		DBconnect.DB();
 		//controller.userId = "a";
 		controller.show_movie_name = "귀멸의 칼날";
 
 		userName = controller.getUserId(); // 로그인 한 이름 저장
 		setTitle("XD Talk");
-		setSize(600, 590);
+		setSize(900, 590);
 		setLocationRelativeTo(this);
 
 		main_panel = new JPanel();
@@ -93,10 +100,10 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 		moviename();
 		show_bottom();
 
-		pChat.setBounds(0, 50, 588, 380);
-		movie_name.setBounds(0, 427, 200, 30);
-		pWrite.setBounds(0, 457, 588, 65);
-		file_imog_panel.setBounds(0, 522, 588, 30);
+		pChat.setBounds(0, 50, 888, 380);
+		movie_name.setBounds(10, 513, 200, 30);
+		pWrite.setBounds(0, 430, 900, 75);
+		file_imog_panel.setBounds(0, 510, 588, 30);
 
 		add(main_panel);
 		setVisible(true);
@@ -104,7 +111,7 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 
 	private void show_bottom() {
 		file_imog_panel = new JPanel(null);
-		file_imog_panel.setBackground(Color.pink);
+		file_imog_panel.setBackground(Color.white);
 
 		ImageIcon folderIcon = btnStyle.BtnImage(ImagePath + "folder", 23, 23); // 이미지 설정
 		btnFile = new JButton(folderIcon);
@@ -114,8 +121,8 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 		btnEmoji = new JButton(emojiIcon);
 		addBtnStyle(btnEmoji);
 
-		btnFile.setBounds(10, 5, 20, 20);
-		btnEmoji.setBounds(45, 5, 20, 20);
+		btnFile.setBounds(225, 5, 24, 24);
+		btnEmoji.setBounds(265, 5, 24, 24);
 
 		main_panel.add(file_imog_panel);
 		file_imog_panel.add(btnFile);
@@ -124,24 +131,24 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 
 	private void showPWrite() {
 		pWrite = new JPanel(null);
-		pWrite.setBackground(Color.cyan);
+		pWrite.setBackground(new Color(0xFFD8D8));
 		main_panel.add(pWrite);
-
+		
 		taWriteMsg = new JTextArea(3, 50); // rows*cols 여러줄의 입력창
 		taWriteMsg.setLineWrap(true); // 자동 줄바꿈
 		taWriteMsg.addKeyListener(this);
 		scWriteMsg = new JScrollPane(taWriteMsg); // 스크롤 팬
 		scWriteMsg.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED); // 수직 스크롤 항상
 		scWriteMsg.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER); // 수평 스크롤 없애기
-		scWriteMsg.setBorder(BorderFactory.createLineBorder(Color.white));
+		scWriteMsg.setBorder(BorderFactory.createLineBorder(new Color(0xEAEAEA)));
 
 		ImageIcon sendIcon = btnStyle.BtnImage(ImagePath + "sendMessage", 20, 20); // 이미지 설정
 		btnSend = new JButton(sendIcon);
 		addBtnStyle(btnSend);
 		btnSend.setBackground(new Color(0xFFEAEA));
 
-		scWriteMsg.setBounds(0, 0, 500, 65);
-		btnSend.setBounds(490, 0, 100, 65);
+		scWriteMsg.setBounds(0, 0, 790, 75);
+		btnSend.setBounds(800, 0, 75, 75);
 
 		pWrite.add(scWriteMsg);
 		pWrite.add(btnSend);
@@ -152,9 +159,24 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 //		name_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 //		name_panel.setBackground(Color.black);
 //		name_panel.setBounds(0, 440, 588, 30);
+		
+		String selectMovieName = "SELECT MOVIE_NAME FROM MOVIE_RESERVATION WHERE ID='"+ userName +"'";
+		
+		ResultSet re = DBconnect.getResultSet(selectMovieName);
+		
 		Vector<String> list = new Vector<String>();
 		list.add("기본");
-		list.add(controller.show_movie_name);
+		//list.add(controller.show_movie_name);
+		try {
+			while (re.next()) {
+				list.add(re.getString(1));
+				
+			}
+		} catch (SQLException e1) {
+			//e1.printStackTrace();
+		}
+		
+		
 
 		movie_name = new JComboBox<String>(list);
 		movie_name.setBackground(Color.white);
@@ -194,13 +216,13 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 	private void addTitle() {
 
 		pTitle = new JPanel();
-		pTitle.setBounds(0, 0, 600, 50);
+		pTitle.setBounds(0, 0, 900, 50);
 		pTitle.setLayout(new BorderLayout());
 		pTitle.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
 		pTitle.setBackground(Color.pink);
 
 		lblTitle = new JLabel("INHA CINEMA");
-		lblTitle.setFont(new Font("배달의민족 도현", Font.ITALIC, 25));
+		lblTitle.setFont(new Font("배달의민족 도현", Font.ITALIC, 18));
 		lblTitle.setForeground(Color.white);
 		pTitle.add(lblTitle, BorderLayout.WEST);
 
@@ -343,12 +365,8 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 					chatName.textPrint(message.getSendComment(), AlignEnum.LEFT); // 왼쪽 출력
 				}
 				}
-				
-				
 			}
-
 		}
-
 	}
 	
 	/**

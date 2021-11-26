@@ -68,6 +68,8 @@ public class ReservationInfo extends JFrame implements ActionListener {
 	private JTable table;
 	private JButton btnExit;
 	private JLabel lblState;
+	private JButton btnReset;
+	private String strState;
 
 	public ReservationInfo() {
 
@@ -112,8 +114,8 @@ public class ReservationInfo extends JFrame implements ActionListener {
 	private void SelectReservation() {
 
 		DBconnect.DB();
-		//userId = "a";
-		String selectReservation = "SELECT MOVIE_NAME, TO_CHAR(MOVIE_DATE , 'YYYYMMDD'), MOVIE_TIME, SEAT, FOOD FROM MOVIE_RESERVATION WHERE ID='" + userId + "'";
+		userId = "a";
+		String selectReservation = "SELECT MOVIE_NAME, TO_CHAR(MOVIE_DATE , 'YYYYMMDD'), MOVIE_TIME, SEAT, FOOD, STATE FROM MOVIE_RESERVATION WHERE ID='" + userId + "'";
 		boolean check = false;
 
 		ResultSet re = DBconnect.getResultSet(selectReservation);
@@ -125,6 +127,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 				strTime = re.getString(3);
 				strSeat = re.getString(4);
 				strFood = re.getString(5);
+				strState = re.getString(6);
 
 				check = true;
 			}
@@ -286,10 +289,32 @@ public class ReservationInfo extends JFrame implements ActionListener {
 					model.addRow(arrCount);
 				}
 				
-				lblState = new JLabel("준비중...");
-				StyleSet.lblFont(lblState, Font.PLAIN, 15);
-				lblState.setBounds(180, 170, 260, 20);
-				pReservInfo.add(lblState);
+
+				if(strFood.equals("")) {
+					
+				}
+				else {
+
+					if(strState.equals("true")) {
+						
+						lblState = new JLabel("준비 완료!!");
+						StyleSet.lblFont(lblState, Font.PLAIN, 15);
+						lblState.setBounds(180, 170, 260, 20);
+						pReservInfo.add(lblState);
+					
+					}
+					else {
+						lblState = new JLabel("준비중...");
+						StyleSet.lblFont(lblState, Font.PLAIN, 15);
+						lblState.setBounds(180, 170, 260, 20);
+						pReservInfo.add(lblState);
+					}
+				}
+				btnReset = new JButton("새로고침");
+				StyleSet.btnFontStyle(btnReset, Font.PLAIN, 13, 0xFFD8D8);
+				btnReset.setBounds(320,170, 100, 20);
+				btnReset.addActionListener(this);
+				pReservInfo.add(btnReset);
 			}
 
 			table.getColumnModel().getColumn(0).setPreferredWidth(200);
@@ -345,6 +370,8 @@ public class ReservationInfo extends JFrame implements ActionListener {
 	}
 
 	
+
+
 	public void lblTitle(JLabel lbl) {
 		lbl.setHorizontalAlignment(JLabel.CENTER);
 		StyleSet.lblFont(lbl, Font.PLAIN, 15);
@@ -364,6 +391,35 @@ public class ReservationInfo extends JFrame implements ActionListener {
 		}
 		else if(obj == btnBack) {
 			dispose();
+		}
+		else if(obj == btnReset) {
+			if(strFood.equals("")) {
+				
+			}else {
+				
+				
+				String selectState = "SELECT STATE FROM MOVIE_RESERVATION WHERE ID='" + userId + "'";
+
+				ResultSet re = DBconnect.getResultSet(selectState);
+				try {
+					while (re.next()) {
+
+					strState = re.getString(1);
+					System.out.println(strState);
+					}
+				} catch (SQLException e1) {
+//				e1.printStackTrace();
+				}
+				
+				if(strState.equals("true")) {
+					lblState.setText("준비 완료!!!");
+				}else {
+					lblState.setText("준비중...");
+				}
+				
+			}
+
+			
 		}
 	}
 	

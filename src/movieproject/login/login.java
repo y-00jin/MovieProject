@@ -106,12 +106,14 @@ public class login extends JFrame implements ActionListener {
 		tfid = new JTextField();
 		TextHint hint1 = new TextHint(tfid, "아이디");
 		tfid.setFont(new Font("1훈새마을운동 R", Font.CENTER_BASELINE, 15));
-
+		tfid.addActionListener(this);
+		
 		// 비밀번호
 		tfpw = new JPasswordField();
 		TextHint hint2 = new TextHint(tfpw, "비밀번호");
 		tfpw.setFont(new Font("맑은고딕", Font.CENTER_BASELINE, 15));
-
+		tfpw.addActionListener(this);
+		
 		// 로그인 버튼
 		btnlogin = new JButton("로그인");
 		btnlogin.addActionListener(this);
@@ -269,7 +271,7 @@ public class login extends JFrame implements ActionListener {
 			new MovieJoin("회원가입");
 		}
 
-		if (obj == btnlogin) {
+		if (obj == btnlogin ||obj == tfid || obj == tfpw) {
 			String id = tfid.getText();
 			String pw = tfpw.getText();
 
