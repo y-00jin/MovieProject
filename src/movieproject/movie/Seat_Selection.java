@@ -315,6 +315,7 @@ public class Seat_Selection extends JFrame implements MouseListener, ActionListe
 			System.out.println(save);
 			con.setSeat(save);
 			new Shop();
+			con.frame.add(this);
 		}
 		if(ob == back) {
 			dispose();

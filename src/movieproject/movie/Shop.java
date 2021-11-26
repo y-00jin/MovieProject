@@ -325,9 +325,13 @@ public class Shop extends JFrame implements ActionListener, MouseListener {
 			for(int i = 0; i < menu_num.length; i++) {
 				if(menu_num[i] > 0) {
 					save += sel_menu[i] + ":" + Integer.toString(menu_num[i]) + ":" + Integer.toString(menu_num[i]*price[i]) + ",";
+					System.out.println("A");
 				}
 			}
-			save = save.substring(0, save.length()-1);
+			System.out.println("save : " + save);
+//			if(save != null) {
+//				save = save.substring(0, save.length()-1);
+//			}
 			con.setMenu(save);
 			System.out.println("//////////////////////////");
 			System.out.println(con.getMovieName());
@@ -336,6 +340,7 @@ public class Shop extends JFrame implements ActionListener, MouseListener {
 			System.out.println(con.getSeat());
 			System.out.println(con.getMenu());
 			new ReservationCheck();
+			con.frame.add(this);
 		}
 		
 		if(ob == back) {

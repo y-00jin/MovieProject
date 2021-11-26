@@ -3,6 +3,9 @@ package movieproject.controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
+
+import javax.swing.JFrame;
 
 import movieproject.DBconnect;
 import movieproject.client.datacommunication.ClientSocket;
@@ -21,7 +24,7 @@ public class Controller {
 	public String show_movie_name = "";
 	
 	public ClientSocket clientSocket;
-
+	public Vector<JFrame> frame = new Vector<JFrame>();
 	private Controller() {
 		clientSocket = new ClientSocket();
 

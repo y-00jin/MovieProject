@@ -195,7 +195,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		table = new JTable(model); // 테이블에 추가
 
 		System.out.println("strFood : " + strMenu);
-		if (strMenu == null) {
+		if (strMenu.equals("")) {
 
 		} else {
 			String[] arrMenu = strMenu.split(",");
@@ -344,7 +344,11 @@ public class ReservationCheck extends JFrame implements ActionListener {
 				insertReservation();
 
 				new ReservationInfo();
+				for(int i = 0; i < controller.frame.size(); i++) {
+					controller.frame.get(i).dispose();
+				}
 				dispose();
+				
 			}
 
 		} else if (obj == btnReset) {

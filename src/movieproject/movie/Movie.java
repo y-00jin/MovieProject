@@ -307,6 +307,6 @@ public class Movie extends JFrame implements MouseListener, ActionListener, List
 			new Reservation();
 		}
 		tiket.clearSelection();
-		
+		con.frame.add(this);
 	}
 }

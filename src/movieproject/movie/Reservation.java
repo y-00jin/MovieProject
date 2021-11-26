@@ -131,7 +131,7 @@ public class Reservation extends JFrame implements ActionListener, MouseListener
 				System.out.println(date);
 				Date date1 = dateFormat.parse(formatedNow);
 	            Date date2 = dateFormat.parse(date);
-				if(date1.compareTo(date2) != -1) { 
+				if(date1.compareTo(date2) != 1) { 
 					list.add(date);
 				}
 				main_panel.requestFocus();
@@ -218,6 +218,7 @@ public class Reservation extends JFrame implements ActionListener, MouseListener
 		if(ob == next) {
 			System.out.println("next");
 			new Seat_Selection();
+			con.frame.add(this);
 		}
 		
 	}
