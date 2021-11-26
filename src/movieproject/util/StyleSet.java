@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class Style {
+public class StyleSet {
 
 	public void btnStyle() {
 		

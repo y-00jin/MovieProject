@@ -30,7 +30,7 @@ public class UserMain extends JFrame implements ActionListener{
 	private JPanel pCenter;
 	private JButton btnProfile;
 	private ArrayList<JButton> arrBtnProfile = new ArrayList<>();
-
+	public static ArrayList<Chat> chatPanelName = new ArrayList<Chat>();
 
 
 	public UserMain() {
@@ -120,11 +120,13 @@ public class UserMain extends JFrame implements ActionListener{
 			if(obj == arrBtnProfile.get(0)) {	// 영화 예매 버튼
 				new Movie();
 			}
-			if(obj == arrBtnProfile.get(1)) {	// 먹거리 주문
-				new Chat();
-			}
-			if(obj == arrBtnProfile.get(2)) {	// 예매 정보 확인
+			if(obj == arrBtnProfile.get(1)) {	// 예매 정보 확인
 				new ReservationInfo();
+			}
+			if(obj == arrBtnProfile.get(2)) {	// 영화 리뷰
+					Chat c = new Chat();
+					chatPanelName.add(c);
+					
 			}
 			if(obj == arrBtnProfile.get(3)) {	// 회원 정보 수정
 				new MemberModify();

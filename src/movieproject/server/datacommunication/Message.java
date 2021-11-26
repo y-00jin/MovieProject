@@ -1,4 +1,4 @@
-package server;
+package movieproject.server.datacommunication;
 
 import java.io.Serializable;
 import java.time.LocalTime;
@@ -15,10 +15,10 @@ public class Message implements Serializable {
 
 	private String receiveMoiveName; // 내가 본 영화이름 // ex) 기본이 베이스고 기본 + 영화제목
 
-	public Message(String sendUserName, String sendComment, LocalTime sendTime, String messageType,
+	public Message(String sendUserID, String sendComment, LocalTime sendTime, String messageType,
 			String receiveFriendName) {
 
-		this.sendUserID = sendUserName;
+		this.sendUserID = sendUserID;
 		this.sendComment = sendComment;
 		this.sendTime = sendTime;
 		this.messageType = messageType;
@@ -29,14 +29,14 @@ public class Message implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getSendUserName() {
+	public String getSendUserID() {
 
 		return sendUserID;
 	}
 
-	public void setSendUserName(String sendUserName) {
+	public void setSendUserID(String sendUserID) {
 
-		this.sendUserID = sendUserName;
+		this.sendUserID = sendUserID;
 	}
 
 	public String getSendComment() {
@@ -69,7 +69,7 @@ public class Message implements Serializable {
 		this.messageType = messageType;
 	}
 
-	public String getReceiveFriendName() {
+	public String getReceiveMovieName() {
 
 		return receiveMoiveName;
 	}

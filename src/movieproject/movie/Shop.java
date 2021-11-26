@@ -32,7 +32,7 @@ import javax.swing.table.JTableHeader;
 import movieproject.CustomUI;
 import movieproject.controller.Controller;
 import movieproject.payment.ReservationCheck;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 import oracle.net.aso.b;
 
 public class Shop extends JFrame implements ActionListener, MouseListener {
@@ -205,7 +205,7 @@ public class Shop extends JFrame implements ActionListener, MouseListener {
 		pTitle.add(lblTitle, BorderLayout.WEST);
 
 		btnBack = new JButton("돌아가기");
-		Style.btnFont(btnBack, Font.PLAIN, 15);
+		StyleSet.btnFont(btnBack, Font.PLAIN, 15);
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);

@@ -26,7 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import movieproject.DBconnect;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 public class MovieJoin extends JFrame implements MouseListener, ActionListener { // 회원가입
 
@@ -38,7 +38,7 @@ public class MovieJoin extends JFrame implements MouseListener, ActionListener {
 	public JLabel lblImg;
 	public ImageIcon img;
 	private Font tfFont;
-	Style style = new Style();
+	StyleSet style = new StyleSet();
 	
 	public static Connection conn;
 

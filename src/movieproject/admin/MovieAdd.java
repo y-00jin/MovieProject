@@ -45,7 +45,7 @@ import javax.swing.table.TableModel;
 
 import movieproject.DBconnect;
 import movieproject.movie.MovieAPI;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 class CalendarDataManager { // 6*7배열에 나타낼 달력 값을 구하는 class
 
@@ -351,7 +351,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 
 		// today 버튼 ( 현재 날짜 달력 재구성 )
 		todayBut = new JButton("Today");
-		Style.BtnDateStyle(todayBut);
+		StyleSet.BtnDateStyle(todayBut);
 		todayBut.setToolTipText("Today");
 		todayBut.addActionListener(lForCalOpButtons);
 
@@ -362,13 +362,13 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 
 		// 이전 년도
 		lYearBut = new JButton("<<");
-		Style.BtnDateStyle(lYearBut);
+		StyleSet.BtnDateStyle(lYearBut);
 		lYearBut.setToolTipText("Previous Year");
 		lYearBut.addActionListener(lForCalOpButtons);
 
 		// 이전 달
 		lMonBut = new JButton("<");
-		Style.BtnDateStyle(lMonBut);
+		StyleSet.BtnDateStyle(lMonBut);
 		lMonBut.setToolTipText("Previous Month");
 		lMonBut.addActionListener(lForCalOpButtons);
 
@@ -378,13 +378,13 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 																											// 월 텍스트 변경함
 		// 다음 달
 		nMonBut = new JButton(">");
-		Style.BtnDateStyle(nMonBut);
+		StyleSet.BtnDateStyle(nMonBut);
 		nMonBut.setToolTipText("Next Month");
 		nMonBut.addActionListener(lForCalOpButtons);
 
 		// 다음 년도
 		nYearBut = new JButton(">>");
-		Style.BtnDateStyle(nYearBut);
+		StyleSet.BtnDateStyle(nYearBut);
 		nYearBut.setToolTipText("Next Year");
 		nYearBut.addActionListener(lForCalOpButtons);
 
@@ -552,7 +552,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		pBack.setBorder(BorderFactory.createEmptyBorder(2, 0, 3, 0));
 
 		btnBack = new JButton("돌아가기");
-		Style.btnFont(btnBack, Font.PLAIN, 15);
+		StyleSet.btnFont(btnBack, Font.PLAIN, 15);
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);
@@ -574,7 +574,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		btnTableTitle = new JButton(">> 영화 목록");
 		
 		//btnTableTitle.setPreferredSize(new Dimension(100, 30));
-		Style.btnFontStyle(btnTableTitle, Font.CENTER_BASELINE, 17, 0xFFFFFF);
+		StyleSet.btnFontStyle(btnTableTitle, Font.CENTER_BASELINE, 17, 0xFFFFFF);
 		btnTableTitle.addActionListener(this);
 		btnTableTitle.setBorderPainted(false); // 테두리 없애기
 		ptabletitle.add(btnTableTitle);
@@ -680,12 +680,12 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 		pUrlTitle.setBackground(Color.white);
 
 		lblMovieName = new JLabel("선택된 영화 : ");
-		Style.lblFont(lblMovieName, Font.PLAIN, 15);
+		StyleSet.lblFont(lblMovieName, Font.PLAIN, 15);
 		lblMovieName.setForeground(Color.black);
 		pUrlTitle.add(lblMovieName);
 
 		lblChoiceName = new JLabel("");
-		Style.lblFont(lblChoiceName, Font.PLAIN, 15);
+		StyleSet.lblFont(lblChoiceName, Font.PLAIN, 15);
 		lblChoiceName.setForeground(Color.black);
 		pUrlTitle.add(lblChoiceName);
 
@@ -697,14 +697,14 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 
 		lblUrl = new JLabel("URL 입력 : ");
 		lblUrl.setForeground(Color.black);
-		Style.lblFont(lblUrl, Font.PLAIN, 15);
+		StyleSet.lblFont(lblUrl, Font.PLAIN, 15);
 		pUrlInfo.add(lblUrl);
 
 		tfURL = new JTextField(43);
 		pUrlInfo.add(tfURL);
 
 		btnAdd = new JButton("  추가  ");
-		Style.btnFont(btnAdd, Font.PLAIN, 12);
+		StyleSet.btnFont(btnAdd, Font.PLAIN, 12);
 		btnAdd.setForeground(Color.white); // 글자색
 		btnAdd.setBackground(new Color(18, 52, 120));
 		btnAdd.addActionListener(this);

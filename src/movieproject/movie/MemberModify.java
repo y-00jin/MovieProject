@@ -30,7 +30,7 @@ import movieproject.DBconnect;
 import movieproject.controller.Controller;
 import movieproject.login.TextHint;
 import movieproject.login.login;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 public class MemberModify extends JFrame implements ActionListener {
 
@@ -45,7 +45,7 @@ public class MemberModify extends JFrame implements ActionListener {
 	public static Connection conn;
 
 	private Font tfFont;
-	private Style style = new Style();
+	private StyleSet style = new StyleSet();
 	private String  uName="", uPhone="";
 	private boolean userCheck;
 	private String uId;

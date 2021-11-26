@@ -27,7 +27,7 @@ import javax.swing.table.JTableHeader;
 import movieproject.DBconnect;
 import movieproject.controller.Controller;
 import movieproject.movie.Movie;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 public class ReservationCheck extends JFrame implements ActionListener {
 
@@ -123,54 +123,54 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		lblMovieName.setBounds(30, 40, 60, 20);
 		lblMovieName.setBackground(new Color(0xF6F6F6));
 		lblMovieName.setOpaque(true);
-		Style.lblFont(lblMovieName, Font.PLAIN, 15);
+		StyleSet.lblFont(lblMovieName, Font.PLAIN, 15);
 		pInfo.add(lblMovieName);
 
 		lblMvChoice = new JLabel(strMovieName);
 		lblMvChoice.setBounds(100, 40, 300, 20);
-		Style.lblFont(lblMvChoice, Font.PLAIN, 15);
+		StyleSet.lblFont(lblMvChoice, Font.PLAIN, 15);
 		pInfo.add(lblMvChoice);
 
 		lblDate = new JLabel("   날  짜   :");
 		lblDate.setBounds(30, 80, 60, 20);
 		lblDate.setBackground(new Color(0xF6F6F6));
 		lblDate.setOpaque(true);
-		Style.lblFont(lblDate, Font.PLAIN, 15);
+		StyleSet.lblFont(lblDate, Font.PLAIN, 15);
 		pInfo.add(lblDate);
 
 		lblDateChoice = new JLabel(strDate);
 		lblDateChoice.setBounds(100, 80, 150, 20);
-		Style.lblFont(lblDateChoice, Font.PLAIN, 15);
+		StyleSet.lblFont(lblDateChoice, Font.PLAIN, 15);
 		pInfo.add(lblDateChoice);
 
 		lblTime = new JLabel("   시  간   :");
 		lblTime.setBounds(30, 120, 60, 20);
 		lblTime.setBackground(new Color(0xF6F6F6));
 		lblTime.setOpaque(true);
-		Style.lblFont(lblTime, Font.PLAIN, 15);
+		StyleSet.lblFont(lblTime, Font.PLAIN, 15);
 		pInfo.add(lblTime);
 
 		lblTimeChoice = new JLabel(strTime);
 		lblTimeChoice.setBounds(100, 120, 150, 20);
-		Style.lblFont(lblTimeChoice, Font.PLAIN, 15);
+		StyleSet.lblFont(lblTimeChoice, Font.PLAIN, 15);
 		pInfo.add(lblTimeChoice);
 
 		lblSeat = new JLabel("   좌  석   :");
 		lblSeat.setBounds(30, 160, 60, 20);
 		lblSeat.setBackground(new Color(0xF6F6F6));
 		lblSeat.setOpaque(true);
-		Style.lblFont(lblSeat, Font.PLAIN, 15);
+		StyleSet.lblFont(lblSeat, Font.PLAIN, 15);
 		pInfo.add(lblSeat);
 
 		lblSeatChoice = new JLabel(strSeat);
 		lblSeatChoice.setBounds(100, 160, 150, 20);
-		Style.lblFont(lblSeatChoice, Font.PLAIN, 15);
+		StyleSet.lblFont(lblSeatChoice, Font.PLAIN, 15);
 		pInfo.add(lblSeatChoice);
 
 		pMain.add(pInfo);
 
 		lblMenu = new JLabel("먹거리");
-		Style.lblFont(lblMenu, Font.PLAIN, 17);
+		StyleSet.lblFont(lblMenu, Font.PLAIN, 17);
 		lblMenu.setBounds(420, 80, 100, 20);
 		pMain.add(lblMenu);
 
@@ -241,7 +241,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		lblSumTitle = new JLabel(" |  합계  : ");
 		lblSumTitle.setBackground(new Color(0xFFEAEA));
 		lblSumTitle.setOpaque(true);
-		Style.lblFont(lblSumTitle, Font.PLAIN, 18);
+		StyleSet.lblFont(lblSumTitle, Font.PLAIN, 18);
 		lblSumTitle.setBounds(40, 360, 80, 30);
 		pMain.add(lblSumTitle);
 
@@ -260,7 +260,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		lblSum = new JLabel(sum + " 원");
 		lblSum.setBackground(new Color(0xFFEAEA));
 		lblSum.setOpaque(true);
-		Style.lblFont(lblSum, Font.PLAIN, 18);
+		StyleSet.lblFont(lblSum, Font.PLAIN, 18);
 		lblSum.setBounds(120, 360, 100, 30);
 
 		pMain.add(lblSum);
@@ -269,7 +269,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		btnPayment.setForeground(Color.white);
 		btnPayment.setBackground(Color.pink);
 		btnPayment.addActionListener(this);
-		Style.btnFont(btnPayment, Font.PLAIN, 15);
+		StyleSet.btnFont(btnPayment, Font.PLAIN, 15);
 		btnPayment.setBounds(235, 360, 100, 30);
 		pMain.add(btnPayment);
 
@@ -277,7 +277,7 @@ public class ReservationCheck extends JFrame implements ActionListener {
 		btnReset.setForeground(Color.white);
 		btnReset.setBackground(Color.pink);
 		btnReset.addActionListener(this);
-		Style.btnFont(btnReset, Font.PLAIN, 15);
+		StyleSet.btnFont(btnReset, Font.PLAIN, 15);
 		btnReset.setBounds(350, 360, 100, 30);
 		pMain.add(btnReset);
 
@@ -391,12 +391,12 @@ public class ReservationCheck extends JFrame implements ActionListener {
 
 			if (countNum.equals("0")) {
 
-				insertReserv = "INSERT INTO MOVIE_RESERVATION (RESERVATION_ID, ID, MOVIE_NAME, MOVIE_DATE, MOVIE_TIME, SEAT, FOOD) VALUES('1', '" + userId + "', '" + strMovieName + "', '" + strDate + "', '" + strTime + "', '" + strSeat+ "', '" + strMenu + "')";
+				insertReserv = "INSERT INTO MOVIE_RESERVATION (RESERVATION_ID, ID, MOVIE_NAME, MOVIE_DATE, MOVIE_TIME, SEAT, FOOD, STATE) VALUES('1', '" + userId + "', '" + strMovieName + "', '" + strDate + "', '" + strTime + "', '" + strSeat+ "', '" + strMenu + "', 'false')";
 
 				
 				
 			} else {
-				insertReserv = "INSERT INTO MOVIE_RESERVATION (RESERVATION_ID, ID, MOVIE_NAME, MOVIE_DATE, MOVIE_TIME, SEAT, FOOD) VALUES('"+ (Integer.parseInt(countNum)+1) + "', '" + userId + "', '" + strMovieName + "', '" + strDate + "', '" + strTime+ "', '" + strSeat + "', '" + strMenu + "')";
+				insertReserv = "INSERT INTO MOVIE_RESERVATION (RESERVATION_ID, ID, MOVIE_NAME, MOVIE_DATE, MOVIE_TIME, SEAT, FOOD, STATE) VALUES('"+ (Integer.parseInt(countNum)+1) + "', '" + userId + "', '" + strMovieName + "', '" + strDate + "', '" + strTime+ "', '" + strSeat + "', '" + strMenu + "', 'false')";
 
 			}
 

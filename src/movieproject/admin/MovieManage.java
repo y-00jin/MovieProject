@@ -37,7 +37,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 
 import movieproject.DBconnect;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 public class MovieManage extends JFrame implements MouseListener, ActionListener{
 	private DefaultTableModel model;
@@ -104,7 +104,7 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 		pTitle.add(lblTitle, BorderLayout.WEST);
 
 		btnBack = new JButton("돌아가기");
-		Style.btnFont(btnBack, Font.PLAIN, 15);
+		StyleSet.btnFont(btnBack, Font.PLAIN, 15);
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);
@@ -221,11 +221,11 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 		pUrlTitle.setBackground(Color.white);
 
 		lblMovieName = new JLabel("선택된 영화 : ");
-		Style.lblFont(lblMovieName, Font.CENTER_BASELINE, 15);
+		StyleSet.lblFont(lblMovieName, Font.CENTER_BASELINE, 15);
 		pUrlTitle.add(lblMovieName);
 
 		lblChoiceName = new JLabel("");
-		Style.lblFont(lblChoiceName, Font.PLAIN, 15);
+		StyleSet.lblFont(lblChoiceName, Font.PLAIN, 15);
 		pUrlTitle.add(lblChoiceName);
 
 		panelURL.add(pUrlTitle, BorderLayout.NORTH);
@@ -235,7 +235,7 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 		pUrlInfo.setBackground(Color.white);
 
 		lblUrl = new JLabel("URL 입력 : ");
-		Style.lblFont(lblUrl, Font.PLAIN, 15);
+		StyleSet.lblFont(lblUrl, Font.PLAIN, 15);
 		pUrlInfo.add(lblUrl);
 
 		tfURL = new JTextField(60);
@@ -243,7 +243,7 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 
 		btnUpdate = new JButton("  수정  ");
 		btnUpdate.setPreferredSize(new Dimension(100, 25));
-		Style.btnFont(btnUpdate, Font.PLAIN, 12);
+		StyleSet.btnFont(btnUpdate, Font.PLAIN, 12);
 		btnUpdate.setForeground(Color.white); // 글자색
 		btnUpdate.setBackground(new Color(0x123478));
 		btnUpdate.addActionListener(this);
@@ -251,7 +251,7 @@ public class MovieManage extends JFrame implements MouseListener, ActionListener
 
 		btnDelete = new JButton("삭제");
 		btnDelete.setPreferredSize(new Dimension(100, 25));
-		Style.btnFont(btnDelete, Font.PLAIN, 12);
+		StyleSet.btnFont(btnDelete, Font.PLAIN, 12);
 		btnDelete.setForeground(Color.white); // 글자색
 		btnDelete.setBackground(new Color(0x123478));
 		btnDelete.addActionListener(this);

@@ -34,7 +34,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
 import movieproject.DBconnect;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 public class MovieTimeManage extends JFrame implements ActionListener, MouseListener {
 
@@ -101,7 +101,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 
 		// 돌아가기 버튼
 		btnBack = new JButton("돌아가기");
-		Style.btnFont(btnBack, Font.PLAIN, 15);
+		StyleSet.btnFont(btnBack, Font.PLAIN, 15);
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);
@@ -117,7 +117,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 
 		// 영화 선택
 		lblMovieSerarch = new JLabel("영화 이름 ");
-		Style.lblFont(lblMovieSerarch, Font.PLAIN, 15);
+		StyleSet.lblFont(lblMovieSerarch, Font.PLAIN, 15);
 		lblMovieSerarch.setBounds(20, 30, 70, 30);
 		pCenter.add(lblMovieSerarch);
 
@@ -151,7 +151,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 		btnSearch.setBackground(Color.pink);
 		btnSearch.setForeground(Color.white);
 		btnSearch.addActionListener(this);
-		Style.btnFont(btnSearch, Font.PLAIN, 15);
+		StyleSet.btnFont(btnSearch, Font.PLAIN, 15);
 		pCenter.add(btnSearch);
 
 		// 새로고침 버튼 생성
@@ -160,7 +160,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 		btnReset.setBackground(Color.pink);
 		btnReset.setForeground(Color.white);
 		btnReset.addActionListener(this);
-		Style.btnFont(btnReset, Font.PLAIN, 15);
+		StyleSet.btnFont(btnReset, Font.PLAIN, 15);
 		pCenter.add(btnReset);
 
 		// 테이블 생성
@@ -170,7 +170,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 		btnAdd.setBackground(Color.pink);
 		btnAdd.setForeground(Color.white);
 		btnAdd.setBounds(20, 410, 80, 30);
-		Style.btnFont(btnAdd, Font.PLAIN, 15);
+		StyleSet.btnFont(btnAdd, Font.PLAIN, 15);
 		btnAdd.addActionListener(this);
 		pCenter.add(btnAdd);
 
@@ -178,7 +178,7 @@ public class MovieTimeManage extends JFrame implements ActionListener, MouseList
 		btnDel.setBackground(Color.pink);
 		btnDel.setForeground(Color.white);
 		btnDel.setBounds(110, 410, 80, 30);
-		Style.btnFont(btnDel, Font.PLAIN, 15);
+		StyleSet.btnFont(btnDel, Font.PLAIN, 15);
 		btnDel.addActionListener(this);
 		pCenter.add(btnDel);
 	}

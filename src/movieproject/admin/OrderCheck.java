@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 public class OrderCheck extends JFrame implements ActionListener, MouseListener {
 
@@ -84,7 +84,7 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 		pTitle.add(lblTitle, BorderLayout.WEST);
 
 		btnBack = new JButton("돌아가기");
-		Style.btnFont(btnBack, Font.PLAIN, 15);
+		StyleSet.btnFont(btnBack, Font.PLAIN, 15);
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);
@@ -97,12 +97,12 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 	private void addTableLabel() {
 
 		lblOrder = new JLabel("| 주문");
-		Style.lblFont(lblOrder, Font.PLAIN, 18);
+		StyleSet.lblFont(lblOrder, Font.PLAIN, 18);
 		lblOrder.setBounds(40, 90, 100, 20);
 		pMain.add(lblOrder);
 
 		btnOk = new JButton("완료");
-		Style.btnFontStyle(btnOk, Font.PLAIN, 15, 0xFFEAEA);
+		StyleSet.btnFontStyle(btnOk, Font.PLAIN, 15, 0xFFEAEA);
 		btnOk.addActionListener(this);
 		btnOk.setBounds(40, 450, 100, 30);
 
@@ -179,7 +179,7 @@ public class OrderCheck extends JFrame implements ActionListener, MouseListener 
 	private void addTableDetails() {
 
 		lblDetails = new JLabel("| 상세 주문 내역");
-		Style.lblFont(lblDetails, Font.PLAIN, 18);
+		StyleSet.lblFont(lblDetails, Font.PLAIN, 18);
 		lblDetails.setBounds(480, 90, 200, 20);
 		pMain.add(lblDetails);
 

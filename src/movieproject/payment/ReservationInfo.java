@@ -30,7 +30,7 @@ import javax.swing.table.JTableHeader;
 
 import movieproject.DBconnect;
 import movieproject.controller.Controller;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 public class ReservationInfo extends JFrame implements ActionListener {
 
@@ -202,7 +202,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 			lblMovieName = new JLabel(strMovieName);
 			lblMovieName.setHorizontalAlignment(JLabel.CENTER);
 			lblMovieName.setBounds(40, 400, 250, 20);
-			Style.lblFont(lblMovieName, Font.PLAIN, 18);
+			StyleSet.lblFont(lblMovieName, Font.PLAIN, 18);
 			pSearch.add(lblMovieName);
 			
 			// 예매 정보
@@ -222,7 +222,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 			pReservInfo.add(lblDateTitle);
 			
 			lblDate = new JLabel(strDate);
-			Style.lblFont(lblDate, Font.PLAIN, 15);
+			StyleSet.lblFont(lblDate, Font.PLAIN, 15);
 			lblDate.setBounds(180, 50, 260, 20);
 			pReservInfo.add(lblDate);
 			
@@ -232,7 +232,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 			pReservInfo.add(lblTimeTitle);
 			
 			lblTime = new JLabel(strTime);
-			Style.lblFont(lblTime, Font.PLAIN, 15);
+			StyleSet.lblFont(lblTime, Font.PLAIN, 15);
 			lblTime.setBounds(180, 90, 260, 20);
 			pReservInfo.add(lblTime);
 			
@@ -242,7 +242,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 			pReservInfo.add(lblSeatTitle);
 			
 			lblSeat = new JLabel(strSeat);
-			Style.lblFont(lblSeat, Font.PLAIN, 15);
+			StyleSet.lblFont(lblSeat, Font.PLAIN, 15);
 			lblSeat.setBounds(180, 130, 260, 20);
 			pReservInfo.add(lblSeat);
 			
@@ -287,7 +287,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 				}
 				
 				lblState = new JLabel("준비중...");
-				Style.lblFont(lblState, Font.PLAIN, 15);
+				StyleSet.lblFont(lblState, Font.PLAIN, 15);
 				lblState.setBounds(180, 170, 260, 20);
 				pReservInfo.add(lblState);
 			}
@@ -303,7 +303,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 			pReservInfo.add(pFoodTable);
 			
 			btnExit = new JButton("닫기");
-			Style.btnFontStyle(btnExit, Font.PLAIN, 15, 0xFFEAEA);
+			StyleSet.btnFontStyle(btnExit, Font.PLAIN, 15, 0xFFEAEA);
 			btnExit.addActionListener(this);
 			btnExit.setBounds(60, 380, 100, 30);
 			
@@ -322,7 +322,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 		} else {
 			
 			btnBack = new JButton("돌아가기");
-			Style.btnFont(btnBack, Font.PLAIN, 15);
+			StyleSet.btnFont(btnBack, Font.PLAIN, 15);
 			btnBack.setForeground(Color.white);
 			btnBack.setBackground(Color.pink);
 			btnBack.setBorderPainted(false);
@@ -335,7 +335,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 			pNoSearch.setBackground(Color.white);
 
 			lblNoSearch = new JLabel("예매 정보가 없습니다.");
-			Style.lblFont(lblNoSearch, Font.PLAIN, 23);
+			StyleSet.lblFont(lblNoSearch, Font.PLAIN, 23);
 
 			pNoSearch.add(lblNoSearch);
 			pMain.add(pNoSearch);
@@ -347,7 +347,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 	
 	public void lblTitle(JLabel lbl) {
 		lbl.setHorizontalAlignment(JLabel.CENTER);
-		Style.lblFont(lbl, Font.PLAIN, 15);
+		StyleSet.lblFont(lbl, Font.PLAIN, 15);
 		lbl.setBackground(new Color(0xF6F6F6));
 		lbl.setOpaque(true);
 	}

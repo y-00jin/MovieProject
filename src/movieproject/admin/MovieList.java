@@ -38,7 +38,7 @@ import javax.swing.table.TableColumnModel;
 
 import movieproject.DBconnect;
 import movieproject.controller.Controller;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 
 public class MovieList extends JFrame implements MouseListener, ActionListener, ListSelectionListener{
 	
@@ -96,7 +96,7 @@ public class MovieList extends JFrame implements MouseListener, ActionListener, 
 		
 		
 		btnBack = new JButton("돌아가기");
-		Style.btnFont(btnBack, Font.PLAIN, 15);
+		StyleSet.btnFont(btnBack, Font.PLAIN, 15);
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);

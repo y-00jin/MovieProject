@@ -27,7 +27,7 @@ import javax.swing.border.TitledBorder;
 import movieproject.DBconnect;
 import movieproject.controller.Controller;
 import movieproject.util.DateLabelFormatter;
-import movieproject.util.Style;
+import movieproject.util.StyleSet;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
@@ -113,7 +113,7 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 
 		// 돌아가기 버튼
 		btnBack = new JButton("돌아가기");
-		Style.btnFont(btnBack, Font.PLAIN, 15);
+		StyleSet.btnFont(btnBack, Font.PLAIN, 15);
 		btnBack.setForeground(Color.white);
 		btnBack.setBackground(Color.pink);
 		btnBack.setBorderPainted(false);
@@ -156,17 +156,17 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		pInfo.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 10));
 
 		lblMovieName = new JLabel("   |  선택한 영화 : ");
-		Style.lblFont(lblMovieName, Font.CENTER_BASELINE, 15);
+		StyleSet.lblFont(lblMovieName, Font.CENTER_BASELINE, 15);
 		pInfo.add(lblMovieName);
 
 		String getMovieName = controller.getMovieName();
 		lblChoiceMovieName = new JLabel(getMovieName);
 		// lblChoiceMovieName = new JLabel("냥냥냥");
-		Style.lblFont(lblChoiceMovieName, Font.PLAIN, 15);
+		StyleSet.lblFont(lblChoiceMovieName, Font.PLAIN, 15);
 		pInfo.add(lblChoiceMovieName);
 
 		lblDate = new JLabel("         |   날짜 선택  ");
-		Style.lblFont(lblDate, Font.CENTER_BASELINE, 15);
+		StyleSet.lblFont(lblDate, Font.CENTER_BASELINE, 15);
 		pInfo.add(lblDate);
 
 		// 날짜 데이터피커
@@ -194,7 +194,7 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		lblAm = new JLabel("  |  A.M.  ");
 		lblAm.setBackground(new Color(0xF6F6F6));
 		lblAm.setOpaque(true);
-		Style.lblFont(lblAm, Font.PLAIN, 15);
+		StyleSet.lblFont(lblAm, Font.PLAIN, 15);
 		lblAm.setBounds(25, 30, 100, 20);
 		pTime.add(lblAm);
 
@@ -209,7 +209,7 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 				btnTimeAm.setBounds(amX + 110, 70, 100, 60);
 				amX += 110;
 			}
-			Style.btnFontStyle(btnTimeAm, Font.PLAIN, 15, 0xFFEAEA);
+			StyleSet.btnFontStyle(btnTimeAm, Font.PLAIN, 15, 0xFFEAEA);
 			btnTimeAm.addActionListener(this);
 			pTime.add(btnTimeAm);
 			arrTime.add(btnTimeAm);
@@ -219,7 +219,7 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		lblPm = new JLabel("  |  P.M.  ");
 		lblPm.setBackground(new Color(0xF6F6F6));
 		lblPm.setOpaque(true);
-		Style.lblFont(lblPm, Font.PLAIN, 15);
+		StyleSet.lblFont(lblPm, Font.PLAIN, 15);
 		lblPm.setBounds(25, 160, 100, 20);
 		pTime.add(lblPm);
 
@@ -252,7 +252,7 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 				pmX2 += 110;
 			}
 
-			Style.btnFontStyle(btnTimePm, Font.PLAIN, 15, 0xFFEAEA);
+			StyleSet.btnFontStyle(btnTimePm, Font.PLAIN, 15, 0xFFEAEA);
 			btnTimePm.addActionListener(this);
 			pTime.add(btnTimePm);
 			arrTime.add(btnTimePm);
@@ -271,25 +271,25 @@ public class MovieTimeSet extends JFrame implements ActionListener, KeyListener 
 		pCheckInfo.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		lblCheckDate = new JLabel("|  선택한 날짜 : ");
-		Style.lblFont(lblCheckDate, Font.PLAIN, 15);
+		StyleSet.lblFont(lblCheckDate, Font.PLAIN, 15);
 		pCheckInfo.add(lblCheckDate);
 
 		lblChoiceDate = new JLabel("");
-		Style.lblFont(lblChoiceDate, Font.PLAIN, 15);
+		StyleSet.lblFont(lblChoiceDate, Font.PLAIN, 15);
 		pCheckInfo.add(lblChoiceDate);
 
 		lblCheckTime = new JLabel("      |  선택한 시간 : ");
-		Style.lblFont(lblCheckTime, Font.PLAIN, 15);
+		StyleSet.lblFont(lblCheckTime, Font.PLAIN, 15);
 		pCheckInfo.add(lblCheckTime);
 
 		lblChoiceTime = new JLabel("");
-		Style.lblFont(lblChoiceTime, Font.PLAIN, 15);
+		StyleSet.lblFont(lblChoiceTime, Font.PLAIN, 15);
 		pCheckInfo.add(lblChoiceTime);
 
 		btnAdd = new JButton("   추가   ");
 		btnAdd.setForeground(Color.white);
 		btnAdd.setBackground(Color.pink);
-		Style.btnFont(btnAdd, Font.PLAIN, 15);
+		StyleSet.btnFont(btnAdd, Font.PLAIN, 15);
 		btnAdd.addActionListener(this);
 
 		pCheck.add(pCheckInfo, BorderLayout.WEST);

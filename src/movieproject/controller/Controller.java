@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import movieproject.DBconnect;
+import movieproject.client.datacommunication.ClientSocket;
 
 public class Controller {
 
@@ -18,9 +19,11 @@ public class Controller {
 	public String menu = "";
 
 	public String show_movie_name = "";
+	
+	public ClientSocket clientSocket;
 
 	private Controller() {
-		// clientSocket = new ClientSocket(); 클라이언트 소켓 (나중에 추가해야함)
+		clientSocket = new ClientSocket();
 
 	}
 
@@ -45,6 +48,7 @@ public class Controller {
 			if (rs.next()) {
 				userId = id;
 				check = true;
+				clientSocket.startClient();
 			} else {
 				check = false;
 			}
