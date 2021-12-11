@@ -21,7 +21,7 @@ public class Controller {
 	public String seat = "";
 	public String menu = "";
 
-	public String show_movie_name = "";
+	public String show_movie_name = "기본";
 	
 	public ClientSocket clientSocket;
 	public Vector<JFrame> frame = new Vector<JFrame>();

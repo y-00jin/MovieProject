@@ -114,7 +114,7 @@ public class ReservationInfo extends JFrame implements ActionListener {
 	private void SelectReservation() {
 
 		DBconnect.DB();
-		userId = "a";
+		//userId = "a";
 		String selectReservation = "SELECT MOVIE_NAME, TO_CHAR(MOVIE_DATE , 'YYYYMMDD'), MOVIE_TIME, SEAT, FOOD, STATE FROM MOVIE_RESERVATION WHERE ID='" + userId + "'";
 		boolean check = false;
 

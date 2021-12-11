@@ -83,7 +83,7 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 		controller = Controller.getInstance();
 		DBconnect.DB();
 		//controller.userId = "a";
-		controller.show_movie_name = "귀멸의 칼날";
+		//controller.show_movie_name = "귀멸의 칼날";
 
 		userName = controller.getUserId(); // 로그인 한 이름 저장
 		setTitle("XD Talk");
@@ -165,8 +165,8 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 		ResultSet re = DBconnect.getResultSet(selectMovieName);
 		
 		Vector<String> list = new Vector<String>();
-		list.add("기본");
-		//list.add(controller.show_movie_name);
+		
+		list.add(controller.show_movie_name);
 		try {
 			while (re.next()) {
 				list.add(re.getString(1));
