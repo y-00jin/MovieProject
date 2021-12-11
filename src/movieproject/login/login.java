@@ -175,7 +175,6 @@ public class login extends JFrame implements ActionListener {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 		Date today = new Date();
 		String date = formatter.format(today);
-		
 		Date setDate = null;
 		try {
 			setDate = formatter.parse(date);
@@ -189,37 +188,40 @@ public class login extends JFrame implements ActionListener {
 		
 		
 		// TIME테이블에서 오늘 날짜 전 데이터는 삭제
-		String selectTime = "select MOVIE_TIME_ID, TO_CHAR(MOVIE_DATE , 'YYYYMMDD') from MOVIE_TIME";
+//		String selectTime = "select MOVIE_TIME_ID, TO_CHAR(MOVIE_DATE , 'YYYYMMDD') from MOVIE_TIME";
+//		
+//		ResultSet re = DBconnect.getResultSet(selectTime);
 		
-		ResultSet re = DBconnect.getResultSet(selectTime);
-		try {
-			while (re.next()) {
-
-				strMovieTimeId = re.getString(1);
-				strMovieDate = re.getString(2);
-
-				try {
-					
-					tempDate = formatter.parse(strMovieDate);
-					
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				Calendar calSelect = new GregorianCalendar(Locale.KOREA);
-				calSelect.setTime(tempDate);
-				
-				if(calToday.compareTo(calSelect) == 1) {
-
-					String del = "DELETE FROM MOVIE_TIME WHERE MOVIE_TIME_ID='" + strMovieTimeId + "' AND MOVIE_DATE ='"+ strMovieDate + "'";
-					DBconnect.getupdate(del);
-				}
-				
-			}
-		} catch (SQLException e1) {
-			//e1.printStackTrace();
-		}
+		String del = "DELETE FROM MOVIE_TIME WHERE MOVIE_DATE < TO_CHAR(SYSDATE,'YYYY-MM-DD')";
+		DBconnect.getupdate(del);
+//		try {
+//			while (re.next()) {
+//
+//				strMovieTimeId = re.getString(1);
+//				strMovieDate = re.getString(2);
+//
+//				try {
+//					
+//					tempDate = formatter.parse(strMovieDate);
+//					
+//				} catch (ParseException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
+//				Calendar calSelect = new GregorianCalendar(Locale.KOREA);
+//				calSelect.setTime(tempDate);
+//				
+//				if(calToday.compareTo(calSelect) == 1) {
+////					String del = "DELETE FROM MOVIE_TIME WHERE MOVIE_TIME_ID='" + strMovieTimeId + "' AND MOVIE_DATE ='"+ strMovieDate + "'";
+//					String del = "DELETE FROM MOVIE_TIME WHERE MOVIE_DATE < TO_CHAR(SYSDATE,'YYYY-MM-DD')";
+//					DBconnect.getupdate(del);
+//				}
+//				
+//			}
+//		} catch (SQLException e1) {
+//			//e1.printStackTrace();
+//		}
 		
 		
 		
@@ -246,7 +248,7 @@ public class login extends JFrame implements ActionListener {
 				
 				if(calToday.compareTo(calSelect) == 1) {
 
-					String del = "DELETE FROM MOVIE_RESERVATION WHERE RESERVATION_ID='" + strReservId + "' AND MOVIE_DATE ='"+ strReservMovieDate +"'";
+					del = "DELETE FROM MOVIE_RESERVATION WHERE RESERVATION_ID='" + strReservId + "' AND MOVIE_DATE ='"+ strReservMovieDate +"'";
 					DBconnect.getupdate(del);
 				
 				}
