@@ -205,7 +205,7 @@ public class Chat extends JFrame implements ActionListener, KeyListener {
 		StyleContext context = new StyleContext(); // 편집 가능/편집 불가능 텍스트 컴퍼넌트를 처리하는 클래스와 인터페이스를 제공
 		document = new DefaultStyledDocument(context); // 서식 있는 텍스트 형식과 유사한 방식으로 문자 및 단락 스타일로 마크업할 수 있는 문서
 		jtpChat = new JTextPane(document);
-		jtpChat.setBackground(new Color(0xE7FEF9)); // 배경 색
+		jtpChat.setBackground(Color.white); // 배경 색
 		jtpChat.setEditable(false); // 입력 불가능
 		scChat = new JScrollPane(jtpChat); // 스크롤 팬
 		scChat.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS); // 수직 항상

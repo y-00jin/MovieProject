@@ -162,7 +162,7 @@ public class MovieAdd extends CalendarDataManager implements ActionListener, Mou
 
 	// 상수, 메세지
 	final String WEEK_DAY_NAME[] = { "SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT" }; // 요일 선언
-	final String title = "반납";
+	final String title = "INHA CINEMA";
 
 	private JPanel panelTable;
 	private Font lblFont = new Font("HY헤드라인M", Font.PLAIN, 15);
