@@ -43,3 +43,123 @@
 
 ### 🍀 Result
 
+- 로그인 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172443-79f63f9b-40aa-4c40-ac23-b87c73b918a7.png)
+
+<br/>
+
+- 회원가입 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172478-efea4876-d468-479d-8d58-a867ffcdde32.png)
+
+<br/>
+
+- 관리자 로그인 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172557-9a33c9d0-3d3f-4512-8d17-aeeb375614c8.png)
+
+<br/>
+
+- 관리자 메인 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172600-3244c113-a759-4bca-9dca-aeb060dc94cf.png)
+
+<br/>
+
+- 관리자 : 영화 관리 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172630-88ea26c1-0fb2-4d68-852b-8ca39adac9fd.png)
+
+<br/>
+
+- 관리자 : 영화 추가 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172676-7906e411-9995-4a13-b619-8f54f600d04d.png)
+
+<br/>
+
+- 관리자 : 영화 시간 관리 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172715-0a5f5f01-83ac-479f-8f95-2f5ae0a4b310.png)
+
+<br/>
+
+- 관리자 : 영화 시간 관리 -> 시간 지정 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172758-0a51d74d-e5e0-4b4c-afcf-62f32fc80096.png)
+
+<br/>
+
+- 관리자 : 영화 시간 확인 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172842-df9d1fdb-1d04-4ac3-b0cd-fb0dd0b760ce.png)
+
+<br/>
+
+- 관리자 : 주문이 없을 경우 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172934-29afe05b-60cb-47bc-9135-fc59716ef44b.png)
+
+<br/>
+
+- 관리자 : 주문이 있을 경우 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201172992-abb662e8-fa64-4734-ac7f-b9c245a0a83f.png)
+
+<br/>
+
+- 사용자 메인 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173031-bc865add-0a04-4066-a949-fcd9592287b3.png)
+
+<br/>
+
+- 사용자 : 회원 정보 수정 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173081-2e382ea9-4d16-4feb-a1aa-277ec11dcf50.png)
+
+<br/>
+
+- 사용자 : 영화 예매 -> 영화 선택 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173141-61761e8f-7775-4674-a607-1d54d636b602.png)
+
+<br/>
+
+- 사용자 : 영화 예매 -> 날짜 & 시간 선택 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173229-bd073684-9523-4a88-bbc2-637f9d0d1000.png)
+
+<br/>
+
+- 사용자 : 영화 예매 -> 좌석 선택 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173293-c53853cd-24a8-4ce2-8469-52a165d1a4bf.png)
+
+<br/>
+
+- 사용자 : 영화 예매 -> 먹거리 선택 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173364-0cf53b31-3ce1-4227-98fb-e64e9d09f721.png)
+
+<br/>
+
+- 사용자 : 영화 예매 -> 예매 확인 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173434-8907888e-156f-45cf-9949-47a4368bb4d9.png)
+
+<br/>
+
+- 사용자 : 예매 정보 -> 먹거리 준비 완료 전 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173520-af7ec3e2-1e57-4721-aebe-d278cb39b000.png)
+
+<br/>
+
+- 사용자 : 예매 정보 -> 먹거리 준비 완료 후 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173569-581a2e66-81e5-4aee-ad18-43a1135646ee.png)
+
+<br/>
+
+- 사용자 : 영화 리뷰 <br/>
+![image](https://user-images.githubusercontent.com/81798918/201173684-4ad636a9-7b5a-4094-bb0c-17e10a1616f2.png)
+
+<br/>
+
+
+- 실행 영상 <br/>
+
+
+
+
+
+
+
+
+
+
+
+
+
